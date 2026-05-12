@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OM Final — Part 1: Process Analysis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Kanit:wght@400;600;700&display=swap');
+
+:root {
+  --pink: #ff6b9d; --pink-soft: #ffe0ec;
+  --purple: #a855f7; --purple-soft: #f3e8ff;
+  --blue: #3b82f6; --blue-soft: #dbeafe;
+  --teal: #14b8a6; --teal-soft: #ccfbf1;
+  --orange: #f97316; --orange-soft: #ffedd5;
+  --yellow: #eab308; --yellow-soft: #fef9c3;
+  --green: #22c55e; --green-soft: #dcfce7;
+  --red: #ef4444; --red-soft: #fee2e2;
+  --bg: #fafafa; --text: #1e1b4b; --muted: #6b7280;
+  --white: #ffffff; --shadow: rgba(0,0,0,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Sarabun', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #f5576c 100%);
+  padding: 48px 20px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-family: 'Kanit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.4);
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero h1 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  position: relative;
+  margin-bottom: 8px;
+}
+.hero p { color: rgba(255,255,255,0.85); font-size: 14px; position: relative; }
+.hero-emojis { font-size: 32px; margin-bottom: 12px; position: relative; animation: bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+/* ── PROGRESS BAR ── */
+.progress-section {
+  background: var(--white);
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+.progress-label {
+  font-family: 'Kanit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-label span { color: var(--purple); font-weight: 700; }
+.progress-track {
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue));
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+.topic-checks {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.topic-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+  background: #f3f4f6;
+  padding: 3px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  border: 1.5px solid transparent;
+}
+.topic-check.done {
+  background: var(--purple-soft);
+  color: var(--purple);
+  border-color: var(--purple);
+  font-weight: 600;
+}
+.topic-check .chk { font-size: 13px; }
+
+/* ── SECTION WRAPPER ── */
+.section {
+  padding: 32px 20px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.section.visible { opacity: 1; transform: translateY(0); }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.section-num {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Kanit', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.section-info h2 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.section-info p { font-size: 12px; color: var(--muted); }
+
+/* ── FLIP CARDS ── */
+.flip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.flip-card {
+  height: 140px;
+  perspective: 800px;
+  cursor: pointer;
+}
+.flip-card-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+}
+.flip-front {
+  border: 2px solid;
+  box-shadow: 0 4px 16px var(--shadow);
+}
+.flip-back { transform: rotateY(180deg); }
+.flip-emoji { font-size: 28px; margin-bottom: 6px; }
+.flip-term { font-family: 'Kanit', sans-serif; font-size: 14px; font-weight: 700; }
+.flip-hint { font-size: 10px; color: var(--muted); margin-top: 4px; }
+.flip-def { font-size: 12px; line-height: 1.5; color: #fff; font-weight: 500; }
+
+/* ── BOTTLENECK INTERACTIVE ── */
+.pipeline-wrap {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+.pipeline-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.station-interactive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.station-box-i {
+  width: 72px; height: 72px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  border: 2.5px solid;
+  transition: all 0.3s;
+  position: relative;
+}
+.station-box-i .s-name { font-size: 13px; margin-bottom: 2px; }
+.station-box-i .s-rate { font-size: 18px; font-weight: 800; }
+.station-box-i .s-unit { font-size: 9px; opacity: 0.8; }
+.station-box-i.is-bottleneck {
+  animation: blink-border 1.5s infinite;
+}
+@keyframes blink-border {
+  0%,100%{ box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+  50%{ box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+}
+.station-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-family: 'Kanit', sans-serif;
+}
+.pipe-connector { font-size: 20px; color: #d1d5db; margin-top: -18px; }
+.bn-result-box {
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: center;
+  font-family: 'Kanit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+  transition: all 0.3s;
+}
+.formula-pill {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin: 6px 4px;
+  font-family: 'Kanit', sans-serif;
+}
+
+/* ── VA/NVA CARDS ── */
+.va-container { display: flex; flex-direction: column; gap: 10px; }
+.va-card {
+  border-radius: 14px;
+  padding: 16px;
+  border-left: 5px solid;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+.va-card-head {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.va-card-head .ico { font-size: 22px; }
+.va-card-head strong { font-family: 'Kanit', sans-serif; font-size: 14px; font-weight: 700; }
+.va-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.va-tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* ── 7 WASTES TIMWOOD ── */
+.timwood-grid { display: flex; flex-direction: column; gap: 8px; }
+.waste-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px var(--shadow);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.waste-row:active { transform: scale(0.98); }
+.waste-letter-box {
+  width: 52px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Kanit', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+.waste-info {
+  flex: 1;
+  padding: 10px 14px;
+  background: var(--white);
+}
+.waste-info-name { font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 700; }
+.waste-info-th { font-size: 12px; color: var(--muted); }
+.waste-example {
+  font-size: 11px;
+  margin-top: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: none;
+}
+.waste-row.open .waste-example { display: block; }
+
+/* ── MIND MAP ── */
+.mindmap-wrap {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+.mindmap-svg-wrap { overflow-x: auto; }
+.mindmap-center {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-family: 'Kanit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 100px; height: 100px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(118,75,162,0.4);
+  line-height: 1.3;
+}
+.mindmap-branches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+.mm-branch {
+  border-radius: 12px;
+  padding: 12px;
+  border-top: 4px solid;
+}
+.mm-branch-title {
+  font-family: 'Kanit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.mm-item {
+  font-size: 11px;
+  color: var(--text);
+  padding: 2px 0;
+  padding-left: 12px;
+  position: relative;
+}
+.mm-item::before {
+  content: '→';
+  position: absolute; left: 0;
+  color: var(--muted);
+}
+
+/* ── CASE STUDY ── */
+.case-card {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+.case-header {
+  padding: 16px 20px;
+  color: #fff;
+  font-family: 'Kanit', sans-serif;
+}
+.case-header h3 { font-size: 16px; font-weight: 700; }
+.case-header p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+.case-body { padding: 16px 20px; }
+.case-scenario {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-left: 4px solid var(--blue);
+  margin-bottom: 16px;
+}
+.case-step {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.case-step-title {
+  font-family: 'Kanit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.answer-toggle {
+  background: none;
+  border: 2px solid var(--purple);
+  color: var(--purple);
+  font-family: 'Kanit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 4px;
+  transition: all 0.2s;
+}
+.answer-toggle:hover { background: var(--purple); color: #fff; }
+.answer-box {
+  display: none;
+  margin-top: 10px;
+  background: var(--purple-soft);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.answer-box.open { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── QUIZ ── */
+.quiz-section {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  padding: 32px 20px;
+}
+.quiz-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.quiz-header h2 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.quiz-header p { color: rgba(255,255,255,0.7); font-size: 13px; }
+.quiz-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.quiz-q {
+  font-family: 'Kanit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.quiz-q-num {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  font-family: 'Kanit', sans-serif;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  background: #f8fafc;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  font-family: 'Sarabun', sans-serif;
+}
+.quiz-opt:hover { border-color: var(--purple); background: var(--purple-soft); }
+.quiz-opt.correct { background: var(--green-soft); border-color: var(--green); color: #166534; font-weight: 600; }
+.quiz-opt.wrong { background: var(--red-soft); border-color: var(--red); color: #991b1b; }
+.quiz-opt.reveal-correct { background: var(--green-soft); border-color: var(--green); }
+.quiz-feedback {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: var(--green-soft); color: #166534; }
+.quiz-feedback.fail { background: var(--red-soft); color: #991b1b; }
+.quiz-score-box {
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  display: none;
+}
+.quiz-score-box.show { display: block; animation: fadeIn 0.4s ease; }
+.quiz-score-box h3 { font-family: 'Kanit', sans-serif; font-size: 20px; font-weight: 700; color: #fff; }
+.quiz-score-box .score-num { font-size: 48px; font-weight: 800; color: #fff; font-family: 'Kanit', sans-serif; }
+.quiz-score-box p { color: rgba(255,255,255,0.9); font-size: 13px; }
+.quiz-retry {
+  background: #fff;
+  border: none;
+  color: var(--orange);
+  font-family: 'Kanit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 28px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+/* ── DIVIDER ── */
+.wave-divider {
+  height: 40px;
+  width: 100%;
+  display: block;
+}
+
+/* ── BG colors per section ── */
+.bg-pink-soft { background: #fff5f8; }
+.bg-blue-soft { background: #f0f7ff; }
+.bg-teal-soft { background: #f0fdfa; }
+.bg-orange-soft { background: #fff7ed; }
+.bg-purple-soft { background: #faf5ff; }
+.bg-yellow-soft { background: #fefce8; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-emojis">🏭 📊 ⚙️</div>
+  <div class="hero-badge">OM FINAL 2026/05 — CLOSED BOOK</div>
+  <h1>Part 1: Process Analysis<br>& Design</h1>
+  <p>Interactive Study Guide • กด flip card • ทำ Quiz • ติ๊ก progress</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="progress-label">
+    ความคืบหน้า <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  <div class="topic-checks">
+    <div class="topic-check" onclick="toggleCheck(this,'t1')" data-id="t1"><span class="chk">○</span> Flowchart</div>
+    <div class="topic-check" onclick="toggleCheck(this,'t2')" data-id="t2"><span class="chk">○</span> Bottleneck</div>
+    <div class="topic-check" onclick="toggleCheck(this,'t3')" data-id="t3"><span class="chk">○</span> VA/NVA</div>
+    <div class="topic-check" onclick="toggleCheck(this,'t4')" data-id="t4"><span class="chk">○</span> 7 Wastes</div>
+    <div class="topic-check" onclick="toggleCheck(this,'t5')" data-id="t5"><span class="chk">○</span> Mind Map</div>
+    <div class="topic-check" onclick="toggleCheck(this,'t6')" data-id="t6"><span class="chk">○</span> Case Study</div>
+    <div class="topic-check" onclick="toggleCheck(this,'t7')" data-id="t7"><span class="chk">○</span> Quiz</div>
+  </div>
+</div>
+
+<!-- ══ SECTION 1: FLOWCHART ══ -->
+<div class="section bg-pink-soft" id="sec1" data-sec="1">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,var(--pink),var(--purple))">1</div>
+    <div class="section-info">
+      <h2 style="color:var(--pink)">Process Flow & Symbols</h2>
+      <p>กด flip card เพื่อดูความหมาย</p>
+    </div>
+  </div>
+
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front" style="background:var(--pink-soft);border-color:var(--pink)">
+          <div class="flip-emoji">⬭</div>
+          <div class="flip-term" style="color:var(--pink)">Oval</div>
+          <div class="flip-hint">แตะเพื่อดูความหมาย</div>
+        </div>
+        <div class="flip-back" style="background:var(--pink)">
+          <div class="flip-def">Start / End<br>จุดเริ่มต้นและสิ้นสุด<br>ของ Process</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front" style="background:var(--purple-soft);border-color:var(--purple)">
+          <div class="flip-emoji">▭</div>
+          <div class="flip-term" style="color:var(--purple)">Rectangle</div>
+          <div class="flip-hint">แตะเพื่อดูความหมาย</div>
+        </div>
+        <div class="flip-back" style="background:var(--purple)">
+          <div class="flip-def">Activity / Process<br>กิจกรรมที่ทำใน<br>กระบวนการ</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front" style="background:var(--blue-soft);border-color:var(--blue)">
+          <div class="flip-emoji">◇</div>
+          <div class="flip-term" style="color:var(--blue)">Diamond</div>
+          <div class="flip-hint">แตะเพื่อดูความหมาย</div>
+        </div>
+        <div class="flip-back" style="background:var(--blue)">
+          <div class="flip-def">Decision Point<br>จุดตัดสินใจ<br>Yes/No Branch</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front" style="background:var(--teal-soft);border-color:var(--teal)">
+          <div class="flip-emoji">→</div>
+          <div class="flip-term" style="color:var(--teal)">Arrow</div>
+          <div class="flip-hint">แตะเพื่อดูความหมาย</div>
+        </div>
+        <div class="flip-back" style="background:var(--teal)">
+          <div class="flip-def">Flow Direction<br>ทิศทางการไหล<br>ของงาน</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;background:var(--white);border-radius:14px;padding:16px;box-shadow:0 2px 12px var(--shadow)">
+    <div style="font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;color:var(--pink);margin-bottom:10px">ตัวอย่าง Process Flow 🏭</div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;font-size:12px;font-weight:600">
+      <div style="background:var(--teal-soft);border:2px solid var(--teal);border-radius:30px;padding:6px 14px;color:var(--teal)">รับ Order</div>
+      <span style="color:var(--muted)">→</span>
+      <div style="background:var(--blue-soft);border:2px solid var(--blue);border-radius:6px;padding:6px 12px;color:var(--blue)">เตรียมวัตถุดิบ</div>
+      <span style="color:var(--muted)">→</span>
+      <div style="background:var(--purple-soft);border:2px solid var(--purple);border-radius:6px;padding:6px 12px;color:var(--purple)">ผลิต</div>
+      <span style="color:var(--muted)">→</span>
+      <div style="background:var(--orange-soft);border:2px solid var(--orange);border-radius:6px;padding:6px 12px;color:var(--orange)">QC</div>
+      <span style="color:var(--muted)">→</span>
+      <div style="background:var(--pink-soft);border:2px solid var(--pink);border-radius:30px;padding:6px 14px;color:var(--pink)">ส่งสินค้า</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2: BOTTLENECK ══ -->
+<div class="section bg-blue-soft" id="sec2" data-sec="2">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,var(--blue),var(--teal))">2</div>
+    <div class="section-info">
+      <h2 style="color:var(--blue)">Bottleneck Analysis</h2>
+      <p>แตะ station เพื่อดูข้อมูล</p>
+    </div>
+  </div>
+
+  <div class="pipeline-wrap">
+    <div class="pipeline-row" id="pipeline">
+      <div class="station-interactive" onclick="showStation('A',10,'#3b82f6','ปกติ — ทำได้เต็ม capacity')">
+        <div class="station-box-i" style="background:#eff6ff;border-color:#3b82f6;color:#1d4ed8">
+          <div class="s-name">A</div>
+          <div class="s-rate">10</div>
+          <div class="s-unit">units/hr</div>
+        </div>
+        <div class="station-tag" style="background:#dbeafe;color:#1d4ed8">Station A</div>
+      </div>
+      <div class="pipe-connector">→</div>
+      <div class="station-interactive" onclick="showStation('B',4,'#ef4444','⚠️ BOTTLENECK! ช้าสุด — จำกัด Throughput ทั้งระบบ')">
+        <div class="station-box-i is-bottleneck" style="background:#fef2f2;border-color:#ef4444;color:#dc2626">
+          <div class="s-name">B</div>
+          <div class="s-rate">4</div>
+          <div class="s-unit">units/hr</div>
+        </div>
+        <div class="station-tag" style="background:#fee2e2;color:#dc2626">⚠️ BOTTLENECK</div>
+      </div>
+      <div class="pipe-connector">→</div>
+      <div class="station-interactive" onclick="showStation('C',8,'#3b82f6','ปกติ — แต่ต้องรอ B')">
+        <div class="station-box-i" style="background:#eff6ff;border-color:#3b82f6;color:#1d4ed8">
+          <div class="s-name">C</div>
+          <div class="s-rate">8</div>
+          <div class="s-unit">units/hr</div>
+        </div>
+        <div class="station-tag" style="background:#dbeafe;color:#1d4ed8">Station C</div>
+      </div>
+      <div class="pipe-connector">→</div>
+      <div class="station-interactive" onclick="showStation('D',9,'#3b82f6','ปกติ — ทำได้มากกว่า B')">
+        <div class="station-box-i" style="background:#eff6ff;border-color:#3b82f6;color:#1d4ed8">
+          <div class="s-name">D</div>
+          <div class="s-rate">9</div>
+          <div class="s-unit">units/hr</div>
+        </div>
+        <div class="station-tag" style="background:#dbeafe;color:#1d4ed8">Station D</div>
+      </div>
+    </div>
+
+    <div class="bn-result-box" id="station-info" style="background:var(--blue-soft);color:var(--blue)">
+      👆 แตะ Station เพื่อดูข้อมูล
+    </div>
+
+    <div class="bn-result-box" style="background:#fee2e2;color:#dc2626;margin-top:8px">
+      🔴 ทั้งระบบผลิตได้แค่ <strong>4 units/hr</strong> เพราะ Station B คือ Bottleneck
+    </div>
+
+    <div style="text-align:center;margin-top:14px">
+      <span class="formula-pill">Throughput = 1 ÷ Cycle Time (Bottleneck)</span>
+      <span class="formula-pill">Utilization = Actual ÷ Capacity × 100%</span>
+    </div>
+
+    <div style="margin-top:14px;background:#f0f7ff;border-radius:10px;padding:12px;font-size:12px">
+      <strong style="color:var(--blue);font-family:'Kanit',sans-serif">💡 วิธีแก้ Bottleneck:</strong><br>
+      ➊ เพิ่มคน/เครื่องจักรที่ Station B &nbsp; ➋ ลด Cycle Time ที่ B &nbsp; ➌ Re-balance load ใหม่
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 3: VA/NVA ══ -->
+<div class="section bg-teal-soft" id="sec3" data-sec="3">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,var(--teal),var(--green))">3</div>
+    <div class="section-info">
+      <h2 style="color:var(--teal)">Value-Added vs Non-Value-Added</h2>
+      <p>แยกสิ่งที่ลูกค้าจ่ายออกจากของเสีย</p>
+    </div>
+  </div>
+
+  <div class="va-container">
+    <div class="va-card" style="background:#f0fdfa;border-color:var(--teal)">
+      <div class="va-card-head">
+        <div class="ico">✅</div>
+        <div>
+          <strong style="color:var(--teal)">Value-Added (VA)</strong>
+          <div style="font-size:11px;color:var(--muted)">ลูกค้ายินดีจ่าย — เพิ่มคุณค่าจริง</div>
+        </div>
+      </div>
+      <div class="va-tags">
+        <span class="va-tag" style="background:#ccfbf1;color:#0f766e">ตัดเย็บ</span>
+        <span class="va-tag" style="background:#ccfbf1;color:#0f766e">ประกอบชิ้นส่วน</span>
+        <span class="va-tag" style="background:#ccfbf1;color:#0f766e">แปรรูปวัตถุดิบ</span>
+        <span class="va-tag" style="background:#ccfbf1;color:#0f766e">ออกแบบ</span>
+      </div>
+    </div>
+    <div class="va-card" style="background:#fff7ed;border-color:var(--orange)">
+      <div class="va-card-head">
+        <div class="ico">❌</div>
+        <div>
+          <strong style="color:var(--orange)">Non-Value-Added (NVA)</strong>
+          <div style="font-size:11px;color:var(--muted)">ลูกค้าไม่ได้ประโยชน์ — ตัดทิ้งได้</div>
+        </div>
+      </div>
+      <div class="va-tags">
+        <span class="va-tag" style="background:#ffedd5;color:#c2410c">รอของ</span>
+        <span class="va-tag" style="background:#ffedd5;color:#c2410c">เดินเปล่า</span>
+        <span class="va-tag" style="background:#ffedd5;color:#c2410c">แก้งานซ้ำ</span>
+        <span class="va-tag" style="background:#ffedd5;color:#c2410c">จัดเก็บเกิน</span>
+      </div>
+    </div>
+    <div class="va-card" style="background:var(--purple-soft);border-color:var(--purple)">
+      <div class="va-card-head">
+        <div class="ico">⚡</div>
+        <div>
+          <strong style="color:var(--purple)">Necessary NVA</strong>
+          <div style="font-size:11px;color:var(--muted)">ไม่มีคุณค่าแต่จำเป็นต้องทำ</div>
+        </div>
+      </div>
+      <div class="va-tags">
+        <span class="va-tag" style="background:var(--purple-soft);color:var(--purple)">ตรวจสอบ QC</span>
+        <span class="va-tag" style="background:var(--purple-soft);color:var(--purple)">จัดทำเอกสาร</span>
+        <span class="va-tag" style="background:var(--purple-soft);color:var(--purple)">ขออนุมัติ</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:14px;background:linear-gradient(135deg,var(--teal),var(--green));border-radius:12px;padding:14px;text-align:center;color:#fff;font-family:'Kanit',sans-serif;font-size:14px;font-weight:700">
+    🎯 เป้าหมาย = ลด NVA ให้มากที่สุด เพื่อเพิ่ม Productivity
+  </div>
+</div>
+
+<!-- ══ SECTION 4: 7 WASTES ══ -->
+<div class="section bg-orange-soft" id="sec4" data-sec="4">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,var(--orange),var(--yellow))">4</div>
+    <div class="section-info">
+      <h2 style="color:var(--orange)">Lean: 7 Wastes (TIMWOOD)</h2>
+      <p>แตะแต่ละ waste เพื่อดูตัวอย่าง</p>
+    </div>
+  </div>
+
+  <div class="timwood-grid">
+    <div class="waste-row" onclick="this.classList.toggle('open')">
+      <div class="waste-letter-box" style="background:var(--pink)">T</div>
+      <div class="waste-info">
+        <div class="waste-info-name">Transportation</div>
+        <div class="waste-info-th">การขนส่งที่ไม่จำเป็น</div>
+        <div class="waste-example" style="background:var(--pink-soft);color:#9d174d">ตัวอย่าง: ขนวัตถุดิบจากโกดัง A → B → กลับ A อีกครั้ง โดยไม่มีเหตุผล</div>
+      </div>
+    </div>
+    <div class="waste-row" onclick="this.classList.toggle('open')">
+      <div class="waste-letter-box" style="background:var(--purple)">I</div>
+      <div class="waste-info">
+        <div class="waste-info-name">Inventory</div>
+        <div class="waste-info-th">สินค้าคงคลังเกินความต้องการ</div>
+        <div class="waste-example" style="background:var(--purple-soft);color:#6b21a8">ตัวอย่าง: ผลิตสินค้า 10,000 ชิ้น แต่มียอดสั่งซื้อแค่ 3,000 ชิ้น</div>
+      </div>
+    </div>
+    <div class="waste-row" onclick="this.classList.toggle('open')">
+      <div class="waste-letter-box" style="background:var(--blue)">M</div>
+      <div class="waste-info">
+        <div class="waste-info-name">Motion</div>
+        <div class="waste-info-th">การเคลื่อนไหวที่ไม่จำเป็น</div>
+        <div class="waste-example" style="background:var(--blue-soft);color:#1e40af">ตัวอย่าง: คนงานเดินหาเครื่องมือทุก 30 นาที เพราะไม่มีระบบจัดวาง</div>
+      </div>
+    </div>
+    <div class="waste-row" onclick="this.classList.toggle('open')">
+      <div class="waste-letter-box" style="background:var(--teal)">W</div>
+      <div class="waste-info">
+        <div class="waste-info-name">Waiting</div>
+        <div class="waste-info-th">การรอคอย</div>
+        <div class="waste-example" style="background:var(--teal-soft);color:#0f766e">ตัวอย่าง: พนักงานรอเครื่องจักรซ่อมเสร็จนาน 2 ชั่วโมง ไม่มีงานอื่นทำ</div>
+      </div>
+    </div>
+    <div class="waste-row" onclick="this.classList.toggle('open')">
+      <div class="waste-letter-box" style="background:var(--green)">O</div>
+      <div class="waste-info">
+        <div class="waste-info-name">Overproduction</div>
+        <div class="waste-info-th">การผลิตเกินความต้องการ</div>
+        <div class="waste-example" style="background:var(--green-soft);color:#166534">ตัวอย่าง: ผลิตสินค้าเผื่อไว้ก่อนที่จะมี Order มา ทำให้ค้างสต็อก</div>
+      </div>
+    </div>
+    <div class="waste-row" onclick="this.classList.toggle('open')">
+      <div class="waste-letter-box" style="background:var(--orange)">O</div>
+      <div class="waste-info">
+        <div class="waste-info-name">Over-processing</div>
+        <div class="waste-info-th">กระบวนการที่เกินจำเป็น</div>
+        <div class="waste-example" style="background:var(--orange-soft);color:#c2410c">ตัวอย่าง: พ่นสีกล่องด้านในที่ลูกค้าไม่เห็น ทำให้เสียเวลาและต้นทุน</div>
+      </div>
+    </div>
+    <div class="waste-row" onclick="this.classList.toggle('open')">
+      <div class="waste-letter-box" style="background:var(--red)">D</div>
+      <div class="waste-info">
+        <div class="waste-info-name">Defects</div>
+        <div class="waste-info-th">ของเสีย / แก้งานซ้ำ</div>
+        <div class="waste-example" style="background:var(--red-soft);color:#991b1b">ตัวอย่าง: ผลิตออกมา 1,000 ชิ้น มีของเสีย 150 ชิ้น ต้องแก้ใหม่ทั้งหมด</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 5: MIND MAP ══ -->
+<div class="section bg-purple-soft" id="sec5" data-sec="5">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,var(--purple),var(--pink))">5</div>
+    <div class="section-info">
+      <h2 style="color:var(--purple)">Mind Map — เชื่อมทุก Concept</h2>
+      <p>ภาพรวมความสัมพันธ์ทั้งหมด</p>
+    </div>
+  </div>
+
+  <div class="mindmap-wrap">
+    <div class="mindmap-center">Process<br>Analysis<br>& Design</div>
+    <div class="mindmap-branches">
+      <div class="mm-branch" style="background:var(--pink-soft);border-color:var(--pink)">
+        <div class="mm-branch-title" style="color:var(--pink)">⬭ Flow & Symbols</div>
+        <div class="mm-item">Oval = Start/End</div>
+        <div class="mm-item">Rectangle = Activity</div>
+        <div class="mm-item">Diamond = Decision</div>
+        <div class="mm-item">Arrow = Direction</div>
+      </div>
+      <div class="mm-branch" style="background:var(--blue-soft);border-color:var(--blue)">
+        <div class="mm-branch-title" style="color:var(--blue)">🔴 Bottleneck</div>
+        <div class="mm-item">จุดช้าสุด = ขวด</div>
+        <div class="mm-item">Throughput ถูกจำกัด</div>
+        <div class="mm-item">แก้: เพิ่ม capacity</div>
+        <div class="mm-item">Utilization formula</div>
+      </div>
+      <div class="mm-branch" style="background:var(--teal-soft);border-color:var(--teal)">
+        <div class="mm-branch-title" style="color:var(--teal)">✅ VA vs NVA</div>
+        <div class="mm-item">VA = ลูกค้าจ่าย</div>
+        <div class="mm-item">NVA = ตัดทิ้งได้</div>
+        <div class="mm-item">Necessary NVA</div>
+        <div class="mm-item">เป้า: เพิ่ม VA ratio</div>
+      </div>
+      <div class="mm-branch" style="background:var(--orange-soft);border-color:var(--orange)">
+        <div class="mm-branch-title" style="color:var(--orange)">♻️ 7 Wastes</div>
+        <div class="mm-item">T-I-M-W-O-O-D</div>
+        <div class="mm-item">Lean Thinking</div>
+        <div class="mm-item">ทุก waste = NVA</div>
+        <div class="mm-item">ลด waste = Lean</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:linear-gradient(135deg,var(--purple),#764ba2);border-radius:12px;padding:14px;color:#fff;font-size:12px">
+      <div style="font-family:'Kanit',sans-serif;font-weight:700;margin-bottom:8px">🔗 ความสัมพันธ์ทั้งหมด</div>
+      วาด Flow → หา Bottleneck → แยก VA/NVA → ระบุ 7 Wastes → แนะนำปรับปรุง → <strong>Productivity สูงขึ้น</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 6: CASE STUDY ══ -->
+<div class="section" id="sec6" data-sec="6" style="background:#f8faff">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,var(--green),var(--teal))">6</div>
+    <div class="section-info">
+      <h2 style="color:var(--green)">Case Study + เฉลย</h2>
+      <p>ฝึกวิเคราะห์เหมือนในห้องสอบ</p>
+    </div>
+  </div>
+
+  <div class="case-card">
+    <div class="case-header" style="background:linear-gradient(135deg,#059669,#0d9488)">
+      <h3>🏭 Case: โรงงานผลิตปากกา "สยามวัลลา"</h3>
+      <p>ฝึกวิเคราะห์ Bottleneck + 7 Wastes + แนะนำปรับปรุง</p>
+    </div>
+    <div class="case-body">
+      <div class="case-scenario">
+        โรงงานผลิตปากกามีกระบวนการ 4 ขั้นตอน:<br>
+        ➊ <strong>ฉีดพลาสติก</strong> (12 ชิ้น/ชม.) → ➋ <strong>ประกอบไส้</strong> (5 ชิ้น/ชม.) → ➌ <strong>พ่นสี</strong> (8 ชิ้น/ชม.) → ➍ <strong>บรรจุ</strong> (10 ชิ้น/ชม.)<br><br>
+        พบว่า: (1) พนักงานในขั้นที่ 1 และ 3 ต้องรอขั้นที่ 2 ตลอดเวลา (2) มีสต็อกปากกาครึ่งสำเร็จรูปค้างอยู่หน้าสถานีประกอบ 3,000 ชิ้น (3) พนักงานต้องเดินข้ามอาคารไปเอาไส้ปากกาทุก 30 นาที
+      </div>
+
+      <div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px;color:var(--green);margin-bottom:12px">📝 คำถาม — วิเคราะห์และแนะนำ:</div>
+
+      <div class="case-step" style="background:var(--blue-soft)">
+        <div class="case-step-title" style="color:var(--blue)">❓ ข้อ 1: Bottleneck อยู่ที่ไหน และ Throughput ของระบบคือเท่าไหร่?</div>
+        <button class="answer-toggle" onclick="toggleAnswer('a1')">ดูเฉลย 👇</button>
+        <div class="answer-box" id="a1">
+          <strong>Bottleneck = ขั้นที่ 2 (ประกอบไส้) ทำได้แค่ 5 ชิ้น/ชม. ช้าที่สุด</strong><br><br>
+          Throughput ทั้งระบบ = <strong>5 ชิ้น/ชม.</strong> (จำกัดโดย Bottleneck)<br>
+          ดังนั้นขั้น 1,3,4 ต้องรอและทำงานต่ำกว่า capacity ตลอดเวลา
+        </div>
+      </div>
+
+      <div class="case-step" style="background:var(--orange-soft)">
+        <div class="case-step-title" style="color:var(--orange)">❓ ข้อ 2: ระบุ 7 Wastes ที่พบใน Case นี้</div>
+        <button class="answer-toggle" onclick="toggleAnswer('a2')">ดูเฉลย 👇</button>
+        <div class="answer-box" id="a2">
+          <strong>W — Waiting:</strong> พนักงานขั้น 1 และ 3 ต้องรอขั้น 2 ตลอดเวลา<br><br>
+          <strong>I — Inventory:</strong> สต็อกค้าง 3,000 ชิ้นหน้าสถานีประกอบ = สินค้าคงคลังเกิน<br><br>
+          <strong>M — Motion:</strong> เดินข้ามอาคารไปเอาไส้ปากกาทุก 30 นาที = เคลื่อนไหวไม่จำเป็น
+        </div>
+      </div>
+
+      <div class="case-step" style="background:var(--purple-soft)">
+        <div class="case-step-title" style="color:var(--purple)">❓ ข้อ 3: แนะนำวิธีปรับปรุงเพื่อเพิ่ม Productivity</div>
+        <button class="answer-toggle" onclick="toggleAnswer('a3')">ดูเฉลย 👇</button>
+        <div class="answer-box" id="a3">
+          <strong>➊ แก้ Bottleneck (ขั้น 2):</strong> เพิ่มพนักงานหรือเครื่องประกอบไส้ เพื่อให้ทำได้มากกว่า 5 ชิ้น/ชม. ตาม Bottleneck Theory<br><br>
+          <strong>➋ ลด Inventory Waste:</strong> ใช้หลัก JIT (Just-In-Time) ผลิตตาม demand จริง ไม่สะสมสต็อกกลางทาง<br><br>
+          <strong>➌ ลด Motion Waste:</strong> ย้ายที่เก็บไส้ปากกาไว้ข้างสถานีประกอบเลย (5S — Set in order) ลดเวลาเดินเปล่า<br><br>
+          <strong>ผลที่คาดหวัง:</strong> Throughput เพิ่มขึ้น + Waiting/Inventory/Motion Waste ลดลง = Productivity สูงขึ้น
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div class="quiz-section" id="sec7" data-sec="7">
+  <div class="quiz-header">
+    <div style="font-size:36px;margin-bottom:8px">🧠</div>
+    <h2>ทดสอบความจำ — Part 1</h2>
+    <p>5 ข้อ • Closed Book Simulation</p>
+  </div>
+
+  <div id="quiz-container">
+    <!-- Q1 -->
+    <div class="quiz-card" id="qcard-0">
+      <div class="quiz-q-num">ข้อ 1 / 5</div>
+      <div class="quiz-q">สัญลักษณ์ Diamond (◇) ใน Process Flow Diagram หมายถึงอะไร?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQ(0,0,1)">Start / End ของ Process</button>
+        <button class="quiz-opt" onclick="answerQ(0,1,1)">Decision Point — จุดตัดสินใจ Yes/No</button>
+        <button class="quiz-opt" onclick="answerQ(0,2,1)">Activity หรือ กิจกรรมที่ทำ</button>
+        <button class="quiz-opt" onclick="answerQ(0,3,1)">Data Storage</button>
+      </div>
+      <div class="quiz-feedback" id="qf-0"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-card" id="qcard-1">
+      <div class="quiz-q-num">ข้อ 2 / 5</div>
+      <div class="quiz-q">Station A=15, B=6, C=10, D=12 units/hr — Throughput ของระบบคือ?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQ(1,0,1)">15 units/hr</button>
+        <button class="quiz-opt" onclick="answerQ(1,1,1)">10 units/hr</button>
+        <button class="quiz-opt" onclick="answerQ(1,2,1)">6 units/hr</button>
+        <button class="quiz-opt" onclick="answerQ(1,3,1)">43 units/hr</button>
+      </div>
+      <div class="quiz-feedback" id="qf-1"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-card" id="qcard-2">
+      <div class="quiz-q-num">ข้อ 3 / 5</div>
+      <div class="quiz-q">กิจกรรมใดต่อไปนี้คือ "Non-Value-Added (NVA)" ที่ควรลดทิ้ง?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQ(2,0,2)">การประกอบสินค้า</button>
+        <button class="quiz-opt" onclick="answerQ(2,1,2)">การแปรรูปวัตถุดิบ</button>
+        <button class="quiz-opt" onclick="answerQ(2,2,2)">การรอเครื่องจักรซ่อมเสร็จ</button>
+        <button class="quiz-opt" onclick="answerQ(2,3,2)">การออกแบบผลิตภัณฑ์</button>
+      </div>
+      <div class="quiz-feedback" id="qf-2"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-card" id="qcard-3">
+      <div class="quiz-q-num">ข้อ 4 / 5</div>
+      <div class="quiz-q">TIMWOOD ใน Lean Thinking ตัว "O" ตัวแรกหมายถึงอะไร?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQ(3,0,0)">Overproduction — ผลิตเกินความต้องการ</button>
+        <button class="quiz-opt" onclick="answerQ(3,1,0)">Over-processing — กระบวนการเกินจำเป็น</button>
+        <button class="quiz-opt" onclick="answerQ(3,2,0)">Ordering — การสั่งซื้อเกิน</button>
+        <button class="quiz-opt" onclick="answerQ(3,3,0)">Output — ผลผลิตล้นเกิน</button>
+      </div>
+      <div class="quiz-feedback" id="qf-3"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-card" id="qcard-4">
+      <div class="quiz-q-num">ข้อ 5 / 5</div>
+      <div class="quiz-q">เมื่อเจอ Case ในข้อสอบ ลำดับการวิเคราะห์ที่ถูกต้องคือ?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQ(4,0,2)">แนะนำทันที → อ้าง Theory → วิเคราะห์</button>
+        <button class="quiz-opt" onclick="answerQ(4,1,2)">อ้าง Theory → วาด Flow → หา Bottleneck</button>
+        <button class="quiz-opt" onclick="answerQ(4,2,2)">วาด Flow → หา Bottleneck → แยก VA/NVA → ระบุ Waste → แนะนำ + อ้าง Theory</button>
+        <button class="quiz-opt" onclick="answerQ(4,3,2)">ระบุ Waste → วาด Flow → แนะนำ</button>
+      </div>
+      <div class="quiz-feedback" id="qf-4"></div>
+    </div>
+  </div>
+
+  <div class="quiz-score-box" id="quiz-score">
+    <h3>ผลการทดสอบ 🎉</h3>
+    <div class="score-num" id="score-num">0/5</div>
+    <p id="score-msg"></p>
+    <button class="quiz-retry" onclick="resetQuiz()">🔄 ทำใหม่อีกครั้ง</button>
+  </div>
+</div>
+
+<div style="height:40px;background:#1e1b4b"></div>
+
+<script>
+// ── SCROLL ANIMATION ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ── PROGRESS ──
+const checks = {};
+function toggleCheck(el, id) {
+  checks[id] = !checks[id];
+  el.classList.toggle('done', checks[id]);
+  el.querySelector('.chk').textContent = checks[id] ? '✅' : '○';
+  const done = Object.values(checks).filter(Boolean).length;
+  const total = 7;
+  const pct = Math.round(done/total*100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+
+// ── STATION INFO ──
+function showStation(name, rate, color, msg) {
+  const box = document.getElementById('station-info');
+  box.style.background = color + '18';
+  box.style.color = color;
+  box.innerHTML = `<strong>Station ${name}</strong> — ${rate} units/hr<br><span style="font-size:12px">${msg}</span>`;
+}
+
+// ── CASE ANSWERS ──
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  box.classList.toggle('open');
+  const btn = box.previousElementSibling;
+  btn.textContent = box.classList.contains('open') ? 'ซ่อนเฉลย ↑' : 'ดูเฉลย 👇';
+}
+
+// ── QUIZ ──
+const answers = [1, 2, 2, 0, 2];
+const explanations = [
+  '✅ Diamond ใช้แทน Decision Point เสมอ — Yes/No Branch',
+  '✅ Bottleneck คือ min(15,6,10,12) = 6 units/hr ที่ Station B',
+  '✅ การรอเครื่องจักร = Waiting = NVA ตรงๆ — ลูกค้าไม่ได้ประโยชน์',
+  '✅ O ตัวแรกใน TIMWOOD = Overproduction ผลิตก่อนมี demand',
+  '✅ Framework ที่ถูก: Flow → Bottleneck → VA/NVA → Waste → แนะนำ + Theory'
+];
+const wrongs = [
+  '❌ Oval คือ Start/End, Rectangle คือ Activity, Diamond คือ Decision',
+  '❌ Throughput = Station ที่ช้าสุด = min ของทุก station = 6 ไม่ใช่ค่าอื่น',
+  '❌ ประกอบสินค้าและแปรรูปคือ VA — การรอจึงเป็น NVA',
+  '❌ O ตัวแรกคือ Overproduction, O ตัวสองคือ Over-processing',
+  '❌ ต้องวิเคราะห์ก่อนแนะนำ และต้องอ้าง Theory ท้ายสุดเสมอ'
+];
+
+let score = 0;
+let answered = {};
+
+function answerQ(qIdx, chosenIdx, correctIdx) {
+  if(answered[qIdx]) return;
+  answered[qIdx] = true;
+  score += (chosenIdx === correctIdx) ? 1 : 0;
+
+  const card = document.getElementById('qcard-'+qIdx);
+  const opts = card.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('qf-'+qIdx);
+
+  opts.forEach((o,i) => {
+    o.disabled = true;
+    if(i === correctIdx) o.classList.add(chosenIdx===correctIdx ? 'correct' : 'reveal-correct');
+    if(i === chosenIdx && chosenIdx !== correctIdx) o.classList.add('wrong');
+  });
+
+  fb.classList.add('show');
+  if(chosenIdx === correctIdx) {
+    fb.classList.add('ok');
+    fb.innerHTML = explanations[qIdx];
+  } else {
+    fb.classList.add('fail');
+    fb.innerHTML = wrongs[qIdx] + '<br>' + explanations[qIdx];
+  }
+
+  if(Object.keys(answered).length === 5) {
+    setTimeout(() => showScore(), 600);
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-score').classList.add('show');
+  document.getElementById('score-num').textContent = score + '/5';
+  const msgs = ['ต้องอ่านเพิ่มนะครับ 📖','เริ่มดีแล้ว ทบทวนอีกรอบ 💪','ดีมาก! ใกล้พร้อมสอบแล้ว ⭐','เกือบเต็ม! ทำอีกรอบได้เลย 🔥','เต็ม! พร้อมสอบ 100% 🏆'];
+  document.getElementById('score-msg').textContent = msgs[score];
+  toggleCheck(document.querySelector('[data-id="t7"]'),'t7');
+}
+
+function resetQuiz() {
+  score = 0; answered = {};
+  document.getElementById('quiz-score').classList.remove('show');
+  document.querySelectorAll('.quiz-card').forEach(c => {
+    c.querySelectorAll('.quiz-opt').forEach(o => {
+      o.disabled = false;
+      o.className = 'quiz-opt';
+    });
+    const fb = c.querySelector('.quiz-feedback');
+    fb.className = 'quiz-feedback';
+    fb.innerHTML = '';
+  });
+}
+</script>
+</body>
+</html>
