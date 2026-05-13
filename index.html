@@ -3,77 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OM Final Study Portal</title>
+    <title>OM Final Study Dashboard 2026</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@300;400;600&display=swap');
         
+        :root {
+            --primary-grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-hover: rgba(255, 255, 255, 0.2);
+        }
+
         body {
             margin: 0; padding: 0;
             font-family: 'Kanit', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-grad);
             min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center;
+            color: white;
+            padding: 40px 20px;
         }
 
-        .header { text-align: center; color: white; margin-bottom: 40px; }
-        
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .header p { font-family: 'Sarabun', sans-serif; opacity: 0.9; font-size: 1.1rem; }
+
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 90%; max-width: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1100px;
         }
 
-        .menu-item {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 30px;
-            text-align: center;
             text-decoration: none;
             color: white;
-            transition: 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .menu-item:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.2);
+        .card:hover {
+            transform: translateY(-12px);
+            background: var(--glass-hover);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.5);
         }
 
-        .icon { font-size: 40px; margin-bottom: 10px; }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+        }
+
+        /* สีแยกตาม Module */
+        .m1::before { background: #ff6b9d; } /* Pink */
+        .m2::before { background: #3b82f6; } /* Blue */
+        .m3::before { background: #14b8a6; } /* Teal */
+        .m4::before { background: #f97316; } /* Orange */
+        .m5::before { background: #a855f7; } /* Purple */
+        .cs::before { background: #ef4444; } /* Red */
+
+        .icon { font-size: 48px; margin-bottom: 15px; }
+        .title { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+        .desc { font-family: 'Sarabun', sans-serif; font-size: 0.95rem; opacity: 0.8; line-height: 1.5; }
+
+        .footer { margin-top: 60px; font-family: 'Sarabun', sans-serif; font-size: 0.8rem; opacity: 0.6; }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🚀 OM Final Study Portal</h1>
-        <p>เลือก Module ที่ต้องการทบทวน</p>
+        <h1>🏭 OM Final Dashboard</h1>
+        <p>ศูนย์รวมเนื้อหาและการทบทวนวิชา Operation Management</p>
     </div>
 
     <div class="menu-grid">
-        <!-- เชื่อมไป Module 1 -->
-        <a href="module1.html" class="menu-item">
+        <!-- Module 1 -->
+        <a href="module1.html" class="card m1">
             <div class="icon">⚙️</div>
-            <h3>Module 1</h3>
-            <p>Process Analysis</p>
+            <div class="title">Module 1</div>
+            <div class="desc">Process Analysis & Design<br>สัญลักษณ์ Flowchart, Bottleneck, VA/NVA</div>
         </a>
 
-        <!-- เชื่อมไป Module 2 -->
-        <a href="module2.html" class="menu-item">
+        <!-- Module 2 -->
+        <a href="module2.html" class="card m2">
             <div class="icon">📦</div>
-            <h3>Module 2</h3>
-            <p>Inventory Management</p>
+            <div class="title">Module 2</div>
+            <div class="desc">Inventory Management<br>การจัดการสต็อก, EOQ, Reorder Point</div>
         </a>
 
-        <!-- เชื่อมไป Case Study -->
-        <a href="casestudy.html" class="menu-item">
-            <div class="icon">📝</div>
-            <h3>Case Study</h3>
-            <p>Analysis & Solutions</p>
+        <!-- Module 3 -->
+        <a href="module3.html" class="card m3">
+            <div class="icon">🌐</div>
+            <div class="title">Module 3</div>
+            <div class="desc">Supply Chain Management<br>การจัดการโซ่อุปทานและโลจิสติกส์</div>
         </a>
-        
-        <!-- เพิ่ม Module 3-5 ตามลำดับ -->
+
+        <!-- Module 4 -->
+        <a href="module4.html" class="card m4">
+            <div class="icon">📈</div>
+            <div class="title">Module 4</div>
+            <div class="desc">Capacity Planning<br>การวางแผนกำลังการผลิตและทำเลที่ตั้ง</div>
+        </a>
+
+        <!-- Module 5 -->
+        <a href="module5.html" class="card m5">
+            <div class="icon">✨</div>
+            <div class="title">Module 5</div>
+            <div class="desc">Quality Control & Lean<br>การควบคุมคุณภาพและแนวคิดแบบลีน</div>
+        </a>
+
+        <!-- Case Study -->
+        <a href="casestudy.html" class="card cs">
+            <div class="icon">📝</div>
+            <div class="title">Case Study</div>
+            <div class="desc">Final Analysis<br>วิเคราะห์กรณีศึกษาและแนวทางแก้ไข</div>
+        </a>
+    </div>
+
+    <div class="footer">
+        © 2026 OM Final Interactive Guide • Created for Self-Study
     </div>
 
 </body>
