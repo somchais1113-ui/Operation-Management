@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5 — Quality Management</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Kanit:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+/* ── THEME: Crimson / Gold — Quality, Prestige, Excellence ── */
+:root {
+  --crim:       #991b1b;
+  --crim2:      #dc2626;
+  --crim3:      #ef4444;
+  --crim-soft:  #fee2e2;
+  --gold:       #b45309;
+  --gold2:      #d97706;
+  --gold3:      #f59e0b;
+  --gold-soft:  #fef3c7;
+  --teal:       #0d9488;
+  --teal-soft:  #ccfbf1;
+  --blue:       #1d4ed8;
+  --blue-soft:  #dbeafe;
+  --green:      #16a34a;
+  --green-soft: #dcfce7;
+  --purple:     #7c3aed;
+  --purple-soft:#ede9fe;
+  --slate:      #475569;
+  --bg:         #fff8f8;
+  --white:      #ffffff;
+  --border:     #fecaca;
+  --text:       #1e293b;
+  --shadow:     rgba(153,27,27,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Sarabun',sans-serif;font-size:15px;line-height:1.7;overflow-x:hidden}
+
+/* HERO */
+.hero{background:linear-gradient(150deg,#450a0a 0%,var(--crim) 50%,#b91c1c 100%);padding:44px 20px 64px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:40px;background:var(--bg);clip-path:ellipse(58% 100% at 50% 100%)}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:36px 36px}
+.hi{position:relative}
+.htag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fca5a5;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1.5px;margin-bottom:14px}
+.hero h1{font-family:'Kanit',sans-serif;font-size:26px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:8px}
+.hero h1 em{font-style:normal;color:var(--gold3)}
+.hero-sub{color:rgba(255,255,255,0.55);font-size:13px;margin-bottom:22px}
+.hchips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.hchip{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;text-align:center}
+.hchip-icon{font-size:20px;margin-bottom:4px}
+.hchip-t{font-family:'Kanit',sans-serif;font-size:11px;font-weight:700;color:#fff}
+.hchip-s{font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px}
+
+/* PROGRESS */
+.sp{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:2px solid var(--border);padding:10px 20px;box-shadow:0 2px 12px var(--shadow)}
+.pt{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--slate)}
+.pt strong{color:var(--crim)}
+.pbar{height:6px;background:var(--crim-soft);border-radius:6px;overflow:hidden;margin-bottom:9px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--crim),var(--gold2));border-radius:6px;width:0%;transition:width 0.5s}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;border:1.5px solid var(--border);color:var(--slate);background:var(--bg);cursor:pointer;transition:all 0.2s;font-family:'Kanit',sans-serif;user-select:none}
+.pill.done{background:var(--crim);color:#fca5a5;border-color:var(--crim)}
+
+/* SECTIONS */
+.section{padding:24px 20px;opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease}
+.section.visible{opacity:1;transform:translateY(0)}
+.slbl{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:2px;color:var(--crim2);text-transform:uppercase;margin-bottom:5px}
+.slbl::before{content:'';display:block;width:18px;height:2px;background:var(--crim2);border-radius:2px}
+.stitle{font-family:'Kanit',sans-serif;font-size:19px;font-weight:800;color:var(--crim);line-height:1.25;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--slate);margin-bottom:18px}
+.card{background:var(--white);border-radius:14px;padding:16px;box-shadow:0 2px 14px var(--shadow);border:1px solid var(--border);margin-bottom:12px}
+.ctitle{font-family:'Kanit',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.note{background:var(--gold-soft);border-left:4px solid var(--gold2);border-radius:0 10px 10px 0;padding:10px 14px;font-size:12px;margin-top:10px}
+.bg-white{background:var(--white)}.bg-soft{background:var(--bg)}
+.divider{height:2px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 20px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+
+/* QUALITY PERSPECTIVES FLIP */
+.flip-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.flip-card{height:160px;perspective:900px;cursor:pointer}
+.flip-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1)}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-f,.flip-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center}
+.flip-b{transform:rotateY(180deg)}
+.flip-icon{font-size:28px;margin-bottom:6px}
+.flip-name{font-family:'Kanit',sans-serif;font-size:14px;font-weight:800}
+.flip-en{font-size:10px;opacity:0.6;margin-top:2px}
+.flip-hint{font-size:10px;opacity:0.35;margin-top:6px}
+.flip-key{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:#fca5a5;margin-bottom:6px}
+.flip-def{font-size:11px;line-height:1.6;color:#fff}
+
+/* COST OF QUALITY */
+.coq-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.coq-item{border-radius:12px;padding:14px;border:2px solid;cursor:pointer;transition:transform 0.2s}
+.coq-item:active{transform:scale(0.98)}
+.coq-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.coq-icon{font-size:24px}
+.coq-name{font-family:'Kanit',sans-serif;font-size:13px;font-weight:800}
+.coq-type{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;margin-bottom:6px;display:inline-block}
+.coq-examples{font-size:11px;color:var(--slate);line-height:1.6}
+.coq-detail{display:none;margin-top:8px;font-size:11px;line-height:1.6;padding:8px 10px;border-radius:8px}
+.coq-item.open .coq-detail{display:block;animation:fadeIn 0.25s}
+.coq-summary{margin-top:14px;background:linear-gradient(135deg,var(--crim),var(--gold));border-radius:12px;padding:14px;color:#fff;font-size:12px;text-align:center;font-family:'Kanit',sans-serif;font-weight:700}
+
+/* 5 LEVELS TIMELINE */
+.levels-wrap{display:flex;flex-direction:column;gap:0}
+.level-item{display:flex;gap:14px;padding:10px 0;cursor:pointer;position:relative}
+.level-item:not(:last-child)::after{content:'';position:absolute;left:17px;top:44px;bottom:0;width:2px;background:var(--border)}
+.level-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Kanit',sans-serif;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;position:relative;z-index:1}
+.level-content{}
+.level-name{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700}
+.level-desc{font-size:11px;color:var(--slate);margin-top:2px}
+.level-detail{display:none;margin-top:8px;font-size:11px;padding:8px 12px;border-radius:8px;line-height:1.6}
+.level-item.open .level-detail{display:block;animation:fadeIn 0.25s}
+
+/* SQC TOOLS */
+.sqc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sqc-tool{background:var(--white);border-radius:10px;padding:12px;border:1px solid var(--border);box-shadow:0 1px 6px var(--shadow);border-left:4px solid;cursor:pointer}
+.sqc-icon{font-size:20px;margin-bottom:5px}
+.sqc-name{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700}
+.sqc-use{font-size:10px;color:var(--slate);margin-top:2px}
+.sqc-detail{display:none;font-size:11px;margin-top:6px;line-height:1.5;color:var(--slate)}
+.sqc-tool.open .sqc-detail{display:block;animation:fadeIn 0.25s}
+
+/* PDCA INTERACTIVE */
+.pdca-wheel{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.pdca-item{border-radius:12px;padding:14px;cursor:pointer;transition:all 0.2s;border:2px solid transparent}
+.pdca-item.active{transform:scale(1.02)}
+.pdca-letter{font-family:'Kanit',sans-serif;font-size:36px;font-weight:800;line-height:1;margin-bottom:4px}
+.pdca-name{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700}
+.pdca-steps{display:none;font-size:11px;line-height:1.7;margin-top:8px}
+.pdca-item.open .pdca-steps{display:block}
+.pdca-center{background:linear-gradient(135deg,var(--crim),var(--gold));border-radius:12px;padding:12px;text-align:center;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px}
+
+/* TQM PRINCIPLES */
+.tqm-list{display:flex;flex-direction:column;gap:7px}
+.tqm-item{display:flex;gap:12px;align-items:flex-start;background:var(--white);border-radius:10px;padding:11px 14px;border:1px solid var(--border);box-shadow:0 1px 6px var(--shadow)}
+.tqm-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.tqm-name{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--crim)}
+.tqm-desc{font-size:11px;color:var(--slate);margin-top:2px}
+
+/* SIX SIGMA LEVELS */
+.sigma-table{width:100%;border-collapse:separate;border-spacing:3px}
+.sigma-table th{background:var(--crim);color:#fff;font-family:'Kanit',sans-serif;font-size:11px;font-weight:700;padding:8px 10px;border-radius:5px;text-align:center}
+.sigma-table td{border-radius:6px;padding:8px 10px;font-size:12px;text-align:center;vertical-align:middle;border:1px solid var(--border);background:var(--white)}
+.sigma-table tr:last-child td{background:linear-gradient(135deg,var(--crim-soft),var(--gold-soft));font-weight:800;color:var(--crim)}
+.sigma-bar{height:8px;border-radius:4px;margin-top:4px}
+
+/* DMAIC */
+.dmaic-steps{display:flex;flex-direction:column;gap:8px}
+.dm-step{border-radius:12px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);cursor:pointer}
+.dm-head{padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+.dm-letter{font-family:'Kanit',sans-serif;font-size:20px;font-weight:800;color:#fff;width:32px;flex-shrink:0}
+.dm-name{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;color:#fff;flex:1;margin-left:8px}
+.dm-short{font-size:11px;color:rgba(255,255,255,0.65)}
+.dm-body{display:none;padding:12px 14px;font-size:12px;line-height:1.7;background:var(--white)}
+.dm-step.open .dm-body{display:block;animation:fadeIn 0.3s}
+
+/* STANDARDS */
+.std-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.std-item{border-radius:10px;padding:12px;border:2px solid;cursor:pointer}
+.std-name{font-family:'Kanit',sans-serif;font-size:12px;font-weight:800;margin-bottom:4px}
+.std-scope{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px}
+.std-desc{font-size:11px;color:var(--slate)}
+.std-detail{display:none;font-size:11px;margin-top:8px;padding:8px 10px;border-radius:8px;line-height:1.6}
+.std-item.open .std-detail{display:block;animation:fadeIn 0.25s}
+
+/* CASE & QUIZ */
+.case-wrap{background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 4px 18px var(--shadow)}
+.case-head{padding:14px 18px;color:#fff}
+.case-head h4{font-family:'Kanit',sans-serif;font-size:14px;font-weight:700}
+.case-head p{font-size:11px;opacity:0.7;margin-top:2px}
+.case-body{padding:14px 18px}
+.cscen{background:var(--bg);border-left:4px solid var(--crim2);border-radius:0 10px 10px 0;padding:12px 14px;font-size:12px;line-height:1.7;margin-bottom:12px}
+.cqt{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;padding:9px 13px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.ca{display:none;padding:10px 13px;font-size:12px;line-height:1.7;border-radius:8px;margin-bottom:7px}
+.ca.open{display:block;animation:fadeIn 0.3s}
+.quiz-section{background:linear-gradient(160deg,#450a0a,var(--crim));padding:26px 20px 40px}
+.quiz-header{text-align:center;margin-bottom:18px}
+.quiz-header h3{font-family:'Kanit',sans-serif;font-size:20px;font-weight:800;color:#fff}
+.quiz-header p{color:rgba(255,255,255,0.5);font-size:12px;margin-top:4px}
+.qcard{background:var(--white);border-radius:12px;padding:14px;margin-bottom:10px}
+.qnum{display:inline-block;background:var(--crim2);color:#fff;font-family:'Kanit',sans-serif;font-size:10px;font-weight:800;padding:2px 10px;border-radius:20px;margin-bottom:7px}
+.qtext{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.5}
+.qopts{display:flex;flex-direction:column;gap:6px}
+.qopt{background:var(--bg);border:2px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer;transition:all 0.2s;text-align:left;font-family:'Sarabun',sans-serif}
+.qopt:hover:not(:disabled){border-color:var(--crim2);background:var(--crim-soft)}
+.qopt.correct{background:var(--green-soft);border-color:var(--green);color:#14532d;font-weight:700}
+.qopt.wrong{background:var(--crim-soft);border-color:var(--crim2);color:var(--crim)}
+.qopt.show-correct{background:var(--green-soft);border-color:var(--green)}
+.qfb{display:none;margin-top:7px;padding:7px 12px;border-radius:8px;font-size:12px}
+.qfb.show{display:block}
+.qfb.ok{background:var(--green-soft);color:#14532d}
+.qfb.fail{background:var(--crim-soft);color:var(--crim)}
+.sbox{display:none;background:linear-gradient(135deg,var(--crim),var(--gold));border-radius:14px;padding:22px;text-align:center}
+.sbox.show{display:block;animation:fadeIn 0.4s}
+.sbox h3{font-family:'Kanit',sans-serif;font-size:18px;font-weight:800;color:#fff}
+.sbig{font-family:'Kanit',sans-serif;font-size:50px;font-weight:800;color:#fff;line-height:1;margin:6px 0}
+.smsg{font-size:13px;color:rgba(255,255,255,0.85)}
+.rbtn{background:#fff;color:var(--crim);border:none;font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;padding:9px 26px;border-radius:20px;cursor:pointer;margin-top:12px}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hi">
+    <div class="htag">BA6500 · NIDA EMBA · MODULE 5 · FINAL</div>
+    <h1>Quality <em>Management</em></h1>
+    <div class="hero-sub">ผศ.ดร.ชัยรัช หิรัญยะวะสิต · Module สุดท้าย · Interactive Study Guide</div>
+    <div class="hchips">
+      <div class="hchip"><div class="hchip-icon">📐</div><div class="hchip-t">Quality Concepts</div><div class="hchip-s">Design vs Conformance</div></div>
+      <div class="hchip"><div class="hchip-icon">💰</div><div class="hchip-t">Cost of Quality</div><div class="hchip-s">4 หมวดต้นทุน</div></div>
+      <div class="hchip"><div class="hchip-icon">📊</div><div class="hchip-t">SQC 8 Tools</div><div class="hchip-s">Pareto · Fishbone · Control Chart</div></div>
+      <div class="hchip"><div class="hchip-icon">🔄</div><div class="hchip-t">PDCA + TQM</div><div class="hchip-s">Deming Wheel · 11 Principles</div></div>
+      <div class="hchip"><div class="hchip-icon">⚡</div><div class="hchip-t">Six Sigma</div><div class="hchip-s">3.4 ppm · DMAIC · GE Case</div></div>
+      <div class="hchip"><div class="hchip-icon">🏅</div><div class="hchip-t">Standards & Awards</div><div class="hchip-s">ISO · Baldrige · Deming Prize</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="sp">
+  <div class="pt"><strong>MODULE 5 — Progress</strong><span id="pct">0%</span></div>
+  <div class="pbar"><div class="pfill" id="pfill"></div></div>
+  <div class="pills">
+    <div class="pill" onclick="tick(this,'t1')">Quality Concepts</div>
+    <div class="pill" onclick="tick(this,'t2')">Cost of Quality</div>
+    <div class="pill" onclick="tick(this,'t3')">5 Quality Levels</div>
+    <div class="pill" onclick="tick(this,'t4')">SQC 8 Tools</div>
+    <div class="pill" onclick="tick(this,'t5')">PDCA Cycle</div>
+    <div class="pill" onclick="tick(this,'t6')">TQM 11 Principles</div>
+    <div class="pill" onclick="tick(this,'t7')">Six Sigma</div>
+    <div class="pill" onclick="tick(this,'t8')">DMAIC</div>
+    <div class="pill" onclick="tick(this,'t9')">Standards & Awards</div>
+    <div class="pill" onclick="tick(this,'t10')">Quiz ✓</div>
+  </div>
+</div>
+
+<!-- ══ S1: WHAT IS QUALITY ══ -->
+<div class="section bg-white" id="s1">
+  <div class="slbl">01 — Foundation</div>
+  <div class="stitle">What is Quality? — 2 มุมมอง</div>
+  <div class="sdesc">Quality มีความหมายต่างกันจากมุมของ Customer กับ Producer — ต้องบาลานซ์ทั้งสองให้ได้</div>
+
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-f" style="background:var(--blue-soft);border:2px solid var(--blue)">
+          <div class="flip-icon">👤</div>
+          <div class="flip-name" style="color:var(--blue)">Quality of Design</div>
+          <div class="flip-en" style="color:var(--slate)">Customer's Perspective</div>
+          <div class="flip-hint">แตะเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="flip-b" style="background:var(--blue)">
+          <div class="flip-key">Design to Meet Customer Needs</div>
+          <div class="flip-def">Performance · Feature · Reliability · Safety · Durability · Maintainability · Serviceability · Aesthetics · Perceived Reputation/Image</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-f" style="background:var(--crim-soft);border:2px solid var(--crim2)">
+          <div class="flip-icon">🏭</div>
+          <div class="flip-name" style="color:var(--crim)">Quality of Conformance</div>
+          <div class="flip-en" style="color:var(--slate)">Producer's Perspective</div>
+          <div class="flip-hint">แตะเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="flip-b" style="background:var(--crim)">
+          <div class="flip-key">Produce to Meet Specification</div>
+          <div class="flip-def">ขึ้นอยู่กับ Product Design + Process Design + Quality Assurance Systems — ผลิตได้ตาม Spec ที่กำหนดไว้</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="ctitle" style="color:var(--crim)">📈 Quality → Profit (2 เส้นทาง)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:var(--blue-soft);border-radius:10px;padding:12px;border-left:4px solid var(--blue)">
+        <div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px">🛡️ Quality → Lower Costs</div>
+        <div style="font-size:11px;color:var(--text)">Prevent Problems → Reduce Defects → Lower Manufacturing Costs → Lower Service Costs → <strong>Increased Profit</strong></div>
+      </div>
+      <div style="background:var(--crim-soft);border-radius:10px;padding:12px;border-left:4px solid var(--crim2)">
+        <div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--crim);margin-bottom:8px">📈 Quality → Market Share</div>
+        <div style="font-size:11px;color:var(--text)">Improved Quality → Better Reputation → More Market Share → Higher Price → <strong>Improved Profit</strong></div>
+      </div>
+    </div>
+    <div class="note"><strong style="color:var(--gold)">สรุป:</strong> คุณภาพดีไม่ใช่แค่ "ลดของเสีย" แต่ยังเพิ่ม Revenue และ Market Share ไปพร้อมกัน — <strong>Productivity = Outputs ÷ Inputs</strong> — ต้องบริหาร Quality คู่กับ Productivity เสมอ</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S2: COST OF QUALITY ══ -->
+<div class="section bg-soft" id="s2">
+  <div class="slbl">02 — Cost Analysis</div>
+  <div class="stitle">Costs of Quality — 4 หมวด</div>
+  <div class="sdesc">ต้นทุนคุณภาพมี 4 ประเภท — แตะแต่ละ Box เพื่อดูตัวอย่างและรายละเอียด</div>
+
+  <div class="coq-grid">
+    <div class="coq-item" style="background:#f0fdf4;border-color:var(--green)" onclick="this.classList.toggle('open')">
+      <div class="coq-head"><div class="coq-icon">🛡️</div><div><div class="coq-name" style="color:var(--green)">Prevention Costs</div><div class="coq-type" style="background:var(--green-soft);color:var(--green)">GOOD INVESTMENT</div></div></div>
+      <div class="coq-examples">ลงทุนป้องกันปัญหา ก่อนที่จะเกิดขึ้น</div>
+      <div class="coq-detail" style="background:var(--green-soft)">
+        <strong>ตัวอย่าง:</strong><br>
+        • Training พนักงาน<br>• Process Engineering<br>• Quality Planning<br>• Supplier Evaluation<br>• Design Reviews
+      </div>
+    </div>
+    <div class="coq-item" style="background:#eff6ff;border-color:var(--blue)" onclick="this.classList.toggle('open')">
+      <div class="coq-head"><div class="coq-icon">🔍</div><div><div class="coq-name" style="color:var(--blue)">Appraisal Costs</div><div class="coq-type" style="background:var(--blue-soft);color:var(--blue)">DETECTION</div></div></div>
+      <div class="coq-examples">ค่าใช้จ่ายในการตรวจสอบและทดสอบ</div>
+      <div class="coq-detail" style="background:var(--blue-soft)">
+        <strong>ตัวอย่าง:</strong><br>
+        • Inspection Incoming Materials<br>• In-process Inspection<br>• Final Product Testing<br>• Lab Testing<br>• Equipment Calibration
+      </div>
+    </div>
+    <div class="coq-item" style="background:var(--gold-soft);border-color:var(--gold2)" onclick="this.classList.toggle('open')">
+      <div class="coq-head"><div class="coq-icon">⚠️</div><div><div class="coq-name" style="color:var(--gold)">Internal Failure</div><div class="coq-type" style="background:var(--gold-soft);color:var(--gold)">BEFORE DELIVERY</div></div></div>
+      <div class="coq-examples">ความล้มเหลวก่อนส่งถึงลูกค้า</div>
+      <div class="coq-detail" style="background:var(--gold-soft)">
+        <strong>ตัวอย่าง:</strong><br>
+        • Scrap (ของเสียทิ้ง)<br>• Rework (แก้งานซ้ำ)<br>• Downtime จากของเสีย<br>• Reinspection<br>• Material Waste
+      </div>
+    </div>
+    <div class="coq-item" style="background:var(--crim-soft);border-color:var(--crim2)" onclick="this.classList.toggle('open')">
+      <div class="coq-head"><div class="coq-icon">🔥</div><div><div class="coq-name" style="color:var(--crim)">External Failure</div><div class="coq-type" style="background:var(--crim-soft);color:var(--crim)">WORST — AFTER DELIVERY</div></div></div>
+      <div class="coq-examples">ความล้มเหลวหลังส่งถึงลูกค้าแล้ว</div>
+      <div class="coq-detail" style="background:var(--crim-soft)">
+        <strong>ตัวอย่าง:</strong><br>
+        • Warranty Claims<br>• Product Returns<br>• Customer Complaints<br>• Product Recall<br>• Loss of Customer (แย่ที่สุด!)
+      </div>
+    </div>
+  </div>
+
+  <div class="coq-summary">
+    💡 ลงทุน Prevention มากขึ้น → ลด Appraisal และ Failure ได้มากกว่า<br>
+    External Failure แพงที่สุด — ลูกค้าไม่กลับมา + Reputation เสีย
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S3: 5 LEVELS ══ -->
+<div class="section bg-white" id="s3">
+  <div class="slbl">03 — Evolution</div>
+  <div class="stitle">5 Levels of Quality System</div>
+  <div class="sdesc">วิวัฒนาการของระบบคุณภาพจากไม่มีระบบไปสู่ Strategic — แตะแต่ละระดับ</div>
+
+  <div class="card">
+    <div class="levels-wrap">
+      <div class="level-item" onclick="this.classList.toggle('open')">
+        <div class="level-dot" style="background:#94a3b8">0</div>
+        <div class="level-content">
+          <div class="level-name" style="color:#64748b">Level 0: No Formal Quality System</div>
+          <div class="level-desc">ไม่มีระบบคุณภาพเลย — Defect Unknown</div>
+          <div class="level-detail" style="background:#f1f5f9">ไม่รู้ว่ามีปัญหา ไม่มีการวัด ไม่มีมาตรฐาน ส่งสินค้าไปโดยไม่รู้ว่าดีหรือเสีย</div>
+        </div>
+      </div>
+      <div class="level-item" onclick="this.classList.toggle('open')">
+        <div class="level-dot" style="background:#d97706">1</div>
+        <div class="level-content">
+          <div class="level-name" style="color:var(--gold)">Level 1: Inspection System</div>
+          <div class="level-desc">ตรวจสอบ — Defect Detected</div>
+          <div class="level-detail" style="background:var(--gold-soft)">Incoming Material → WIP → Final Inspection คัดของเสียออก แต่ยังผลิตของเสียอยู่ ต้นทุนสูง</div>
+        </div>
+      </div>
+      <div class="level-item" onclick="this.classList.toggle('open')">
+        <div class="level-dot" style="background:var(--blue)">2</div>
+        <div class="level-content">
+          <div class="level-name" style="color:var(--blue)">Level 2: Quality Control System</div>
+          <div class="level-desc">ควบคุม — Defect Reduced</div>
+          <div class="level-detail" style="background:var(--blue-soft)">ใช้ SQC Tools (Pareto, Fishbone, Control Chart) + PDCA Cycle + Teamwork แก้ปัญหาที่ต้นเหตุ ลด Defect Rate</div>
+        </div>
+      </div>
+      <div class="level-item" onclick="this.classList.toggle('open')">
+        <div class="level-dot" style="background:var(--teal)">3</div>
+        <div class="level-content">
+          <div class="level-name" style="color:var(--teal)">Level 3: Quality Assurance System</div>
+          <div class="level-desc">ประกัน — Defect Eliminated (Zero Defect)</div>
+          <div class="level-detail" style="background:var(--teal-soft)">Focus on Prevention · Poka Yoke (Fail-Safe) · 100% Self-check · Source Inspection — ออกแบบระบบให้ไม่สามารถทำผิดได้</div>
+        </div>
+      </div>
+      <div class="level-item" onclick="this.classList.toggle('open')">
+        <div class="level-dot" style="background:linear-gradient(135deg,var(--crim),var(--gold))">4</div>
+        <div class="level-content">
+          <div class="level-name" style="color:var(--crim)">Level 4: Strategic Quality Management ⭐</div>
+          <div class="level-desc">กลยุทธ์ — Value Added · TQM · Six Sigma</div>
+          <div class="level-detail" style="background:var(--crim-soft)">คุณภาพเป็น Strategic Weapon — Top Management นำ → Benchmarking → Six Sigma → ISO 9000 → Baldrige Award</div>
+        </div>
+      </div>
+    </div>
+    <div class="note"><strong style="color:var(--gold)">Key Insight:</strong> ยิ่งระดับสูงขึ้น → Reduced Costs + Improved Value + Competitive Advantage สูงขึ้น<br>เป้าหมายสูงสุดคือ Level 4 ที่ใช้คุณภาพเป็นอาวุธทางกลยุทธ์</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S4: SQC TOOLS ══ -->
+<div class="section bg-soft" id="s4">
+  <div class="slbl">04 — Tools</div>
+  <div class="stitle">Statistical Quality Control — 8 Tools</div>
+  <div class="sdesc">เครื่องมือ SQC ที่ใช้ใน Level 2 Quality Control — แตะแต่ละ Tool เพื่อดูการใช้งาน</div>
+
+  <div class="sqc-grid">
+    <div class="sqc-tool" style="border-color:var(--blue)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">📊</div>
+      <div class="sqc-name" style="color:var(--blue)">1. Process Flow Chart</div>
+      <div class="sqc-use">ค้นหา Quality Problems ในกระบวนการ</div>
+      <div class="sqc-detail">วาด Flow ทั้ง Process → ระบุจุดที่น่าจะเกิด Defect → ใช้ตรวจสอบว่า Defect เกิดที่ Step ไหน</div>
+    </div>
+    <div class="sqc-tool" style="border-color:var(--teal)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">✅</div>
+      <div class="sqc-name" style="color:var(--teal)">2. Check Sheet</div>
+      <div class="sqc-use">บันทึกและติดตามของเสียอย่างเป็นระบบ</div>
+      <div class="sqc-detail">ตารางบันทึกประเภทของเสีย ความถี่ วันเวลา — ให้ข้อมูลพื้นฐานสำหรับ Pareto Analysis</div>
+    </div>
+    <div class="sqc-tool" style="border-color:var(--gold2)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">📈</div>
+      <div class="sqc-name" style="color:var(--gold)">3. Pareto Analysis</div>
+      <div class="sqc-use">80% of problems come from 20% of causes</div>
+      <div class="sqc-detail">Bar Chart เรียงจากปัญหาถี่สุดไปน้อยสุด → Focus แก้ปัญหาแค่ Top 2-3 ตัวที่ก่อ 80% ของปัญหา → ประหยัดทรัพยากร</div>
+    </div>
+    <div class="sqc-tool" style="border-color:var(--purple)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">🐟</div>
+      <div class="sqc-name" style="color:var(--purple)">4. Fishbone (Cause & Effect)</div>
+      <div class="sqc-use">ค้นหาสาเหตุของปัญหาอย่างเป็นระบบ</div>
+      <div class="sqc-detail">แกนกลาง = Effect (ปัญหา) · ก้างปลา = Causes แบ่งตาม 5M: Man · Machine · Material · Method · Environment (Environment)</div>
+    </div>
+    <div class="sqc-tool" style="border-color:var(--crim2)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">📉</div>
+      <div class="sqc-name" style="color:var(--crim)">5. Histogram</div>
+      <div class="sqc-use">แสดง Distribution ของ Quality Data</div>
+      <div class="sqc-detail">Bar Chart แสดงความถี่ของค่าต่างๆ เทียบกับ Spec Limit → ดูว่า Process Capable แค่ไหน ถ้าค่าเกิน LSL/USL = ของเสีย</div>
+    </div>
+    <div class="sqc-tool" style="border-color:var(--green)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">📏</div>
+      <div class="sqc-name" style="color:var(--green)">6. Run Chart</div>
+      <div class="sqc-use">ติดตาม Quality ตามเวลา</div>
+      <div class="sqc-detail">กราฟ Line แสดงค่า Quality ตามลำดับเวลา → ระบุ Trend, Cycle หรือ Abnormal Pattern ที่บ่งบอกว่า Process กำลังเบี่ยงออก Spec</div>
+    </div>
+    <div class="sqc-tool" style="border-color:var(--teal)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">🔵</div>
+      <div class="sqc-name" style="color:var(--teal)">7. Scatter Diagram</div>
+      <div class="sqc-use">แสดงความสัมพันธ์ระหว่าง 2 ตัวแปร</div>
+      <div class="sqc-detail">Plot X vs Y → ดูว่ามี Correlation ไหม เช่น Training Hours vs Defects → ยิ่ง Train มาก Defect ลดลงไหม?</div>
+    </div>
+    <div class="sqc-tool" style="border-color:var(--gold2)" onclick="this.classList.toggle('open')">
+      <div class="sqc-icon">📊</div>
+      <div class="sqc-name" style="color:var(--gold)">8. Control Chart</div>
+      <div class="sqc-use">Monitor Process Quality แบบ Real-time</div>
+      <div class="sqc-detail">แสดง UCL (Upper Control Limit) และ LCL (Lower Control Limit) → ถ้าค่าออกนอก Control Limit = Process Out of Control → หยุดและแก้ไข</div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:14px">
+    <strong style="color:var(--gold)">จำง่ายๆ ลำดับการใช้:</strong> Check Sheet (เก็บข้อมูล) → Pareto (หาปัญหาหลัก) → Fishbone (หาสาเหตุ) → Control Chart (Monitor ต่อเนื่อง)
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S5: PDCA ══ -->
+<div class="section bg-white" id="s5">
+  <div class="slbl">05 — Problem Solving</div>
+  <div class="stitle">PDCA Cycle (Deming Wheel)</div>
+  <div class="sdesc">วงจรการแก้ปัญหาและปรับปรุงต่อเนื่อง — แตะแต่ละขั้นเพื่อดู Steps</div>
+
+  <div class="card">
+    <div class="pdca-center">PDCA = วงล้อที่หมุนต่อเนื่อง = Kaizen ไม่มีวันหยุด</div>
+    <div class="pdca-wheel">
+      <div class="pdca-item" style="background:#dbeafe;border:2px solid var(--blue)" onclick="this.classList.toggle('open')">
+        <div class="pdca-letter" style="color:var(--blue)">P</div>
+        <div class="pdca-name" style="color:var(--blue)">PLAN — วางแผน</div>
+        <div class="pdca-steps">
+          ① เลือกปัญหา (Select Problem)<br>
+          ② ตั้งวัตถุประสงค์ (Set Objective)<br>
+          ③ วิเคราะห์สาเหตุ (Analysis Causes)<br>
+          ④ พัฒนาแนวทางแก้ไข (Develop Solutions)<br>
+          ⑤ เลือกวิธีแก้ที่จะลอง (Select Solution)
+        </div>
+      </div>
+      <div class="pdca-item" style="background:var(--green-soft);border:2px solid var(--green)" onclick="this.classList.toggle('open')">
+        <div class="pdca-letter" style="color:var(--green)">D</div>
+        <div class="pdca-name" style="color:var(--green)">DO — ทดลองทำ</div>
+        <div class="pdca-steps">
+          ① Try Out วิธีแก้ที่เลือก<br>
+          ② ทำในขอบเขตเล็กๆ ก่อน<br>
+          ③ เก็บข้อมูลระหว่างทดสอบ<br>
+          ④ บันทึก Process จริงที่ทำ
+        </div>
+      </div>
+      <div class="pdca-item" style="background:var(--gold-soft);border:2px solid var(--gold2)" onclick="this.classList.toggle('open')">
+        <div class="pdca-letter" style="color:var(--gold)">C</div>
+        <div class="pdca-name" style="color:var(--gold)">CHECK — ตรวจสอบ</div>
+        <div class="pdca-steps">
+          ① Check ว่าผลลัพธ์เป็นไปตาม Objective ไหม<br>
+          ② เปรียบเทียบก่อน/หลัง<br>
+          ③ วิเคราะห์สาเหตุที่ได้/ไม่ได้ผล<br>
+          ④ ตัดสินว่าจะดำเนินต่อหรือปรับ Plan
+        </div>
+      </div>
+      <div class="pdca-item" style="background:var(--crim-soft);border:2px solid var(--crim2)" onclick="this.classList.toggle('open')">
+        <div class="pdca-letter" style="color:var(--crim)">A</div>
+        <div class="pdca-name" style="color:var(--crim)">ACTION — ดำเนินการ</div>
+        <div class="pdca-steps">
+          ✅ ถ้าได้ผล: Standardize เป็น Work Instruction มาตรฐาน ทำทั่วทั้งองค์กร<br>
+          ❌ ถ้าไม่ได้ผล: กลับไป Plan ใหม่ วิเคราะห์ว่าพลาดตรงไหน → วนซ้ำ
+        </div>
+      </div>
+    </div>
+    <div class="note"><strong style="color:var(--gold)">Kaizen = ใช้ PDCA ซ้ำๆ ต่อเนื่อง:</strong> ทุก Cycle ยกระดับ Standard ให้สูงขึ้น ไม่มีวันสิ้นสุด — PDCA + PDCA + PDCA = การปรับปรุงต่อเนื่องที่แท้จริง</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S6: TQM ══ -->
+<div class="section bg-soft" id="s6">
+  <div class="slbl">06 — Philosophy</div>
+  <div class="stitle">TQM — Total Quality Management</div>
+  <div class="sdesc">การบริหารทั้งองค์กรให้เป็นเลิศในทุกมิติที่สำคัญต่อลูกค้า — 11 หลักการ</div>
+
+  <div class="card">
+    <div class="tqm-list">
+      <div class="tqm-item"><div class="tqm-num" style="background:var(--crim)">1</div><div><div class="tqm-name">Customer-driven Quality</div><div class="tqm-desc">ลูกค้าเป็นศูนย์กลาง — คุณภาพนิยามโดยลูกค้า ไม่ใช่ผู้ผลิต</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:#c2410c">2</div><div><div class="tqm-name">Quality as a Strategic Issue</div><div class="tqm-desc">คุณภาพคือ Strategic Weapon ไม่ใช่แค่ Operational task</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:var(--gold)">3</div><div><div class="tqm-name">Top Management Leadership</div><div class="tqm-desc">ผู้บริหารระดับสูงต้องนำและผลักดันเรื่องคุณภาพ ไม่ใช่แค่สั่ง</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:var(--blue)">4</div><div><div class="tqm-name">All Functions & Employees Responsible</div><div class="tqm-desc">คุณภาพเป็นความรับผิดชอบของทุกคน ทุก Department ไม่ใช่แค่ QC</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:var(--teal)">5</div><div><div class="tqm-name">Shared Problem Solving by Teamwork</div><div class="tqm-desc">แก้ปัญหาเป็นทีม ข้ามสายงาน ไม่โยนความรับผิดชอบ</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:var(--purple)">6</div><div><div class="tqm-name">Management by Fact</div><div class="tqm-desc">ตัดสินใจจากข้อมูลและข้อเท็จจริง ไม่ใช่ความรู้สึก</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:var(--green)">7</div><div><div class="tqm-name">Statistical Quality Control</div><div class="tqm-desc">ใช้ SQC Tools (Pareto, Fishbone, Control Chart) อย่างต่อเนื่อง</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:#0e7490">8</div><div><div class="tqm-name">Design Quality and Prevention Focus</div><div class="tqm-desc">ป้องกันดีกว่าแก้ไข — Design Quality เข้าไปตั้งแต่ต้น</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:#7c2d12">9</div><div><div class="tqm-name">Continuous Improvement (Kaizen)</div><div class="tqm-desc">ปรับปรุงอย่างต่อเนื่อง ไม่มีวันพอ ใช้ PDCA วนซ้ำ</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:#1e40af">10</div><div><div class="tqm-name">Partnership Development</div><div class="tqm-desc">พัฒนาความสัมพันธ์กับ Supplier และ Partner ระยะยาว</div></div></div>
+      <div class="tqm-item"><div class="tqm-num" style="background:var(--slate)">11</div><div><div class="tqm-name">Training & Education for All</div><div class="tqm-desc">ลงทุนใน Training ทุกระดับตั้งแต่ Top ถึง Line Workers</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S7: SIX SIGMA ══ -->
+<div class="section bg-white" id="s7">
+  <div class="slbl">07 — Excellence Program</div>
+  <div class="stitle">Six Sigma — 3.4 Defects per Million</div>
+  <div class="sdesc">ระบบคุณภาพที่มุ่งลด Defect ให้เหลือ 3.4 ppm โดยใช้ Statistical Tools — เริ่มจาก GE ปี 1996</div>
+
+  <div class="card">
+    <div class="ctitle" style="color:var(--crim)">📊 Six Sigma Levels — DPMO</div>
+    <table class="sigma-table">
+      <tr><th>Sigma Level</th><th>DPMO</th><th>ตัวอย่างเทียบ</th><th>ระดับ</th></tr>
+      <tr>
+        <td style="font-weight:700;color:#dc2626">1σ</td>
+        <td style="color:#dc2626">691,462</td>
+        <td style="text-align:left;font-size:11px">170 คำผิดต่อหน้า</td>
+        <td><div style="background:#fee2e2;border-radius:4px;padding:3px 8px;font-size:10px;color:#dc2626;font-weight:700">แย่มาก</div></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700;color:#ea580c">2σ</td>
+        <td style="color:#ea580c">308,537</td>
+        <td style="text-align:left;font-size:11px">25 คำผิดต่อหน้า</td>
+        <td><div style="background:#ffedd5;border-radius:4px;padding:3px 8px;font-size:10px;color:#ea580c;font-weight:700">แย่</div></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700;color:#d97706">3σ</td>
+        <td style="color:#d97706">66,807</td>
+        <td style="text-align:left;font-size:11px">1.5 คำผิดต่อหน้า</td>
+        <td><div style="background:#fef3c7;border-radius:4px;padding:3px 8px;font-size:10px;color:#d97706;font-weight:700">GE ก่อน 1996</div></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700;color:#16a34a">4σ</td>
+        <td style="color:#16a34a">6,209</td>
+        <td style="text-align:left;font-size:11px">1 คำต่อ 30 หน้า</td>
+        <td><div style="background:#dcfce7;border-radius:4px;padding:3px 8px;font-size:10px;color:#16a34a;font-weight:700">ดี</div></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700;color:#0d9488">5σ</td>
+        <td style="color:#0d9488">233</td>
+        <td style="text-align:left;font-size:11px">1 คำต่อ 1 Dictionary</td>
+        <td><div style="background:#ccfbf1;border-radius:4px;padding:3px 8px;font-size:10px;color:#0d9488;font-weight:700">ดีมาก</div></td>
+      </tr>
+      <tr>
+        <td style="color:var(--crim);font-size:16px">⭐ 6σ</td>
+        <td style="color:var(--crim)">3.4 ppm</td>
+        <td style="text-align:left;font-size:11px">1 คำต่อ Library ขนาดเล็ก</td>
+        <td><div style="background:linear-gradient(135deg,var(--crim-soft),var(--gold-soft));border-radius:4px;padding:3px 8px;font-size:10px;color:var(--crim);font-weight:700">เป้าหมาย</div></td>
+      </tr>
+    </table>
+    <div class="note" style="margin-top:12px"><strong style="color:var(--gold)">GE ในปี 1996:</strong> มี 35,000 defects per million (ระหว่าง 3-4σ) → เสียเงิน 7-10 billion dollars/year จาก Scrap, Rework และ Inefficiency → Jack Welch ตัดสินใจ implement Six Sigma ทั้งองค์กร</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:var(--crim)">🏆 Six Sigma Roles</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:var(--crim-soft);border-radius:8px;padding:10px 14px;display:flex;gap:12px;align-items:center;border-left:4px solid var(--crim)">
+        <div style="font-size:22px">👑</div><div><div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--crim)">Champion / Sponsor</div><div style="font-size:11px;color:var(--slate)">ผู้บริหารระดับสูงที่รับผิดชอบและสนับสนุน Six Sigma Project</div></div>
+      </div>
+      <div style="background:var(--purple-soft);border-radius:8px;padding:10px 14px;display:flex;gap:12px;align-items:center;border-left:4px solid var(--purple)">
+        <div style="font-size:22px">🥋</div><div><div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--purple)">Master Black Belt</div><div style="font-size:11px;color:var(--slate)">ผู้เชี่ยวชาญระดับสูงสุด Coach Black Belt อื่นๆ</div></div>
+      </div>
+      <div style="background:#1c1c1c;border-radius:8px;padding:10px 14px;display:flex;gap:12px;align-items:center;border-left:4px solid #111">
+        <div style="font-size:22px">⬛</div><div><div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:#e5e7eb">Black Belt</div><div style="font-size:11px;color:#9ca3af">นำ Six Sigma Projects เต็มเวลา — ใช้ Statistical Tools ขั้นสูง</div></div>
+      </div>
+      <div style="background:#dcfce7;border-radius:8px;padding:10px 14px;display:flex;gap:12px;align-items:center;border-left:4px solid var(--green)">
+        <div style="font-size:22px">🟢</div><div><div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--green)">Green Belt</div><div style="font-size:11px;color:var(--slate)">ทำ Six Sigma ควบคู่กับงานปกติ — Support Black Belt และทำ Project เล็กๆ</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S8: DMAIC ══ -->
+<div class="section bg-soft" id="s8">
+  <div class="slbl">08 — Six Sigma Method</div>
+  <div class="stitle">DMAIC — กระบวนการ Six Sigma</div>
+  <div class="sdesc">วงจรการแก้ปัญหาและปรับปรุงของ Six Sigma — แตะแต่ละขั้นเพื่อดูรายละเอียด</div>
+
+  <div class="card">
+    <div style="background:linear-gradient(135deg,var(--crim),var(--gold));border-radius:12px;padding:12px;text-align:center;margin-bottom:14px;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;font-weight:700">
+      Define → Measure → Analyze → Improve → Control<br>
+      <span style="font-size:11px;opacity:0.8">"Voice of the Customer" เป็นจุดเริ่มต้นเสมอ</span>
+    </div>
+    <div class="dmaic-steps">
+      <div class="dm-step" onclick="this.classList.toggle('open')">
+        <div class="dm-head" style="background:#1e40af">
+          <div class="dm-letter">D</div>
+          <div><div class="dm-name">Define</div><div class="dm-short">นิยามปัญหาและเป้าหมาย</div></div>
+          <span style="color:rgba(255,255,255,0.6)">▼</span>
+        </div>
+        <div class="dm-body">
+          <strong>ระบุ:</strong> ปัญหาคืออะไร? ลูกค้า (Customer) ต้องการอะไร? CTQ (Critical to Quality) คืออะไร?<br>
+          ใช้ <strong>SIPOC Model</strong> (Suppliers-Inputs-Process-Outputs-Customers) หรือ COPIS (Customer-first perspective)<br>
+          Output: Project Charter พร้อม Scope, Goal, Timeline
+        </div>
+      </div>
+      <div class="dm-step" onclick="this.classList.toggle('open')">
+        <div class="dm-head" style="background:#0d9488">
+          <div class="dm-letter">M</div>
+          <div><div class="dm-name">Measure</div><div class="dm-short">วัดสถานการณ์ปัจจุบัน</div></div>
+          <span style="color:rgba(255,255,255,0.6)">▼</span>
+        </div>
+        <div class="dm-body">
+          เก็บข้อมูล Defect Rate ปัจจุบัน → คำนวณ Sigma Level ปัจจุบัน<br>
+          ใช้ Control Chart, Check Sheet, Histogram<br>
+          Output: Baseline Sigma Level + Process Map
+        </div>
+      </div>
+      <div class="dm-step" onclick="this.classList.toggle('open')">
+        <div class="dm-head" style="background:#b45309">
+          <div class="dm-letter">A</div>
+          <div><div class="dm-name">Analyze</div><div class="dm-short">วิเคราะห์หาสาเหตุหลัก</div></div>
+          <span style="color:rgba(255,255,255,0.6)">▼</span>
+        </div>
+        <div class="dm-body">
+          ใช้ Fishbone Diagram, Pareto Analysis, Regression<br>
+          หา Root Cause ที่แท้จริง ไม่ใช่แค่ Symptom<br>
+          Output: Validated Root Causes (สาเหตุหลักที่ได้รับการพิสูจน์)
+        </div>
+      </div>
+      <div class="dm-step" onclick="this.classList.toggle('open')">
+        <div class="dm-head" style="background:var(--purple)">
+          <div class="dm-letter">I</div>
+          <div><div class="dm-name">Improve</div><div class="dm-short">ออกแบบและ Implement วิธีแก้</div></div>
+          <span style="color:rgba(255,255,255,0.6)">▼</span>
+        </div>
+        <div class="dm-body">
+          ออกแบบ Solution ที่แก้ Root Cause → Test ใน Pilot → ขยายผล<br>
+          ใช้ Design of Experiments (DOE) เพื่อหา Optimal Settings<br>
+          Output: Improved Process + Measured Improvement
+        </div>
+      </div>
+      <div class="dm-step" onclick="this.classList.toggle('open')">
+        <div class="dm-head" style="background:var(--crim)">
+          <div class="dm-letter">C</div>
+          <div><div class="dm-name">Control</div><div class="dm-short">ควบคุมให้ผลลัพธ์ยั่งยืน</div></div>
+          <span style="color:rgba(255,255,255,0.6)">▼</span>
+        </div>
+        <div class="dm-body">
+          Institutionalize การปรับปรุงเป็น Standard Work Instruction<br>
+          ใช้ SPC Control Charts Monitor ต่อเนื่อง<br>
+          ถ้าเบี่ยงออก: มี Reaction Plan พร้อม<br>
+          Output: Control Plan + Updated Standard Operating Procedure
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S9: STANDARDS & AWARDS ══ -->
+<div class="section bg-white" id="s9">
+  <div class="slbl">09 — International</div>
+  <div class="stitle">Quality Standards & Awards</div>
+  <div class="sdesc">มาตรฐานและรางวัลคุณภาพระดับสากล — แตะแต่ละรายการ</div>
+
+  <div class="card">
+    <div class="ctitle" style="color:var(--crim)">🏅 International Quality Standards</div>
+    <div class="std-grid">
+      <div class="std-item" style="background:var(--blue-soft);border-color:var(--blue)" onclick="this.classList.toggle('open')">
+        <div class="std-name" style="color:var(--blue)">ISO 9000</div>
+        <div class="std-scope" style="background:var(--blue-soft);color:var(--blue)">ALL Industries</div>
+        <div class="std-desc">มาตรฐานระบบบริหารคุณภาพ ใช้ได้ทุกอุตสาหกรรม</div>
+        <div class="std-detail" style="background:var(--blue-soft)">Focus: กระบวนการ Documentation และ Consistency<br>ประโยชน์: เพิ่มความน่าเชื่อถือ เป็นที่ยอมรับระดับสากล ลูกค้า B2B มักต้องการ ISO Certified Supplier</div>
+      </div>
+      <div class="std-item" style="background:var(--green-soft);border-color:var(--green)" onclick="this.classList.toggle('open')">
+        <div class="std-name" style="color:var(--green)">HACCP</div>
+        <div class="std-scope" style="background:var(--green-soft);color:var(--green)">Food Industry</div>
+        <div class="std-desc">Hazard Analysis Critical Control Point</div>
+        <div class="std-detail" style="background:var(--green-soft)">วิเคราะห์ hazard ในกระบวนการผลิตอาหาร ระบุ Critical Control Points (CCPs) ที่ต้อง Monitor — ป้องกันปนเปื้อน</div>
+      </div>
+      <div class="std-item" style="background:var(--gold-soft);border-color:var(--gold2)" onclick="this.classList.toggle('open')">
+        <div class="std-name" style="color:var(--gold)">GMP</div>
+        <div class="std-scope" style="background:var(--gold-soft);color:var(--gold)">Pharma · Food · Cosmetics</div>
+        <div class="std-desc">Good Manufacturing Practice</div>
+        <div class="std-detail" style="background:var(--gold-soft)">มาตรฐานการผลิตที่ดีสำหรับยา อาหาร เครื่องสำอาง — ครอบคลุม Facility, Personnel, Documentation, Hygiene</div>
+      </div>
+      <div class="std-item" style="background:var(--crim-soft);border-color:var(--crim2)" onclick="this.classList.toggle('open')">
+        <div class="std-name" style="color:var(--crim)">HA</div>
+        <div class="std-scope" style="background:var(--crim-soft);color:var(--crim)">Hospital</div>
+        <div class="std-desc">Hospital Accreditation</div>
+        <div class="std-detail" style="background:var(--crim-soft)">การรับรองคุณภาพโรงพยาบาล Focus ที่ Patient Safety และ Clinical Quality ต้องผ่านการ Survey จากทีมผู้เชี่ยวชาญ</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:var(--gold)">🏆 Quality Awards — 3 รางวัลหลักโลก</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:var(--gold-soft);border-radius:12px;padding:14px;border-left:4px solid var(--gold2)">
+        <div style="font-family:'Kanit',sans-serif;font-size:13px;font-weight:800;color:var(--gold);margin-bottom:8px">🇺🇸 Malcolm Baldrige Award (USA)</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.7">
+          เริ่ม 1987 · สนับสนุนโดย National Institute of Standards<br>
+          Focus: <strong>Performance Excellence & Competitiveness</strong><br>
+          Criteria: Leadership 125 + Strategic Planning 85 + Customer Focus 85 + HR 85 + Process 85 + <strong>Business Results 450</strong> = 1,000 คะแนน
+        </div>
+      </div>
+      <div style="background:#fdf4ff;border-radius:12px;padding:14px;border-left:4px solid var(--purple)">
+        <div style="font-family:'Kanit',sans-serif;font-size:13px;font-weight:800;color:var(--purple);margin-bottom:8px">🇯🇵 Deming Prize (Japan)</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.7">
+          เริ่ม 1951 · สนับสนุนโดย Union of Japanese Scientists<br>
+          Focus: <strong>Statistical Quality Control</strong><br>
+          เปิดรับทุกบริษัท ทั่วโลก ที่ผ่านมาตรฐาน
+        </div>
+      </div>
+      <div style="background:var(--blue-soft);border-radius:12px;padding:14px;border-left:4px solid var(--blue)">
+        <div style="font-family:'Kanit',sans-serif;font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px">🇪🇺 European Quality Award (EFQM)</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.7">
+          Enablers 50% (Leadership, People, Policy, Resources, Processes) + Results 50% (People/Customer/Society Satisfaction + Business Results)<br>
+          <strong>Customer Satisfaction 20%</strong> = น้ำหนักมากที่สุด
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MIND MAP -->
+<div class="section bg-soft" id="s10">
+  <div class="slbl">10 — Overview</div>
+  <div class="stitle">Mind Map — ภาพรวม Module 5</div>
+  <div class="card">
+    <div style="background:linear-gradient(135deg,#450a0a,var(--crim));border-radius:12px;padding:14px;text-align:center;margin-bottom:14px"><div style="font-family:'Kanit',sans-serif;font-size:15px;font-weight:800;color:#fca5a5">Quality Management</div><div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:3px">Module 5 · BA6500 NIDA EMBA · Final Module</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:var(--crim-soft);border-radius:10px;padding:12px;border-top:3px solid var(--crim2)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--crim);margin-bottom:7px">📐 Quality Concepts</div><div style="font-size:11px">• Design = ลูกค้ามุมมอง<br>• Conformance = ผู้ผลิต<br>• Cost of Quality 4 ประเภท<br>• Prevention ดีที่สุด</div></div>
+      <div style="background:var(--blue-soft);border-radius:10px;padding:12px;border-top:3px solid var(--blue)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--blue);margin-bottom:7px">📊 SQC 8 Tools</div><div style="font-size:11px">• Flow Chart / Check Sheet<br>• Pareto / Fishbone (5M)<br>• Histogram / Run Chart<br>• Scatter / Control Chart</div></div>
+      <div style="background:var(--gold-soft);border-radius:10px;padding:12px;border-top:3px solid var(--gold2)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--gold);margin-bottom:7px">🔄 PDCA + TQM</div><div style="font-size:11px">• Plan→Do→Check→Action<br>• Kaizen = PDCA วนซ้ำ<br>• TQM 11 Principles<br>• Customer-Driven</div></div>
+      <div style="background:var(--crim-soft);border-radius:10px;padding:12px;border-top:3px solid var(--crim)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--crim);margin-bottom:7px">⚡ Six Sigma</div><div style="font-size:11px">• 3.4 ppm = 6σ<br>• DMAIC Framework<br>• Black/Green Belt<br>• GE Case Study</div></div>
+      <div style="background:var(--purple-soft);border-radius:10px;padding:12px;border-top:3px solid var(--purple)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--purple);margin-bottom:7px">🏅 Standards & Awards</div><div style="font-size:11px">• ISO 9000 ทุกอุตสาหกรรม<br>• HACCP อาหาร / GMP ยา<br>• Baldrige 1,000pts<br>• Deming Prize Japan</div></div>
+      <div style="background:#f1f5f9;border-radius:10px;padding:12px;border-top:3px solid var(--slate)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--slate);margin-bottom:7px">📈 5 Quality Levels</div><div style="font-size:11px">• L0: No System<br>• L1: Inspection<br>• L2: QC (SQC+PDCA)<br>• L3: QA (Zero Defect)<br>• L4: Strategic (TQM/6σ)</div></div>
+      <div style="grid-column:span 2;background:linear-gradient(135deg,#450a0a,var(--crim));border-radius:10px;padding:12px;color:rgba(255,255,255,0.85);font-size:12px;line-height:1.7"><strong style="color:#fca5a5">🔗 Flow Module 5:</strong> นิยาม Quality (Design + Conformance) → คำนวณ Cost of Quality → เลือก Level ที่เหมาะ → ใช้ SQC Tools หาปัญหา → แก้ด้วย PDCA → ยกระดับเป็น TQM → ใช้ Six Sigma DMAIC → ขอ ISO/Awards → <strong style="color:#fca5a5">Quality เป็น Competitive Advantage</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE -->
+<div class="section bg-white">
+  <div class="slbl">11 — Case Study</div>
+  <div class="stitle">ฝึกวิเคราะห์ Case Module 5</div>
+  <div class="case-wrap">
+    <div class="case-head" style="background:linear-gradient(135deg,#450a0a,var(--crim))">
+      <h4>🖊️ Case: สยามวัลลา — Quality Management Program</h4>
+      <p>วิเคราะห์และแนะนำ Quality Strategy แบบ Closed Book</p>
+    </div>
+    <div class="case-body">
+      <div class="cscen">สยามวัลลาพบว่า: (1) ของเสียจากกระบวนการผลิต 8% → ต้นทุน Rework ปีละ ฿2M (2) ลูกค้า Complaint ว่าหมึกปากกาซึม 3% ของสินค้าที่ส่ง (3) ไม่มี QC System ที่เป็นระบบ แค่ Final Inspection (4) Corporate Client ต้องการให้บริษัทมีมาตรฐาน ISO 9001</div>
+      <div class="cqt" style="background:var(--crim-soft);color:var(--crim)" onclick="toggleC('c1')">❓ ข้อ 1: ระบุ Cost of Quality ที่เกิดขึ้นและระดับที่ควรยกระดับ <span>▼</span></div>
+      <div class="ca" id="c1" style="background:var(--crim-soft)">
+        <strong>Internal Failure Cost:</strong> Rework ฿2M/yr = เงินที่เสียไปก่อนส่งของ<br>
+        <strong>External Failure Cost:</strong> Complaint 3% = ลูกค้าได้รับของเสีย → Warranty + Reputation เสีย<br>
+        <strong>Appraisal Cost ต่ำเกินไป:</strong> มีแค่ Final Inspection = ตรวจแค่ปลายทาง<br>
+        <strong>Prevention Cost ต่ำมาก:</strong> ไม่มี Process Engineering หรือ QA ที่ดี<br><br>
+        ปัจจุบันอยู่ที่ <strong>Level 1 (Inspection)</strong> → ต้องยกระดับเป็น <strong>Level 3 (Quality Assurance)</strong> เพื่อป้องกัน Defect ตั้งแต่ต้น
+      </div>
+      <div class="cqt" style="background:var(--gold-soft);color:var(--gold)" onclick="toggleC('c2')">❓ ข้อ 2: แนะนำ SQC Tools ที่ควรนำมาใช้ <span>▼</span></div>
+      <div class="ca" id="c2" style="background:var(--gold-soft)">
+        <strong>Check Sheet:</strong> บันทึกประเภทของเสีย วันเวลา กะ เพื่อรวบรวมข้อมูล<br>
+        <strong>Pareto Analysis:</strong> หาว่า 20% ของสาเหตุไหนที่ทำให้เกิด 80% ของ Defect (อาจพบว่า "ไส้ปากกาซึม" เกิดจากสาเหตุเดียวเป็นหลัก)<br>
+        <strong>Fishbone Diagram:</strong> วิเคราะห์ Root Cause ของปัญหาหมึกซึม — Man/Machine/Material/Method<br>
+        <strong>Control Chart:</strong> Monitor กระบวนการผลิตแบบ Real-time หลังแก้ไข
+      </div>
+      <div class="cqt" style="background:var(--purple-soft);color:var(--purple)" onclick="toggleC('c3')">❓ ข้อ 3: วางแผน Implementation เพื่อได้ ISO 9001 <span>▼</span></div>
+      <div class="ca" id="c3" style="background:var(--purple-soft)">
+        <strong>Phase 1 — QC System (Level 2):</strong> ติดตั้ง SQC Tools + ฝึก PDCA ทีมงาน ลด Defect จาก 8% → 3%<br>
+        <strong>Phase 2 — QA System (Level 3):</strong> Poka Yoke ในกระบวนการผลิต + Self-check mechanism + Source Inspection → Zero Defect<br>
+        <strong>Phase 3 — ISO 9001:</strong> Document กระบวนการทุกขั้นตอน → Internal Audit → External Audit → Certification<br>
+        <strong>Phase 4 — TQM:</strong> Customer-driven + Training ทุกคน + Continuous Improvement (Kaizen) → ใช้ Quality เป็น Competitive Advantage<br><br>
+        <strong>ผลที่คาดหวัง:</strong> ของเสีย↓ → Cost ลด → Corporate Client พอใจ → ขยายตลาด B2B ได้
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-section" id="sq">
+  <div class="quiz-header"><div style="font-size:34px;margin-bottom:8px">🧠</div><h3>Quiz Module 5</h3><p>10 ข้อ · ครบทุก Section · Closed Book Simulation</p></div>
+  <div id="qcont">
+    <div class="qcard" id="qc0"><div class="qnum">1/10</div><div class="qtext">Quality of Design vs Quality of Conformance ต่างกันอย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(0,0,2)">Design = ดูแลโดย QC Department, Conformance = ดูแลโดย Design Team</button><button class="qopt" onclick="ans(0,1,2)">Design และ Conformance หมายความเหมือนกัน</button><button class="qopt" onclick="ans(0,2,2)">Design = ออกแบบให้ตรงใจลูกค้า (Customer's View), Conformance = ผลิตให้ตรง Spec (Producer's View)</button><button class="qopt" onclick="ans(0,3,2)">Design = ใช้กับสินค้า, Conformance = ใช้กับบริการ</button></div><div class="qfb" id="qf0"></div></div>
+    <div class="qcard" id="qc1"><div class="qnum">2/10</div><div class="qtext">External Failure Cost แตกต่างจาก Internal Failure Cost อย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(1,0,2)">External แพงน้อยกว่าเพราะลูกค้าจ่ายเอง</button><button class="qopt" onclick="ans(1,1,2)">Internal เกิดหลังส่งสินค้า External เกิดก่อนส่ง</button><button class="qopt" onclick="ans(1,2,2)">External เกิดหลังส่งสินค้าแล้ว แพงที่สุด เสีย Reputation และลูกค้า</button><button class="qopt" onclick="ans(1,3,2)">ทั้งสองประเภทเท่ากัน</button></div><div class="qfb" id="qf1"></div></div>
+    <div class="qcard" id="qc2"><div class="qnum">3/10</div><div class="qtext">Pareto Analysis ใช้หลักการอะไร?</div><div class="qopts"><button class="qopt" onclick="ans(2,0,1)">แสดง Distribution ของ Quality Data ทั้งหมด</button><button class="qopt" onclick="ans(2,1,1)">80% of problems come from 20% of causes — Focus แก้ปัญหาสำคัญ</button><button class="qopt" onclick="ans(2,2,1)">Monitor Process ตามเวลา ดู Trend</button><button class="qopt" onclick="ans(2,3,1)">แสดงความสัมพันธ์ระหว่าง 2 ตัวแปร</button></div><div class="qfb" id="qf2"></div></div>
+    <div class="qcard" id="qc3"><div class="qnum">4/10</div><div class="qtext">Fishbone Diagram (Cause & Effect) ใช้วิเคราะห์อะไร?</div><div class="qopts"><button class="qopt" onclick="ans(3,0,2)">เปรียบเทียบคุณภาพสินค้าหลายรายการ</button><button class="qopt" onclick="ans(3,1,2)">แสดง Process Flow ทั้งหมด</button><button class="qopt" onclick="ans(3,2,2)">ค้นหาสาเหตุของปัญหา (Root Cause) อย่างเป็นระบบ 5M: Man/Machine/Material/Method/Environment</button><button class="qopt" onclick="ans(3,3,2)">ติดตาม Inventory ระดับตลอดเวลา</button></div><div class="qfb" id="qf3"></div></div>
+    <div class="qcard" id="qc4"><div class="qnum">5/10</div><div class="qtext">ขั้น "A" (Action) ใน PDCA Cycle หมายความว่าอะไรเมื่อแก้ปัญหาสำเร็จ?</div><div class="qopts"><button class="qopt" onclick="ans(4,0,3)">ยุติการทดลองและกลับสู่วิธีเดิม</button><button class="qopt" onclick="ans(4,1,3)">เริ่ม Plan ใหม่ทันที</button><button class="qopt" onclick="ans(4,2,3)">รายงานผลให้ Management รับทราบ</button><button class="qopt" onclick="ans(4,3,3)">Standardize วิธีที่ได้ผลเป็น Standard Work Instruction ทำทั่วองค์กร</button></div><div class="qfb" id="qf4"></div></div>
+    <div class="qcard" id="qc5"><div class="qnum">6/10</div><div class="qtext">TQM (Total Quality Management) นิยามคืออะไร?</div><div class="qopts"><button class="qopt" onclick="ans(5,0,2)">การจัดการ QC Department ให้มีประสิทธิภาพ</button><button class="qopt" onclick="ans(5,1,2)">การใช้ Statistical Tools ควบคุมคุณภาพ</button><button class="qopt" onclick="ans(5,2,2)">การบริหารทั้งองค์กรให้เป็นเลิศในทุกมิติที่สำคัญต่อลูกค้า</button><button class="qopt" onclick="ans(5,3,2)">การขอใบรับรอง ISO 9000</button></div><div class="qfb" id="qf5"></div></div>
+    <div class="qcard" id="qc6"><div class="qnum">7/10</div><div class="qtext">Six Sigma ระดับ 6σ มี Defect Rate เท่าไหร่?</div><div class="qopts"><button class="qopt" onclick="ans(6,0,2)">66,807 DPMO</button><button class="qopt" onclick="ans(6,1,2)">6,209 DPMO</button><button class="qopt" onclick="ans(6,2,2)">3.4 DPMO (Defects per Million Opportunities)</button><button class="qopt" onclick="ans(6,3,2)">0 DPMO</button></div><div class="qfb" id="qf6"></div></div>
+    <div class="qcard" id="qc7"><div class="qnum">8/10</div><div class="qtext">DMAIC ย่อมาจากอะไร?</div><div class="qopts"><button class="qopt" onclick="ans(7,0,1)">Design-Measure-Analyze-Implement-Control</button><button class="qopt" onclick="ans(7,1,1)">Define-Measure-Analyze-Improve-Control</button><button class="qopt" onclick="ans(7,2,1)">Define-Monitor-Analyze-Improve-Check</button><button class="qopt" onclick="ans(7,3,1)">Design-Monitor-Audit-Implement-Certify</button></div><div class="qfb" id="qf7"></div></div>
+    <div class="qcard" id="qc8"><div class="qnum">9/10</div><div class="qtext">ISO 9000 เหมาะสำหรับอุตสาหกรรมใด?</div><div class="qopts"><button class="qopt" onclick="ans(8,0,2)">เฉพาะอุตสาหกรรมอาหาร</button><button class="qopt" onclick="ans(8,1,2)">เฉพาะโรงพยาบาล</button><button class="qopt" onclick="ans(8,2,2)">ทุกประเภทอุตสาหกรรม — All Types of Industries</button><button class="qopt" onclick="ans(8,3,2)">เฉพาะอุตสาหกรรมยา</button></div><div class="qfb" id="qf8"></div></div>
+    <div class="qcard" id="qc9"><div class="qnum">10/10</div><div class="qtext">Malcolm Baldrige Award ให้น้ำหนัก Criteria ไหนมากที่สุด?</div><div class="qopts"><button class="qopt" onclick="ans(9,0,3)">Leadership (125 คะแนน)</button><button class="qopt" onclick="ans(9,1,3)">Strategic Planning (85 คะแนน)</button><button class="qopt" onclick="ans(9,2,3)">Customer and Market Focus (85 คะแนน)</button><button class="qopt" onclick="ans(9,3,3)">Business Results (450 คะแนน) — มากที่สุดใน 1,000 คะแนน</button></div><div class="qfb" id="qf9"></div></div>
+  </div>
+  <div class="sbox" id="scorebox"><h3>ผลการทดสอบ Module 5 🎓</h3><div class="sbig" id="scorenum">0/10</div><div class="smsg" id="scoremsg"></div><button class="rbtn" onclick="resetQ()">🔄 ทำใหม่</button></div>
+</div>
+
+<!-- FINAL BANNER -->
+<div style="background:linear-gradient(135deg,#450a0a,#7c2d12,var(--gold));padding:28px 20px;text-align:center">
+  <div style="font-family:'Kanit',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:8px">🎓 ครบทุก Module แล้ว!</div>
+  <div style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.7">Module 1 OM Competitive Advantage · Module 2 Product & Service Design<br>Module 3 Process Analysis · Module 4 SCM + Inventory + Lean + ERP · Module 5 Quality Management</div>
+  <div style="margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#fca5a5">BA6500 · NIDA EMBA · Closed Book Final Exam · Good Luck! 🍀</div>
+</div>
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.06});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+const ticked={};
+function tick(el,id){ticked[id]=!ticked[id];el.classList.toggle('done',ticked[id]);const pct=Math.round(Object.values(ticked).filter(Boolean).length/10*100);document.getElementById('pfill').style.width=pct+'%';document.getElementById('pct').textContent=pct+'%'}
+function toggleC(id){const el=document.getElementById(id);el.classList.toggle('open');const btn=el.previousElementSibling;if(btn)btn.querySelector('span').textContent=el.classList.contains('open')?'▲':'▼'}
+const ANSWERS=[2,2,1,2,3,2,2,1,2,3];
+const EX=['✅ Quality of Design = Customer Perspective (ตรงใจลูกค้า) vs Conformance = Producer Perspective (ผลิตตาม Spec)','✅ External Failure เกิดหลังส่งสินค้า แพงที่สุด เสีย Reputation + ลูกค้าหนี Internal คือก่อนส่ง','✅ Pareto = 80/20 Rule → 80% ของปัญหามาจาก 20% ของสาเหตุ Focus แก้ Top Causes','✅ Fishbone = หา Root Cause ของปัญหา แบ่งตาม 5M (Man/Machine/Material/Method/Environment)','✅ ถ้าสำเร็จ: Standardize → เขียน Work Instruction → ทำทั่วองค์กร ถ้าไม่สำเร็จ: กลับ Plan','✅ TQM = บริหารทั้งองค์กรให้เป็นเลิศในทุกมิติที่สำคัญต่อลูกค้า ไม่ใช่แค่ QC Dept','✅ 6σ = 3.4 DPMO เท่านั้น — นี่คือเป้าหมายสูงสุดของ Six Sigma ที่ GE ทำได้','✅ DMAIC = Define-Measure-Analyze-Improve-Control ไม่ใช่ Design หรือ Implement','✅ ISO 9000 = มาตรฐานทั่วไปใช้ได้ทุกอุตสาหกรรม (HACCP=Food, GMP=Pharma, HA=Hospital)','✅ Business Results = 450/1,000 คะแนน มากที่สุด — Baldrige เน้นผลลัพธ์ทางธุรกิจจริงๆ'];
+const WR=['❌ Design = ลูกค้ามองว่าสินค้าตรงใจไหม Conformance = ผู้ผลิตผลิตได้ตาม Spec ไหม','❌ External Failure คือหลังส่งสินค้า ไม่ใช่ก่อน — External แพงที่สุดเพราะเสีย Reputation','❌ Pareto ≠ Histogram หรือ Control Chart — Pareto ใช้ 80/20 Rule หาปัญหาสำคัญ','❌ Fishbone ไม่ใช่ Process Flow หรือ Inventory — มันค้นหา Root Cause ของปัญหา','❌ Action ที่ถูกต้องเมื่อสำเร็จ = Standardize เป็น Work Instruction ไม่ใช่กลับวิธีเดิม','❌ TQM ไม่ใช่แค่ QC Department หรือ ISO — มันคือ Philosophy บริหารทั้งองค์กร','❌ 6σ ≠ 66,807 หรือ 6,209 — ต้องจำ 3.4 DPMO เท่านั้น','❌ DMAIC: D=Define, M=Measure, A=Analyze, I=Improve, C=Control ไม่มีตัว Design หรือ Monitor','❌ ISO 9000 ใช้ได้ทุกอุตสาหกรรม ไม่ใช่เฉพาะอาหารหรือโรงพยาบาล','❌ Business Results = 450/1,000 คะแนน มากกว่า Leadership (125) มากกว่า 3 เท่า'];
+let score=0,done={};
+function ans(qi,chosen,correct){
+  if(done[qi])return;done[qi]=true;if(chosen===correct)score++;
+  const card=document.getElementById('qc'+qi);
+  card.querySelectorAll('.qopt').forEach((o,i)=>{o.disabled=true;if(i===correct)o.classList.add(chosen===correct?'correct':'show-correct');if(i===chosen&&chosen!==correct)o.classList.add('wrong')});
+  const fb=document.getElementById('qf'+qi);fb.classList.add('show',chosen===correct?'ok':'fail');fb.innerHTML=chosen===correct?EX[qi]:WR[qi]+'<br>'+EX[qi];
+  if(Object.keys(done).length===10){setTimeout(()=>{document.getElementById('scorebox').classList.add('show');document.getElementById('scorenum').textContent=score+'/10';const msgs=['ต้องทบทวนเพิ่มครับ 📖','เริ่มดีแล้ว 💪','ดีมาก! ⭐','เกือบสมบูรณ์แบบ! 🔥','Perfect! พร้อมสอบ 100%! 🏆'];document.getElementById('scoremsg').textContent=msgs[Math.min(Math.floor(score/2),4)];tick(document.querySelector('[onclick*="t10"]'),'t10')},500)}
+}
+function resetQ(){score=0;done={};document.getElementById('scorebox').classList.remove('show');document.querySelectorAll('.qcard').forEach(c=>{c.querySelectorAll('.qopt').forEach(o=>{o.disabled=false;o.className='qopt'});const fb=c.querySelector('.qfb');fb.className='qfb';fb.innerHTML=''})}
+</script>
+</body>
+</html>
