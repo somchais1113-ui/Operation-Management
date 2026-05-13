@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Business Case Studies — OM Final</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=Kanit:wght@600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg:#f8f9fa; --white:#fff; --text:#1a1a2e; --muted:#64748b;
+  --border:#e2e8f0; --shadow:rgba(0,0,0,0.06);
+
+  --c1:#1e3a5f; --c1s:#dbeafe; --c1b:#93c5fd;
+  --c2:#065f46; --c2s:#d1fae5; --c2b:#6ee7b7;
+  --c3:#4c1d95; --c3s:#ede9fe; --c3b:#c4b5fd;
+  --c4:#7c2d12; --c4s:#ffedd5; --c4b:#fdba74;
+  --c5:#7f1d1d; --c5s:#fee2e2; --c5b:#fca5a5;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Sarabun', sans-serif; font-size: 14px; line-height: 1.65; }
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(150deg, #0f172a 0%, #1e293b 100%);
+  padding: 32px 20px 40px; text-align: center; position: relative; overflow: hidden;
+}
+.header::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.header::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 32px; background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.header-inner { position: relative; }
+.header-tag {
+  display: inline-block; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: #94a3b8; font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  padding: 4px 12px; border-radius: 4px; letter-spacing: 2px; margin-bottom: 12px;
+}
+.header h1 { font-family: 'Kanit', sans-serif; font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.header h1 em { font-style: normal; color: #fbbf24; }
+.header-sub { color: #64748b; font-size: 12px; }
+
+/* ── MODULE NAV ── */
+.mod-nav {
+  display: flex; gap: 8px; padding: 16px 16px 0; overflow-x: auto;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.mod-nav::-webkit-scrollbar { display: none; }
+.mod-btn {
+  flex-shrink: 0; border: none; border-radius: 10px; padding: 10px 14px;
+  font-family: 'Kanit', sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; text-align: left; min-width: 120px;
+  opacity: 0.55;
+}
+.mod-btn.active { opacity: 1; transform: translateY(-2px); box-shadow: 0 4px 12px var(--shadow); }
+.mod-btn-num { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; letter-spacing: 1px; opacity: 0.7; margin-bottom: 3px; }
+.mod-btn-name { font-size: 11px; line-height: 1.3; }
+
+/* ── CASE PANELS ── */
+.case-panel { display: none; padding: 14px 16px 32px; animation: fadeUp 0.35s ease; }
+.case-panel.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── COMPANY CARD ── */
+.company-card {
+  background: var(--white); border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 20px var(--shadow); border: 1px solid var(--border); margin-bottom: 0;
+}
+.company-head {
+  padding: 18px 18px 14px; display: flex; align-items: flex-start; gap: 14px;
+}
+.company-logo {
+  width: 52px; height: 52px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.company-meta { flex: 1; }
+.company-name { font-family: 'Kanit', sans-serif; font-size: 18px; font-weight: 800; line-height: 1.2; }
+.company-en { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 2px; }
+.company-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.ctag {
+  font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+  font-family: 'Kanit', sans-serif;
+}
+.module-badge {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600;
+  padding: 3px 10px; border-radius: 4px; letter-spacing: 1px;
+}
+
+/* ── CASE SECTIONS ── */
+.case-sections { padding: 0 18px 18px; }
+.cs-block { margin-bottom: 14px; }
+.cs-label {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Kanit', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;
+}
+.cs-label-icon { font-size: 14px; }
+.cs-content {
+  background: var(--bg); border-radius: 10px; padding: 12px 14px;
+  font-size: 13px; line-height: 1.7; border-left: 3px solid;
+}
+.cs-content .th { color: var(--text); }
+.cs-content .en {
+  color: var(--muted); font-size: 12px; margin-top: 4px;
+  padding-top: 6px; border-top: 0.5px solid var(--border);
+  font-style: italic;
+}
+.cs-content strong { font-weight: 700; }
+
+/* ── FRAMEWORK TAG ── */
+.fw-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; margin: 2px 3px 2px 0;
+  font-family: 'Kanit', sans-serif;
+}
+
+/* ── REVEAL ANSWER ── */
+.reveal-btn {
+  width: 100%; border: none; border-radius: 10px; padding: 11px 14px;
+  font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 6px;
+}
+.reveal-btn:active { transform: scale(0.98); }
+.answer-box { display: none; margin-top: 10px; }
+.answer-box.open { display: block; animation: fadeUp 0.3s ease; }
+.answer-step {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 9px 12px; margin-bottom: 7px;
+  border-radius: 9px; font-size: 13px; line-height: 1.65;
+}
+.answer-step:last-child { margin-bottom: 0; }
+.step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Kanit', sans-serif; font-size: 11px; font-weight: 800;
+  color: #fff; flex-shrink: 0;
+}
+.step-text strong { display: block; font-weight: 700; margin-bottom: 2px; }
+.step-text .en-note { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 3px; display: block; }
+
+/* ── DIVIDER ── */
+.section-divider {
+  height: 1px; background: var(--border); margin: 12px 18px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-tag">OM FINAL · THAI BUSINESS CASES</div>
+    <h1>Thai Case Studies<br><em>5 Companies · 5 Modules</em></h1>
+    <div class="header-sub">Problem → Approach → Application → Outcome · Thai + English</div>
+  </div>
+</div>
+
+<!-- MODULE NAV -->
+<div class="mod-nav">
+  <button class="mod-btn active" style="background:var(--c1s);color:var(--c1)" onclick="showPanel('m1',this)">
+    <div class="mod-btn-num">MODULE 1</div>
+    <div class="mod-btn-name">Moshi Moshi<br>OM Strategy</div>
+  </button>
+  <button class="mod-btn" style="background:var(--c2s);color:var(--c2)" onclick="showPanel('m2',this)">
+    <div class="mod-btn-num">MODULE 2</div>
+    <div class="mod-btn-name">Minor Food<br>Service Design</div>
+  </button>
+  <button class="mod-btn" style="background:var(--c3s);color:var(--c3)" onclick="showPanel('m3',this)">
+    <div class="mod-btn-num">MODULE 3</div>
+    <div class="mod-btn-name">Ichitan<br>Process Analysis</div>
+  </button>
+  <button class="mod-btn" style="background:var(--c4s);color:var(--c4)" onclick="showPanel('m4',this)">
+    <div class="mod-btn-num">MODULE 4</div>
+    <div class="mod-btn-name">Big C<br>SCM · Lean · Inventory</div>
+  </button>
+  <button class="mod-btn" style="background:var(--c5s);color:var(--c5)" onclick="showPanel('m5',this)">
+    <div class="mod-btn-num">MODULE 5</div>
+    <div class="mod-btn-name">Bangkok Dusit<br>Quality Mgmt</div>
+  </button>
+</div>
+
+<!-- ══ PANEL 1: MOSHI MOSHI ══ -->
+<div class="case-panel active" id="m1">
+  <div class="company-card">
+    <div class="company-head">
+      <div class="company-logo" style="background:var(--c1s)">🛍️</div>
+      <div class="company-meta">
+        <div class="company-name" style="color:var(--c1)">Moshi Moshi Retail</div>
+        <div class="company-en">moshi moshi retail co., ltd.</div>
+        <div class="company-tags">
+          <span class="module-badge" style="background:var(--c1);color:#fff">MODULE 1</span>
+          <span class="ctag" style="background:var(--c1s);color:var(--c1)">Retail</span>
+          <span class="ctag" style="background:var(--c1s);color:var(--c1)">Lifestyle</span>
+          <span class="ctag" style="background:var(--c1s);color:var(--c1)">SME → IPO</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-sections">
+      <!-- Problem -->
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c1)">
+          <span class="cs-label-icon">⚠️</span> Problem
+        </div>
+        <div class="cs-content" style="border-color:var(--c1b)">
+          <div class="th">Moshi Moshi เริ่มจากร้านขายของชำถูกใน community mall แข่งขันด้วยราคาเพียงอย่างเดียว แต่เมื่อคู่แข่งอย่าง Daiso และ Don Don Donki เข้าไทย ลูกค้าเริ่มมองว่าราคาถูกอย่างเดียวไม่พอ ยอดขายต่อสาขาทรงตัว ไม่โต</div>
+          <div class="en">Competed on price alone in lifestyle retail. When Daiso and Don Don Donki entered Thailand, price-only positioning became insufficient — per-store revenue stagnated.</div>
+        </div>
+      </div>
+
+      <!-- Framework -->
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c1)"><span class="cs-label-icon">🔧</span> Framework Used</div>
+        <div style="padding:2px 0 8px">
+          <span class="fw-tag" style="background:var(--c1s);color:var(--c1)">Porter's Competitive Strategy</span>
+          <span class="fw-tag" style="background:var(--c1s);color:var(--c1)">Order Qualifier / Order Winner</span>
+          <span class="fw-tag" style="background:var(--c1s);color:var(--c1)">10 Driving Forces</span>
+          <span class="fw-tag" style="background:var(--c1s);color:var(--c1)">Operating System</span>
+        </div>
+      </div>
+
+      <!-- Question -->
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c1)"><span class="cs-label-icon">❓</span> Exam Question</div>
+        <div class="cs-content" style="border-color:var(--c1b);background:#f0f7ff">
+          <div class="th"><strong>วิเคราะห์ว่า Moshi Moshi ควรเปลี่ยน Competitive Strategy อย่างไร? ระบุ Order Qualifier และ Order Winner ใหม่ที่เหมาะสม พร้อมแนะนำการปรับ Operations</strong></div>
+          <div class="en">Analyze how Moshi Moshi should reposition its competitive strategy. Identify new Order Qualifiers and Order Winners, and recommend operational adjustments.</div>
+        </div>
+      </div>
+
+      <button class="reveal-btn" style="background:var(--c1);color:#fff" onclick="toggleAnswer('a1')">
+        💡 ดูแนวทางตอบ
+      </button>
+      <div class="answer-box" id="a1">
+        <div class="answer-step" style="background:var(--c1s)">
+          <div class="step-num" style="background:var(--c1)">1</div>
+          <div class="step-text">
+            <strong>ระบุปัญหา</strong>
+            กลยุทธ์ Cost Leadership ล้วนๆ ไม่เพียงพอเมื่อคู่แข่งมีต้นทุนต่ำกว่า (Daiso มาจากญี่ปุ่น มี Scale ใหญ่กว่ามาก)
+            <span class="en-note">Pure cost leadership fails when competitors have deeper scale advantages.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c1s)">
+          <div class="step-num" style="background:var(--c1)">2</div>
+          <div class="step-text">
+            <strong>Order Qualifier ใหม่</strong>
+            ราคาสมเหตุสมผล + หาซื้อได้ง่าย (Accessibility) + สินค้ามีให้เลือกหลากหลาย
+            <span class="en-note">New qualifiers: reasonable price, accessibility, product variety — baseline expectations.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c1s)">
+          <div class="step-num" style="background:var(--c1)">3</div>
+          <div class="step-text">
+            <strong>Order Winner ใหม่ (Focused Differentiation)</strong>
+            ความเป็น "Thai-friendly lifestyle" — สินค้า localised สำหรับคนไทย, ขนาดและดีไซน์ที่เข้าใจพฤติกรรมคนไทย, ระบบสมาชิกที่ให้ประโยชน์จริง
+            <span class="en-note">Shift to Focused Differentiation: Thai-localised lifestyle brand with relevant sizes, local aesthetics, and loyalty rewards.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c1s)">
+          <div class="step-num" style="background:var(--c1)">4</div>
+          <div class="step-text">
+            <strong>ปรับ Operations (Structural + Infrastructural)</strong>
+            Structural: ขยายสาขาใน High-traffic location (BTS/MRT) + ลงทุน Visual Merchandising<br>
+            Infrastructural: ฝึก Staff เรื่อง Product Knowledge + ระบบ Inventory ที่ตอบสนองเทรนด์ได้เร็ว
+            <span class="en-note">Structural: expand to transit-adjacent locations. Infrastructural: product-savvy staff, trend-responsive inventory system.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c1s)">
+          <div class="step-num" style="background:var(--c1)">5</div>
+          <div class="step-text">
+            <strong>Outcome</strong>
+            Moshi Moshi เติบโตจากร้านขนาดเล็กสู่ 200+ สาขาทั่วไทย และ IPO ในตลาดหลักทรัพย์ — ด้วยการสร้าง Value Differentiation ที่เหนือกว่าแค่ราคาถูก
+            <span class="en-note">Result: grew to 200+ stores and listed on SET by building differentiated value beyond price — a textbook Focused Differentiation pivot.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL 2: MINOR FOOD ══ -->
+<div class="case-panel" id="m2">
+  <div class="company-card">
+    <div class="company-head">
+      <div class="company-logo" style="background:var(--c2s)">🍕</div>
+      <div class="company-meta">
+        <div class="company-name" style="color:var(--c2)">Minor Food Group</div>
+        <div class="company-en">the minor food group pcl. — Pizza Company, Swensen's, Burger King TH</div>
+        <div class="company-tags">
+          <span class="module-badge" style="background:var(--c2);color:#fff">MODULE 2</span>
+          <span class="ctag" style="background:var(--c2s);color:var(--c2)">QSR</span>
+          <span class="ctag" style="background:var(--c2s);color:var(--c2)">Multi-Brand</span>
+          <span class="ctag" style="background:var(--c2s);color:var(--c2)">Service Design</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-sections">
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c2)"><span class="cs-label-icon">⚠️</span> Problem</div>
+        <div class="cs-content" style="border-color:var(--c2b)">
+          <div class="th">The Pizza Company เผชิญกับ Delivery demand ที่พุ่งสูงในช่วง COVID แต่ระบบ Service Delivery ไม่รองรับ — Fail Point เยอะตั้งแต่รับ Order → ผลิต → ส่ง ลูกค้า Complaint เรื่อง Pizza เย็น ส่งผิด ส่งช้า</div>
+          <div class="en">The Pizza Company faced a delivery demand surge during COVID but its service delivery system had multiple fail points — from order intake to production to last-mile — leading to cold, wrong, or late pizzas.</div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c2)"><span class="cs-label-icon">🔧</span> Framework Used</div>
+        <div style="padding:2px 0 8px">
+          <span class="fw-tag" style="background:var(--c2s);color:var(--c2)">Service Blueprinting</span>
+          <span class="fw-tag" style="background:var(--c2s);color:var(--c2)">Line of Visibility</span>
+          <span class="fw-tag" style="background:var(--c2s);color:var(--c2)">Production Line Approach</span>
+          <span class="fw-tag" style="background:var(--c2s);color:var(--c2)">Well-designed Service (7 Criteria)</span>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c2)"><span class="cs-label-icon">❓</span> Exam Question</div>
+        <div class="cs-content" style="border-color:var(--c2b);background:#f0fdf8">
+          <div class="th"><strong>วิเคราะห์ Service Blueprint ของ The Pizza Company และระบุ Fail Points หลัก พร้อมแนะนำวิธีปรับปรุงระบบ Delivery เพื่อลด Complaint</strong></div>
+          <div class="en">Map The Pizza Company's service blueprint, identify key fail points, and recommend system improvements to reduce delivery complaints.</div>
+        </div>
+      </div>
+
+      <button class="reveal-btn" style="background:var(--c2);color:#fff" onclick="toggleAnswer('a2')">
+        💡 ดูแนวทางตอบ
+      </button>
+      <div class="answer-box" id="a2">
+        <div class="answer-step" style="background:var(--c2s)">
+          <div class="step-num" style="background:var(--c2)">1</div>
+          <div class="step-text">
+            <strong>ระบุปัญหาผ่าน Blueprint</strong>
+            Visible zone: ลูกค้า Order ผ่าน App → ติดตามได้แต่ข้อมูลไม่ Real-time<br>
+            Backstage: ครัวรับ Order หลายช่องทางพร้อมกัน (Phone, App, Aggregator) ไม่มีระบบ Priority
+            <span class="en-note">Visible: app tracking lacked real-time updates. Backstage: kitchen flooded with multi-channel orders without prioritisation logic.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c2s)">
+          <div class="step-num" style="background:var(--c2)">2</div>
+          <div class="step-text">
+            <strong>Fail Points หลัก 3 จุด</strong>
+            ① Order routing ช้า — ไม่มี Auto-assign ไปครัวที่ใกล้ที่สุด<br>
+            ② Production queue ไม่ Balance — Bottleneck ที่ Topping station<br>
+            ③ Handoff ให้ Rider ไม่มี Thermal bag standard
+            <span class="en-note">3 fail points: no proximity-based routing, unbalanced kitchen queue (topping bottleneck), non-standard thermal handoff.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c2s)">
+          <div class="step-num" style="background:var(--c2)">3</div>
+          <div class="step-text">
+            <strong>แนะนำ (Production Line Approach)</strong>
+            ① Unified Order Management System รับทุกช่องทางเข้าจอเดียว<br>
+            ② Standardize production เป็น SOP ตามขนาด Pizza — ลด Decision ของพ่อครัว<br>
+            ③ Thermal packaging standard + Time-stamp บน sticker ทุกกล่อง
+            <span class="en-note">Unify order display, standardise SOP by pizza size to remove cook discretion, enforce thermal packaging with timestamp stickers.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c2s)">
+          <div class="step-num" style="background:var(--c2)">4</div>
+          <div class="step-text">
+            <strong>Outcome</strong>
+            The Pizza Company ยังคงเป็นแบรนด์ Delivery Pizza อันดับ 1 ในไทย แม้เจอ Competition จาก Aggregator — ด้วยการ Standardize delivery system เหมือน Production Line
+            <span class="en-note">Remains Thailand's #1 delivery pizza brand by applying production-line discipline to a service context — consistent quality at scale.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL 3: ICHITAN ══ -->
+<div class="case-panel" id="m3">
+  <div class="company-card">
+    <div class="company-head">
+      <div class="company-logo" style="background:var(--c3s)">🍵</div>
+      <div class="company-meta">
+        <div class="company-name" style="color:var(--c3)">Ichitan Group</div>
+        <div class="company-en">ichitan group pcl. — Japanese green tea drinks, founded by Tan Passakornnatee</div>
+        <div class="company-tags">
+          <span class="module-badge" style="background:var(--c3);color:#fff">MODULE 3</span>
+          <span class="ctag" style="background:var(--c3s);color:var(--c3)">Beverage Manufacturing</span>
+          <span class="ctag" style="background:var(--c3s);color:var(--c3)">FMCG</span>
+          <span class="ctag" style="background:var(--c3s);color:var(--c3)">High-volume</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-sections">
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c3)"><span class="cs-label-icon">⚠️</span> Problem</div>
+        <div class="cs-content" style="border-color:var(--c3b)">
+          <div class="th">Ichitan เติบโตอย่างรวดเร็วแต่โรงงานผลิตไม่ทัน Demand — Line ผลิตมี Bottleneck ที่ขั้นตอน Filling และ Capping ทำให้ Throughput ทั้งระบบต่ำกว่า Capacity จริง เกิด WIP ค้างหน้า Line และ OT สูง</div>
+          <div class="en">Rapid growth exposed a production bottleneck at the filling and capping stage — system throughput fell below actual capacity, causing WIP pile-up and excessive overtime.</div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c3)"><span class="cs-label-icon">🔧</span> Framework Used</div>
+        <div style="padding:2px 0 8px">
+          <span class="fw-tag" style="background:var(--c3s);color:var(--c3)">Bottleneck Analysis</span>
+          <span class="fw-tag" style="background:var(--c3s);color:var(--c3)">Line Balancing</span>
+          <span class="fw-tag" style="background:var(--c3s);color:var(--c3)">Cycle Time / Throughput</span>
+          <span class="fw-tag" style="background:var(--c3s);color:var(--c3)">Continuous Flow Process</span>
+          <span class="fw-tag" style="background:var(--c3s);color:var(--c3)">Assembly Line Layout</span>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c3)"><span class="cs-label-icon">❓</span> Exam Question</div>
+        <div class="cs-content" style="border-color:var(--c3b);background:#f5f3ff">
+          <div class="th"><strong>โรงงาน Ichitan มี 4 Stations: Brewing (200 bpm), Filling (80 bpm), Capping (120 bpm), Labelling (150 bpm). Production time = 480 min/day. ระบุ Bottleneck คำนวณ Throughput และแนะนำวิธีปรับปรุง</strong></div>
+          <div class="en">Given 4 stations with rates: Brewing 200, Filling 80, Capping 120, Labelling 150 bpm. Production = 480 min/day. Identify bottleneck, calculate throughput, and recommend improvements.</div>
+        </div>
+      </div>
+
+      <button class="reveal-btn" style="background:var(--c3);color:#fff" onclick="toggleAnswer('a3')">
+        💡 ดูแนวทางตอบ + คำนวณ
+      </button>
+      <div class="answer-box" id="a3">
+        <div class="answer-step" style="background:var(--c3s)">
+          <div class="step-num" style="background:var(--c3)">1</div>
+          <div class="step-text">
+            <strong>ระบุ Bottleneck</strong>
+            Filling = 80 bpm → ช้าที่สุด = <strong>Bottleneck</strong><br>
+            ทั้ง 4 Station ต้องรอ Filling → Throughput ทั้งระบบ = 80 bpm
+            <span class="en-note">Filling at 80 bpm is the system bottleneck — all other stations are constrained by it.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c3s)">
+          <div class="step-num" style="background:var(--c3)">2</div>
+          <div class="step-text">
+            <strong>คำนวณ Throughput และ Cycle Time</strong>
+            Cycle time = 1/80 min/bottle = 0.0125 min/bottle<br>
+            Max Production = 480 min × 80 bottles/min = <strong>38,400 bottles/day</strong><br>
+            Potential (ถ้าไม่มี Bottleneck) = 480 × 200 = 96,000 bottles/day → เสียโอกาส 60%
+            <span class="en-note">Actual output capped at 38,400/day vs 96,000 potential — 60% capacity wasted due to bottleneck.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c3s)">
+          <div class="step-num" style="background:var(--c3)">3</div>
+          <div class="step-text">
+            <strong>แนะนำ (Line Balancing)</strong>
+            ① เพิ่ม Filling Line ขนานอีก 1 เส้น → Filling capacity = 160 bpm (ยังต่ำกว่า 200 Brewing)<br>
+            ② Re-balance: เพิ่ม Filling เป็น 200+ bpm ให้ตรงกับ Brewing<br>
+            ③ ใช้ Assembly Line Layout — Station ต่อเนื่องโดยไม่ต้องขนถ่ายข้ามอาคาร
+            <span class="en-note">Add parallel filling line → 160 bpm. Then re-balance to match 200 bpm brewing. Consolidate into continuous-flow layout.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c3s)">
+          <div class="step-num" style="background:var(--c3)">4</div>
+          <div class="step-text">
+            <strong>Outcome</strong>
+            Ichitan ลงทุนโรงงานอัตโนมัติมูลค่า 3,000 ล้านบาท ที่ Navanakorn — ใช้ Continuous Flow Process ที่ไม่มี Manual Bottleneck → เป็นโรงงานเครื่องดื่มที่มี Capacity สูงที่สุดแห่งหนึ่งในไทย
+            <span class="en-note">Ichitan invested ฿3B in a fully automated Navanakorn plant using continuous-flow design — now one of Thailand's highest-capacity beverage facilities.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL 4: BIG C ══ -->
+<div class="case-panel" id="m4">
+  <div class="company-card">
+    <div class="company-head">
+      <div class="company-logo" style="background:var(--c4s)">🛒</div>
+      <div class="company-meta">
+        <div class="company-name" style="color:var(--c4)">Big C Supercenter</div>
+        <div class="company-en">big c supercenter pcl. — Thailand's major hypermarket chain, owned by TCC Group</div>
+        <div class="company-tags">
+          <span class="module-badge" style="background:var(--c4);color:#fff">MODULE 4</span>
+          <span class="ctag" style="background:var(--c4s);color:var(--c4)">Retail / FMCG</span>
+          <span class="ctag" style="background:var(--c4s);color:var(--c4)">SCM</span>
+          <span class="ctag" style="background:var(--c4s);color:var(--c4)">Inventory · Lean</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-sections">
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c4)"><span class="cs-label-icon">⚠️</span> Problem</div>
+        <div class="cs-content" style="border-color:var(--c4b)">
+          <div class="th">Big C มีสินค้า Fresh Food หมดก่อนเวลา (Stockout) ในช่วง Peak hours แต่กลับมี Overstock สินค้า Dry goods ในหมวด C-class ที่หมุนเวียนช้า ส่งผลให้พื้นที่จัดเก็บตึงและ Working Capital จม Supplier แต่ละรายก็ส่งแยกกัน ทำให้ต้นทุน Logistics สูง</div>
+          <div class="en">Big C faced fresh food stockouts during peak hours yet overstocked slow-moving C-class dry goods, tying up working capital and warehouse space. Each supplier delivered independently, inflating logistics costs.</div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c4)"><span class="cs-label-icon">🔧</span> Framework Used</div>
+        <div style="padding:2px 0 8px">
+          <span class="fw-tag" style="background:var(--c4s);color:var(--c4)">ABC Analysis</span>
+          <span class="fw-tag" style="background:var(--c4s);color:var(--c4)">EOQ + ROP</span>
+          <span class="fw-tag" style="background:var(--c4s);color:var(--c4)">Hub & Spoke / Cross Docking</span>
+          <span class="fw-tag" style="background:var(--c4s);color:var(--c4)">7 Wastes (Inventory + Motion)</span>
+          <span class="fw-tag" style="background:var(--c4s);color:var(--c4)">SCM Integration Stage 4</span>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c4)"><span class="cs-label-icon">❓</span> Exam Question</div>
+        <div class="cs-content" style="border-color:var(--c4b);background:#fff7ed">
+          <div class="th"><strong>วิเคราะห์ปัญหา Inventory และ Supply Chain ของ Big C โดยใช้ ABC Analysis และ EOQ พร้อมแนะนำการปรับโครงสร้าง SCM เพื่อลดต้นทุนและเพิ่ม Availability ของสินค้า</strong></div>
+          <div class="en">Analyse Big C's inventory and supply chain issues using ABC Analysis and EOQ. Recommend SCM restructuring to reduce costs and improve product availability.</div>
+        </div>
+      </div>
+
+      <button class="reveal-btn" style="background:var(--c4);color:#fff" onclick="toggleAnswer('a4')">
+        💡 ดูแนวทางตอบ
+      </button>
+      <div class="answer-box" id="a4">
+        <div class="answer-step" style="background:var(--c4s)">
+          <div class="step-num" style="background:var(--c4)">1</div>
+          <div class="step-text">
+            <strong>วิเคราะห์ด้วย ABC Analysis</strong>
+            A-class: Fresh Food (สร้าง 80% ของ Grocery revenue) → ต้องใช้ Fixed-Order Qty System, ROP ตาม peak demand pattern, Safety Stock สูง<br>
+            C-class: Slow-moving Dry goods → ลด Order frequency, ใช้ Fixed-Time Period System
+            <span class="en-note">A-class fresh items drive 80% of grocery revenue — need fixed-Q system with peak-adjusted ROP. C-class needs infrequent fixed-period ordering.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c4s)">
+          <div class="step-num" style="background:var(--c4)">2</div>
+          <div class="step-text">
+            <strong>Lean: ระบุ 7 Wastes</strong>
+            I (Inventory): C-class สินค้าค้างในคลัง = เงินจม<br>
+            M (Motion): พนักงาน Restock เดินหา Location ที่ไม่มีระบบ<br>
+            W (Waiting): Supplier ส่งของแยกกัน ต้องรอ Receiving หลายรอบ/วัน
+            <span class="en-note">Inventory waste in C-class, motion waste from unsystematic restocking, and waiting waste from fragmented supplier deliveries.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c4s)">
+          <div class="step-num" style="background:var(--c4)">3</div>
+          <div class="step-text">
+            <strong>แนะนำ: Hub & Spoke + Cross Docking</strong>
+            จัดตั้ง Regional DC → Supplier ทุกรายส่งที่ DC → Cross Dock → แยกส่งทุก Big C ใน Region เป็น 1 Truck/วัน<br>
+            ลด Inbound trips จาก 40+ ครั้ง/วัน เหลือ 1 ครั้ง/วัน/Supplier zone
+            <span class="en-note">Centralise to Regional DC with cross-docking — consolidate from 40+ daily inbound trips to 1 consolidated delivery per zone per day.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c4s)">
+          <div class="step-num" style="background:var(--c4)">4</div>
+          <div class="step-text">
+            <strong>SCM Integration Stage 4</strong>
+            Share POS Data กับ Supplier Real-time ผ่าน EDI/ERP → Supplier รู้ว่าของกำลังจะหมดก่อน → VMI สำหรับ A-class FMCG → ลด Stockout ของ Fresh Food
+            <span class="en-note">Share real-time POS data with key suppliers via EDI — move top FMCG suppliers to VMI model, eliminating fresh food stockouts.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c4s)">
+          <div class="step-num" style="background:var(--c4)">5</div>
+          <div class="step-text">
+            <strong>Outcome</strong>
+            Big C ลงทุนในระบบ DC อัตโนมัติและ ERP Integrated กับ Top Suppliers — ลดต้นทุน Logistics ได้ 15-20% และ Fresh Food Availability เพิ่มขึ้นในช่วง Weekend Peak
+            <span class="en-note">Automated DC + supplier-integrated ERP cut logistics costs 15–20% and restored fresh food availability during weekend peaks.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL 5: BDMS ══ -->
+<div class="case-panel" id="m5">
+  <div class="company-card">
+    <div class="company-head">
+      <div class="company-logo" style="background:var(--c5s)">🏥</div>
+      <div class="company-meta">
+        <div class="company-name" style="color:var(--c5)">Bangkok Dusit Medical Services</div>
+        <div class="company-en">BDMS pcl. — Bangkok Hospital Group, Thailand's largest private hospital network</div>
+        <div class="company-tags">
+          <span class="module-badge" style="background:var(--c5);color:#fff">MODULE 5</span>
+          <span class="ctag" style="background:var(--c5s);color:var(--c5)">Healthcare</span>
+          <span class="ctag" style="background:var(--c5s);color:var(--c5)">JCI Accredited</span>
+          <span class="ctag" style="background:var(--c5s);color:var(--c5)">TQM · Six Sigma</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-sections">
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c5)"><span class="cs-label-icon">⚠️</span> Problem</div>
+        <div class="cs-content" style="border-color:var(--c5b)">
+          <div class="th">Bangkok Hospital ต้องการขยายฐานลูกค้าต่างชาติ (Medical Tourism) แต่มาตรฐานการให้บริการระหว่างสาขายังไม่สม่ำเสมอ — บางสาขามีอัตรา Medication Error สูง, Patient Complaint ต่างกันมาก, และไม่มีระบบ Quality Monitoring ที่เป็นมาตรฐานเดียวกัน</div>
+          <div class="en">Expanding into medical tourism required consistent service standards across all branches. Problems: variable medication error rates, inconsistent patient complaints, and no unified quality monitoring system.</div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c5)"><span class="cs-label-icon">🔧</span> Framework Used</div>
+        <div style="padding:2px 0 8px">
+          <span class="fw-tag" style="background:var(--c5s);color:var(--c5)">Cost of Quality (4 Types)</span>
+          <span class="fw-tag" style="background:var(--c5s);color:var(--c5)">PDCA Cycle</span>
+          <span class="fw-tag" style="background:var(--c5s);color:var(--c5)">SQC: Pareto + Fishbone</span>
+          <span class="fw-tag" style="background:var(--c5s);color:var(--c5)">TQM 11 Principles</span>
+          <span class="fw-tag" style="background:var(--c5s);color:var(--c5)">Quality Level 4 (Strategic)</span>
+          <span class="fw-tag" style="background:var(--c5s);color:var(--c5)">HA / JCI Standards</span>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" style="color:var(--c5)"><span class="cs-label-icon">❓</span> Exam Question</div>
+        <div class="cs-content" style="border-color:var(--c5b);background:#fff5f5">
+          <div class="th"><strong>วิเคราะห์ Cost of Quality ที่เกิดขึ้นใน Bangkok Hospital และแนะนำแผน Quality Improvement โดยใช้ PDCA + SQC Tools เพื่อยกระดับสู่ Level 4 Strategic Quality Management</strong></div>
+          <div class="en">Analyse the costs of quality at Bangkok Hospital and propose a quality improvement plan using PDCA and SQC tools to reach Level 4 Strategic Quality Management.</div>
+        </div>
+      </div>
+
+      <button class="reveal-btn" style="background:var(--c5);color:#fff" onclick="toggleAnswer('a5')">
+        💡 ดูแนวทางตอบ
+      </button>
+      <div class="answer-box" id="a5">
+        <div class="answer-step" style="background:var(--c5s)">
+          <div class="step-num" style="background:var(--c5)">1</div>
+          <div class="step-text">
+            <strong>วิเคราะห์ Cost of Quality</strong>
+            External Failure (แย่ที่สุด): Malpractice claim, Patient ไม่กลับมา, Reputation เสียต่อ Medical Tourist<br>
+            Internal Failure: Medication Error ที่พบและแก้ก่อน Discharge<br>
+            Prevention ต่ำเกินไป: ไม่มี Clinical Protocol Training มาตรฐาน
+            <span class="en-note">External failures (lawsuits, lost medical tourists) most costly. Internal failures (pre-discharge med errors) next. Prevention (training, protocols) severely underinvested.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c5s)">
+          <div class="step-num" style="background:var(--c5)">2</div>
+          <div class="step-text">
+            <strong>SQC Tools: Pareto + Fishbone</strong>
+            Pareto: พบว่า 80% ของ Medication Error มาจาก 3 สาเหตุ — ① ชื่อยาคล้ายกัน (Look-alike), ② การ Handoff ข้าม Shift ไม่ครบ, ③ ไม่มี Double-check Protocol<br>
+            Fishbone 5M: Man (Training ไม่พอ), Method (ไม่มี SOP Double-check), Material (Label ยาไม่ชัด)
+            <span class="en-note">Pareto: 80% of errors from 3 causes — look-alike drug names, incomplete shift handoffs, absent double-check protocol. Fishbone confirms training, SOP, and labelling gaps.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c5s)">
+          <div class="step-num" style="background:var(--c5)">3</div>
+          <div class="step-text">
+            <strong>แผน PDCA</strong>
+            Plan: กำหนด Zero Medication Error เป็น KPI + ออกแบบ Double-check SOP<br>
+            Do: Pilot ที่ Ward ผู้ป่วยใน 2 Ward ก่อน<br>
+            Check: วัด Error rate ก่อน/หลัง + Patient Satisfaction Score<br>
+            Action: ถ้า Error ลดได้ → Standardize SOP ทุกสาขาใน BDMS Network
+            <span class="en-note">PDCA: set zero-error KPI → pilot double-check SOP in 2 wards → measure before/after → standardise across all 50+ BDMS hospitals if successful.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c5s)">
+          <div class="step-num" style="background:var(--c5)">4</div>
+          <div class="step-text">
+            <strong>ยกระดับสู่ Level 4 (TQM + Standards)</strong>
+            ① Top Management (CEO ระดับ Group) กำหนด Quality เป็น Strategic Priority<br>
+            ② ขอรับรอง JCI (Joint Commission International) — มาตรฐานโรงพยาบาลระดับโลก<br>
+            ③ ใช้ Quality เป็น Order Winner สำหรับ Medical Tourist — "JCI Accredited" เป็น Brand differentiator
+            <span class="en-note">CEO-level quality mandate → pursue JCI accreditation → use "JCI Certified" as the order winner for high-value medical tourists.</span>
+          </div>
+        </div>
+        <div class="answer-step" style="background:var(--c5s)">
+          <div class="step-num" style="background:var(--c5)">5</div>
+          <div class="step-text">
+            <strong>Outcome</strong>
+            BDMS / Bangkok Hospital ได้รับการรับรอง JCI และ HA — กลายเป็นโรงพยาบาลเอกชนที่ Medical Tourist จากตะวันออกกลาง ยุโรป และ CLMV เลือกมากที่สุดในไทย — Quality กลายเป็น Competitive Advantage จริง
+            <span class="en-note">BDMS achieved JCI and HA accreditation — now Thailand's top choice for Middle Eastern, European, and CLMV medical tourists. Quality became a measurable competitive advantage.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id, btn) {
+  document.querySelectorAll('.case-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.mod-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  const btn = box.previousElementSibling;
+  const isOpen = box.classList.contains('open');
+  box.classList.toggle('open');
+  btn.textContent = isOpen ? '💡 ดูแนวทางตอบ' : '🔼 ซ่อนคำตอบ';
+}
+</script>
+</body>
+</html>
