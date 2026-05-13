@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 — Process Analysis & Design</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Kanit:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+/* ── THEME: Indigo / Slate — Industrial, Technical, Precise ── */
+:root {
+  --indigo:      #3730a3;
+  --indigo2:     #4f46e5;
+  --indigo-soft: #eef2ff;
+  --blue:        #1d4ed8;
+  --blue-soft:   #dbeafe;
+  --cyan:        #0891b2;
+  --cyan-soft:   #cffafe;
+  --orange:      #ea580c;
+  --orange-soft: #ffedd5;
+  --red:         #dc2626;
+  --red-soft:    #fee2e2;
+  --green:       #16a34a;
+  --green-soft:  #dcfce7;
+  --amber:       #d97706;
+  --amber-soft:  #fef3c7;
+  --violet:      #7c3aed;
+  --violet-soft: #ede9fe;
+  --slate:       #475569;
+  --bg:          #f5f7ff;
+  --white:       #ffffff;
+  --border:      #e0e7ff;
+  --text:        #1e293b;
+  --shadow:      rgba(55,48,163,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Sarabun', sans-serif; font-size: 15px; line-height: 1.7; overflow-x: hidden; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(150deg, #1e1b4b 0%, var(--indigo) 50%, var(--indigo2) 100%);
+  padding: 48px 20px 64px; position: relative; overflow: hidden;
+}
+.hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 40px; background: var(--bg); clip-path: ellipse(58% 100% at 50% 100%); }
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.hero-inner { position: relative; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #a5b4fc; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; padding: 5px 14px; border-radius: 4px; letter-spacing: 1.5px; margin-bottom: 16px; }
+.hero h1 { font-family: 'Kanit', sans-serif; font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 8px; }
+.hero h1 em { font-style: normal; color: #a5b4fc; }
+.hero-sub { color: rgba(255,255,255,0.55); font-size: 13px; margin-bottom: 24px; }
+.hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 5px 14px; font-size: 11px; font-weight: 600; color: #a5b4fc; font-family: 'Kanit', sans-serif; }
+.hero-chip.hot { background: rgba(234,88,12,0.2); border-color: rgba(234,88,12,0.4); color: #fb923c; }
+
+/* ── STICKY PROGRESS ── */
+.sticky-progress { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 2px solid var(--border); padding: 10px 20px; box-shadow: 0 2px 12px var(--shadow); }
+.progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--slate); }
+.progress-top strong { color: var(--indigo); }
+.progress-bar { height: 6px; background: var(--indigo-soft); border-radius: 6px; overflow: hidden; margin-bottom: 9px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--indigo), var(--indigo2)); border-radius: 6px; width: 0%; transition: width 0.5s ease; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; border: 1.5px solid var(--border); color: var(--slate); background: var(--bg); cursor: pointer; transition: all 0.2s; font-family: 'Kanit', sans-serif; user-select: none; }
+.pill.done { background: var(--indigo); color: #a5b4fc; border-color: var(--indigo); }
+
+/* ── SECTION ── */
+.section { padding: 28px 20px; opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.section.visible { opacity: 1; transform: translateY(0); }
+.sec-label { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 2px; color: var(--indigo2); text-transform: uppercase; margin-bottom: 6px; }
+.sec-label::before { content: ''; display: block; width: 20px; height: 2px; background: var(--indigo2); border-radius: 2px; }
+.sec-title { font-family: 'Kanit', sans-serif; font-size: 20px; font-weight: 800; color: var(--indigo); line-height: 1.25; margin-bottom: 4px; }
+.sec-desc { font-size: 13px; color: var(--slate); margin-bottom: 20px; }
+
+/* ── CARD ── */
+.card { background: var(--white); border-radius: 14px; padding: 18px; box-shadow: 0 2px 16px var(--shadow); border: 1px solid var(--border); margin-bottom: 14px; }
+.card-title { font-family: 'Kanit', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.note { background: var(--amber-soft); border-left: 4px solid var(--amber); border-radius: 0 10px 10px 0; padding: 12px 14px; font-size: 12px; margin-top: 12px; }
+
+/* ── PROCESS MATRIX ── */
+.matrix-wrap { overflow-x: auto; }
+.process-matrix { border-collapse: separate; border-spacing: 4px; width: 100%; }
+.process-matrix th { font-family: 'Kanit', sans-serif; font-size: 11px; font-weight: 700; padding: 8px 10px; border-radius: 6px; text-align: center; }
+.process-matrix td { border-radius: 8px; padding: 10px 12px; font-size: 12px; vertical-align: middle; line-height: 1.4; }
+.pm-axis { background: var(--indigo); color: #a5b4fc; font-family: 'Kanit', sans-serif; font-weight: 700; font-size: 11px; text-align: center; }
+.pm-cell { cursor: pointer; transition: transform 0.15s; border: 2px solid; }
+.pm-cell:active { transform: scale(0.97); }
+.pm-nf { background: #f1f5f9; color: #94a3b8; font-size: 11px; text-align: center; border: 2px dashed #cbd5e1; }
+.process-detail { display: none; margin-top: 14px; border-radius: 12px; padding: 16px; animation: fadeIn 0.3s ease; }
+.process-detail.show { display: block; }
+.pd-name { font-family: 'Kanit', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.pd-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.pd-item { border-radius: 8px; padding: 10px; font-size: 12px; }
+.pd-item-label { font-family: 'Kanit', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+
+/* ── FLOWCHART ── */
+.flow-diagram { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; padding: 14px 0; }
+.flow-node { border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 700; text-align: center; border: 2px solid; min-width: 80px; }
+.flow-oval { border-radius: 30px; }
+.flow-diamond { transform: rotate(45deg); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+.flow-diamond span { transform: rotate(-45deg); display: block; }
+.flow-arrow { font-size: 18px; color: var(--slate); flex-shrink: 0; }
+.flow-down { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.flow-down-arrow { font-size: 16px; color: var(--slate); }
+
+/* ── MTO vs MTS ── */
+.mto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mto-card { border-radius: 12px; padding: 14px; border-top: 4px solid; }
+.mto-title { font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.mto-item { font-size: 12px; padding: 4px 0 4px 12px; position: relative; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.mto-item::before { content: '✓'; position: absolute; left: 0; font-size: 10px; font-weight: 700; }
+.mto-item:last-child { border-bottom: none; }
+
+/* ── LINE BALANCING INTERACTIVE ── */
+.lb-wrap { background: var(--white); border-radius: 14px; padding: 18px; box-shadow: 0 2px 16px var(--shadow); border: 1px solid var(--border); }
+.formula-box { background: var(--indigo); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.formula-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: #a5b4fc; letter-spacing: 1px; margin-bottom: 6px; }
+.formula-expr { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #fff; font-weight: 600; line-height: 1.6; }
+.formula-expr em { color: #fbbf24; font-style: normal; }
+.calc-input { background: var(--indigo-soft); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+.calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.calc-field { display: flex; flex-direction: column; gap: 4px; }
+.calc-field label { font-size: 11px; font-weight: 700; color: var(--indigo); font-family: 'Kanit', sans-serif; }
+.calc-field input { background: var(--white); border: 2px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 13px; font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--text); outline: none; transition: border-color 0.2s; width: 100%; }
+.calc-field input:focus { border-color: var(--indigo2); }
+.calc-btn { background: linear-gradient(135deg, var(--indigo), var(--indigo2)); color: #fff; border: none; border-radius: 10px; padding: 12px; font-family: 'Kanit', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; margin-bottom: 10px; transition: opacity 0.2s; }
+.calc-btn:active { opacity: 0.85; }
+.calc-result { background: var(--indigo); border-radius: 10px; padding: 14px; display: none; }
+.calc-result.show { display: block; animation: fadeIn 0.3s ease; }
+.result-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 13px; }
+.result-row:last-child { border-bottom: none; }
+.result-label { color: rgba(255,255,255,0.7); font-size: 12px; }
+.result-val { font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: #fbbf24; font-size: 15px; }
+
+/* ── STATION PIPELINE ── */
+.pipeline { display: flex; align-items: flex-end; justify-content: center; gap: 6px; padding: 16px 0; flex-wrap: wrap; }
+.station-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.station-box { width: 70px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 6px; font-size: 11px; font-weight: 700; text-align: center; border: 2.5px solid; cursor: pointer; transition: all 0.3s; }
+.station-box.bottleneck { animation: bpulse 1.5s infinite; }
+@keyframes bpulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(220,38,38,0.4);} 50%{ box-shadow: 0 0 0 8px rgba(220,38,38,0);} }
+.station-name { font-size: 13px; font-weight: 800; }
+.station-time { font-size: 18px; font-weight: 800; margin: 2px 0; }
+.station-unit { font-size: 9px; opacity: 0.7; }
+.station-label { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+.pipe-arrow { font-size: 20px; color: var(--border); margin-bottom: 16px; }
+.bn-note { text-align: center; background: var(--red-soft); border: 1px solid var(--red); border-radius: 10px; padding: 10px 14px; font-size: 12px; color: var(--red); margin-top: 8px; font-weight: 600; }
+
+/* ── EXAMPLE FAN TASK TABLE ── */
+.task-table { width: 100%; border-collapse: separate; border-spacing: 3px; font-size: 12px; }
+.task-table th { background: var(--indigo); color: #a5b4fc; font-family: 'Kanit', sans-serif; font-size: 11px; font-weight: 700; padding: 7px 10px; border-radius: 5px; text-align: center; }
+.task-table td { background: var(--white); border: 1px solid var(--border); padding: 7px 10px; border-radius: 5px; text-align: center; vertical-align: middle; }
+.task-table td:nth-child(3) { text-align: left; }
+.task-table tr.bottleneck-row td { background: var(--red-soft); font-weight: 700; color: var(--red); }
+.task-table .station-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-family: 'Kanit', sans-serif; }
+
+/* ── BREAK-EVEN ── */
+.be-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.be-option { border-radius: 10px; padding: 12px 16px; border: 2px solid; cursor: pointer; transition: all 0.2s; }
+.be-option:active { transform: scale(0.99); }
+.be-opt-head { display: flex; justify-content: space-between; align-items: center; }
+.be-opt-name { font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 700; }
+.be-opt-cost { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; }
+.be-detail { display: none; margin-top: 8px; font-size: 12px; line-height: 1.6; }
+.be-option.open .be-detail { display: block; }
+.be-chart { background: var(--indigo); border-radius: 12px; padding: 16px; }
+.be-chart-title { font-family: 'Kanit', sans-serif; font-size: 12px; font-weight: 700; color: #a5b4fc; margin-bottom: 12px; }
+.be-bar-wrap { display: flex; flex-direction: column; gap: 8px; }
+.be-bar-row { display: flex; align-items: center; gap: 10px; }
+.be-bar-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.7); width: 100px; flex-shrink: 0; }
+.be-bar-track { flex: 1; height: 28px; background: rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; }
+.be-bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; color: #fff; }
+
+/* ── CIM CARDS ── */
+.cim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cim-item { background: var(--white); border-radius: 10px; padding: 12px; border: 1px solid var(--border); box-shadow: 0 1px 6px var(--shadow); cursor: pointer; transition: all 0.2s; border-left: 4px solid; }
+.cim-item:active { transform: scale(0.98); }
+.cim-icon { font-size: 22px; margin-bottom: 6px; }
+.cim-name { font-family: 'Kanit', sans-serif; font-size: 12px; font-weight: 700; }
+.cim-abbr { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--slate); margin-top: 2px; }
+.cim-detail { display: none; font-size: 11px; color: var(--slate); margin-top: 6px; line-height: 1.5; }
+.cim-item.open .cim-detail { display: block; animation: fadeIn 0.25s; }
+
+/* ── LAYOUT TYPES ── */
+.layout-cards { display: flex; flex-direction: column; gap: 10px; }
+.layout-card { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--border); cursor: pointer; }
+.layout-head { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+.layout-title { font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 700; color: #fff; }
+.layout-sub { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+.layout-body { display: none; padding: 14px 16px; font-size: 12px; line-height: 1.7; background: var(--white); }
+.layout-card.open .layout-body { display: block; animation: fadeIn 0.3s; }
+.layout-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace; }
+
+/* ── MIND MAP ── */
+.mindmap { background: var(--white); border-radius: 14px; padding: 18px; box-shadow: 0 2px 16px var(--shadow); }
+.mm-center { background: linear-gradient(135deg, #1e1b4b, var(--indigo2)); border-radius: 12px; padding: 14px; text-align: center; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(55,48,163,0.3); }
+.mm-center-title { font-family: 'Kanit', sans-serif; font-size: 15px; font-weight: 800; color: #a5b4fc; }
+.mm-center-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 3px; }
+.mm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mm-branch { border-radius: 10px; padding: 12px; border-top: 3px solid; }
+.mm-branch-title { font-family: 'Kanit', sans-serif; font-size: 11px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.mm-item { font-size: 11px; padding: 2px 0 2px 12px; position: relative; }
+.mm-item::before { content: '›'; position: absolute; left: 0; color: var(--slate); }
+.mm-link { grid-column: span 2; background: linear-gradient(135deg, #1e1b4b, var(--indigo2)); border-radius: 10px; padding: 12px 14px; color: rgba(255,255,255,0.85); font-size: 12px; line-height: 1.7; }
+.mm-link strong { color: #a5b4fc; }
+
+/* ── CASE STUDY ── */
+.case-wrap { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px var(--shadow); }
+.case-head { background: linear-gradient(135deg, #1e1b4b, var(--indigo2)); padding: 16px 20px; color: var(--white); }
+.case-head h4 { font-family: 'Kanit', sans-serif; font-size: 15px; font-weight: 700; }
+.case-head p { font-size: 12px; opacity: 0.7; margin-top: 3px; }
+.case-body { padding: 16px 20px; }
+.case-scenario { background: var(--bg); border-left: 4px solid var(--indigo2); border-radius: 0 10px 10px 0; padding: 14px; font-size: 13px; line-height: 1.7; margin-bottom: 14px; }
+.case-q-title { font-family: 'Kanit', sans-serif; font-size: 12px; font-weight: 700; padding: 10px 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.case-a { display: none; padding: 12px 14px; font-size: 12px; line-height: 1.7; border-radius: 8px; margin-bottom: 8px; }
+.case-a.open { display: block; animation: fadeIn 0.3s ease; }
+
+/* ── QUIZ ── */
+.quiz-section { background: linear-gradient(160deg, #1e1b4b, var(--indigo)); padding: 28px 20px 40px; }
+.quiz-header { text-align: center; margin-bottom: 20px; }
+.quiz-header h3 { font-family: 'Kanit', sans-serif; font-size: 20px; font-weight: 800; color: var(--white); }
+.quiz-header p { color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 4px; }
+.q-card { background: var(--white); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+.q-num { display: inline-block; background: var(--indigo2); color: #fff; font-family: 'Kanit', sans-serif; font-size: 10px; font-weight: 800; padding: 2px 10px; border-radius: 20px; margin-bottom: 8px; }
+.q-text { font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 12px; line-height: 1.5; }
+.q-opts { display: flex; flex-direction: column; gap: 6px; }
+.q-opt { background: var(--bg); border: 2px solid var(--border); border-radius: 8px; padding: 9px 13px; font-size: 12px; cursor: pointer; transition: all 0.2s; text-align: left; font-family: 'Sarabun', sans-serif; }
+.q-opt:hover:not(:disabled) { border-color: var(--indigo2); background: var(--indigo-soft); }
+.q-opt.correct { background: var(--green-soft); border-color: var(--green); color: #14532d; font-weight: 700; }
+.q-opt.wrong { background: var(--red-soft); border-color: var(--red); color: #7f1d1d; }
+.q-opt.show-correct { background: var(--green-soft); border-color: var(--green); }
+.q-fb { display: none; margin-top: 8px; padding: 8px 12px; border-radius: 8px; font-size: 12px; }
+.q-fb.show { display: block; }
+.q-fb.ok { background: var(--green-soft); color: #14532d; }
+.q-fb.fail { background: var(--red-soft); color: #7f1d1d; }
+.score-box { display: none; background: linear-gradient(135deg, var(--indigo2), #7c3aed); border-radius: 14px; padding: 24px; text-align: center; }
+.score-box.show { display: block; animation: fadeIn 0.4s; }
+.score-box h3 { font-family: 'Kanit', sans-serif; font-size: 18px; font-weight: 800; color: #fff; }
+.score-big { font-family: 'Kanit', sans-serif; font-size: 52px; font-weight: 800; color: #fbbf24; line-height: 1; margin: 8px 0; }
+.score-msg { font-size: 13px; color: rgba(255,255,255,0.85); }
+.retry-btn { background: #fff; color: var(--indigo); border: none; font-family: 'Kanit', sans-serif; font-size: 13px; font-weight: 700; padding: 10px 28px; border-radius: 20px; cursor: pointer; margin-top: 14px; }
+
+.bg-white { background: var(--white); }
+.bg-soft { background: var(--bg); }
+.divider { height: 2px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0 20px; }
+
+@keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">BA6500 · NIDA EMBA · MODULE 3</div>
+    <h1>Process Analysis<br>& <em>Design</em></h1>
+    <div class="hero-sub">ผศ.ดร.ชัยรัช หิรัญยะวะสิต · Interactive Study Guide</div>
+    <div class="hero-chips">
+      <div class="hero-chip">Process Types</div>
+      <div class="hero-chip">Flowchart</div>
+      <div class="hero-chip hot">⚡ Line Balancing + คำนวณ</div>
+      <div class="hero-chip hot">⚡ Break-Even Analysis</div>
+      <div class="hero-chip">Layouts</div>
+      <div class="hero-chip">CIM Technology</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="sticky-progress">
+  <div class="progress-top"><strong>MODULE 3 — Progress</strong><span id="pct">0%</span></div>
+  <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
+  <div class="pills">
+    <div class="pill" onclick="tick(this,'t1')">Process Types</div>
+    <div class="pill" onclick="tick(this,'t2')">MTO vs MTS</div>
+    <div class="pill" onclick="tick(this,'t3')">Flowchart</div>
+    <div class="pill" onclick="tick(this,'t4')">Line Balancing</div>
+    <div class="pill" onclick="tick(this,'t5')">สูตร + คำนวณ</div>
+    <div class="pill" onclick="tick(this,'t6')">Break-Even</div>
+    <div class="pill" onclick="tick(this,'t7')">Layouts</div>
+    <div class="pill" onclick="tick(this,'t8')">CIM Tech</div>
+    <div class="pill" onclick="tick(this,'t9')">Case Study</div>
+    <div class="pill" onclick="tick(this,'t10')">Quiz ✓</div>
+  </div>
+</div>
+
+<!-- ══ S1: WHAT IS PROCESS + TYPES ══ -->
+<div class="section bg-white" id="s1">
+  <div class="sec-label">01 — Foundation</div>
+  <div class="sec-title">What is a Process? + 4 Types</div>
+  <div class="sec-desc">Process = ส่วนหนึ่งขององค์กรที่รับ Input แปลงสภาพ และส่ง Output ที่มีมูลค่าสูงขึ้น — มี 4 ประเภทตาม Volume/Standardization</div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--indigo)">📦 Input → Process → Output</div>
+    <div style="display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;padding:8px 0">
+      <div style="background:var(--indigo-soft);border:2px solid var(--indigo2);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--indigo);text-align:center">
+        INPUTS<br><span style="font-weight:400;font-size:10px">วัตถุดิบ แรงงาน<br>เครื่องจักร ข้อมูล</span>
+      </div>
+      <div style="font-size:22px;color:var(--indigo2)">→</div>
+      <div style="background:var(--indigo);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700;color:#a5b4fc;text-align:center">
+        TRANSFORMATION<br><span style="font-weight:400;font-size:10px;color:rgba(255,255,255,0.6)">Process ที่สร้างคุณค่า</span>
+      </div>
+      <div style="font-size:22px;color:var(--indigo2)">→</div>
+      <div style="background:var(--green-soft);border:2px solid var(--green);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--green);text-align:center">
+        OUTPUTS<br><span style="font-weight:400;font-size:10px">สินค้า/บริการ<br>มูลค่าสูงขึ้น</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--indigo)">🏭 Product-Process Matrix — 4 Process Types</div>
+    <div class="matrix-wrap">
+      <table class="process-matrix">
+        <tr>
+          <th class="pm-axis" style="background:transparent"></th>
+          <th class="pm-axis" colspan="2">Volume ต่ำ / หลาย Product</th>
+          <th class="pm-axis" colspan="2">Volume สูง / Standardize</th>
+        </tr>
+        <tr>
+          <td class="pm-axis" style="writing-mode:vertical-lr;text-orientation:mixed;padding:10px 6px;font-size:10px">Process Structure →</td>
+          <td class="pm-cell" style="background:#eff6ff;border-color:#3b82f6;color:#1e40af" onclick="showProcess('job')">
+            <strong>I. JOB SHOP</strong><br>
+            <span style="font-size:10px">Flexibility ↑ Unit Cost ↑</span><br>
+            <span style="font-size:10px;color:var(--slate)">Heavy Equipment, Coffee Shop</span>
+          </td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+        </tr>
+        <tr>
+          <td class="pm-axis" style="writing-mode:vertical-lr;text-orientation:mixed;padding:10px 6px;font-size:10px">↑ More Flexibility</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-cell" style="background:#f5f3ff;border-color:#7c3aed;color:#5b21b6" onclick="showProcess('batch')">
+            <strong>II. BATCH</strong><br>
+            <span style="font-size:10px">Flexibility ↑ Cost กลาง</span><br>
+            <span style="font-size:10px;color:var(--slate)">Commercial Printer, French Restaurant</span>
+          </td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+        </tr>
+        <tr>
+          <td class="pm-axis" style="writing-mode:vertical-lr;text-orientation:mixed;padding:10px 6px;font-size:10px">↓ More Standardize</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-cell" style="background:#fdf4ff;border-color:#c026d3;color:#86198f" onclick="showProcess('assembly')">
+            <strong>III. ASSEMBLY LINE</strong><br>
+            <span style="font-size:10px">Flexibility ↓ Cost ↓</span><br>
+            <span style="font-size:10px;color:var(--slate)">Automobile Assembly, Fast Food</span>
+          </td>
+          <td class="pm-nf">Not<br>Feasible</td>
+        </tr>
+        <tr>
+          <td class="pm-axis" style="writing-mode:vertical-lr;text-orientation:mixed;padding:10px 6px;font-size:10px">Unit Cost ↓</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-nf">Not<br>Feasible</td>
+          <td class="pm-cell" style="background:#fff7ed;border-color:#ea580c;color:#9a3412" onclick="showProcess('continuous')">
+            <strong>IV. CONTINUOUS FLOW</strong><br>
+            <span style="font-size:10px">Flexibility ↓↓ Unit Cost ↓↓</span><br>
+            <span style="font-size:10px;color:var(--slate)">Oil Refinery, Chemical Plant</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Process detail panels -->
+    <div class="process-detail" id="pd-job" style="background:#eff6ff">
+      <div class="pd-name" style="color:#1e40af">🔵 I. Job Shop</div>
+      <div class="pd-row">
+        <div class="pd-item" style="background:var(--white);border:1px solid #3b82f6">
+          <div class="pd-item-label" style="color:#1e40af">VOLUME</div>
+          ต่ำมาก — มักเป็น One-of-a-kind
+        </div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #3b82f6">
+          <div class="pd-item-label" style="color:#1e40af">FLEXIBILITY</div>
+          สูงมาก — ทำได้หลาย Product
+        </div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #3b82f6">
+          <div class="pd-item-label" style="color:#1e40af">UNIT COST</div>
+          สูงมาก — ใช้ Skill มาก Custom มาก
+        </div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #3b82f6">
+          <div class="pd-item-label" style="color:#1e40af">ตัวอย่าง</div>
+          งานซ่อมเครื่องจักรหนัก, ร้านกาแฟ Specialty, Custom Furniture
+        </div>
+      </div>
+    </div>
+    <div class="process-detail" id="pd-batch" style="background:#f5f3ff">
+      <div class="pd-name" style="color:#5b21b6">🟣 II. Batch</div>
+      <div class="pd-row">
+        <div class="pd-item" style="background:var(--white);border:1px solid #7c3aed"><div class="pd-item-label" style="color:#5b21b6">VOLUME</div>กลาง — ผลิตเป็น Lot/Batch</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #7c3aed"><div class="pd-item-label" style="color:#5b21b6">FLEXIBILITY</div>กลาง — เปลี่ยน Product ได้แต่ต้อง Setup ใหม่</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #7c3aed"><div class="pd-item-label" style="color:#5b21b6">UNIT COST</div>กลาง — ลดลงตาม Batch size</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #7c3aed"><div class="pd-item-label" style="color:#5b21b6">ตัวอย่าง</div>Commercial Printer, ร้านอาหาร French, Bakery</div>
+      </div>
+    </div>
+    <div class="process-detail" id="pd-assembly" style="background:#fdf4ff">
+      <div class="pd-name" style="color:#86198f">🟡 III. Assembly Line</div>
+      <div class="pd-row">
+        <div class="pd-item" style="background:var(--white);border:1px solid #c026d3"><div class="pd-item-label" style="color:#86198f">VOLUME</div>สูง — ผลิตปริมาณมาก Standardized</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #c026d3"><div class="pd-item-label" style="color:#86198f">FLEXIBILITY</div>ต่ำ — เปลี่ยน Product ยาก Line ต้อง Retool</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #c026d3"><div class="pd-item-label" style="color:#86198f">UNIT COST</div>ต่ำ — Economy of Scale</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #c026d3"><div class="pd-item-label" style="color:#86198f">ตัวอย่าง</div>โรงงานรถยนต์ Toyota, McDonald's, iPhone Assembly</div>
+      </div>
+    </div>
+    <div class="process-detail" id="pd-continuous" style="background:#fff7ed">
+      <div class="pd-name" style="color:#9a3412">🟠 IV. Continuous Flow</div>
+      <div class="pd-row">
+        <div class="pd-item" style="background:var(--white);border:1px solid #ea580c"><div class="pd-item-label" style="color:#9a3412">VOLUME</div>สูงมาก — ไม่หยุดเลย 24/7</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #ea580c"><div class="pd-item-label" style="color:#9a3412">FLEXIBILITY</div>ต่ำมาก — ผลิต Product เดียว</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #ea580c"><div class="pd-item-label" style="color:#9a3412">UNIT COST</div>ต่ำที่สุด — Automated ทั้งหมด</div>
+        <div class="pd-item" style="background:var(--white);border:1px solid #ea580c"><div class="pd-item-label" style="color:#9a3412">ตัวอย่าง</div>Oil Refinery, Chemical Plant, Power Plant</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S2: MTO vs MTS ══ -->
+<div class="section bg-soft" id="s2">
+  <div class="sec-label">02 — Strategy</div>
+  <div class="sec-title">Make-to-Order vs Make-to-Stock</div>
+  <div class="sec-desc">สองแนวทางหลักในการวางแผนการผลิต — เลือกตามลักษณะ Demand และ Lead Time ที่ยอมรับได้</div>
+
+  <div class="card">
+    <div class="mto-grid">
+      <div class="mto-card" style="background:#eff6ff;border-color:var(--blue)">
+        <div class="mto-title" style="color:var(--blue)">📋 Make-to-Order (MTO)</div>
+        <div class="mto-item" style="color:var(--text)">ผลิตเมื่อได้รับ Order จริงเท่านั้น</div>
+        <div class="mto-item" style="color:var(--text)">WIP และ Finished Goods ต่ำมาก</div>
+        <div class="mto-item" style="color:var(--text)">Customization สูง ตรงใจลูกค้า</div>
+        <div class="mto-item" style="color:var(--text)">Lead Time ยาวกว่า MTS</div>
+        <div style="margin-top:10px;background:var(--blue-soft);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--blue)">
+          ตัวอย่าง: Wendy's (ทำใหม่ตามสั่ง), Custom furniture, Engineering equipment
+        </div>
+      </div>
+      <div class="mto-card" style="background:#fdf4ff;border-color:var(--violet)">
+        <div class="mto-title" style="color:var(--violet)">📦 Make-to-Stock (MTS)</div>
+        <div class="mto-item" style="color:var(--text)">ผลิตล่วงหน้าตาม Forecast</div>
+        <div class="mto-item" style="color:var(--text)">เก็บ Stock ไว้รอลูกค้า</div>
+        <div class="mto-item" style="color:var(--text)">Lead Time สั้น ส่งได้ทันที</div>
+        <div class="mto-item" style="color:var(--text)">Risk: Stock เกิน/ขาด</div>
+        <div style="margin-top:10px;background:var(--violet-soft);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--violet)">
+          ตัวอย่าง: McDonald's เก่า (ทำไว้รอ), Supermarket, Electronics
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong style="color:var(--amber)">🍔 Case จากบทเรียน — Fast Food Comparison:</strong><br>
+      <strong>Wendy's:</strong> MTO — ทำ Burger ใหม่ทุก Order ช้ากว่า แต่สด<br>
+      <strong>McDonald's เก่า:</strong> MTS — ทำไว้รอ เร็ว แต่อาจเย็น ทิ้งเปล่า<br>
+      <strong>McDonald's ใหม่:</strong> Hybrid — Cook ล่วงหน้า แต่ Assemble ตามสั่ง<br>
+      <strong>Burger King:</strong> MTO (Custom) + MTS (Standard) — ยืดหยุ่นที่สุด
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S3: FLOWCHART ══ -->
+<div class="section bg-white" id="s3">
+  <div class="sec-label">03 — Tool</div>
+  <div class="sec-title">Process Flowchart Symbols</div>
+  <div class="sec-desc">สัญลักษณ์มาตรฐานที่ใช้วาด Process Flow — ต้องจำให้ได้ทุกตัว</div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--indigo)">🔣 สัญลักษณ์ 4 ตัวหลัก</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:center;background:var(--green-soft);border-radius:10px;padding:12px;border-left:4px solid var(--green)">
+        <div style="width:60px;height:30px;background:var(--green);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">⬭ Oval</div>
+        <div><div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px">Tasks or Operations</div><div style="font-size:11px;color:var(--slate)">กิจกรรมหรืองานที่ทำ — Activity, Process Step</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;background:var(--amber-soft);border-radius:10px;padding:12px;border-left:4px solid var(--amber)">
+        <div style="width:60px;height:30px;background:var(--amber);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">▭ Rect</div>
+        <div><div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px">Storage / Queue</div><div style="font-size:11px;color:var(--slate)">พื้นที่จัดเก็บหรือแถวรอ — Inventory, Waiting line</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;background:var(--red-soft);border-radius:10px;padding:12px;border-left:4px solid var(--red)">
+        <div style="width:60px;height:40px;background:var(--red);transform:rotate(45deg);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;border-radius:3px"><span style="transform:rotate(-45deg)">◇</span></div>
+        <div style="margin-left:8px"><div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px">Decision Points</div><div style="font-size:11px;color:var(--slate)">จุดตัดสินใจ Yes/No — Branch ซ้าย/ขวา</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;background:var(--indigo-soft);border-radius:10px;padding:12px;border-left:4px solid var(--indigo2)">
+        <div style="width:60px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--indigo2);flex-shrink:0">→</div>
+        <div><div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px">Flow of Materials / Customers</div><div style="font-size:11px;color:var(--slate)">ทิศทางการไหลของงาน วัตถุดิบ หรือลูกค้า</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S4: LINE BALANCING — THEORY + INTERACTIVE CALCULATOR ══ -->
+<div class="section bg-soft" id="s4">
+  <div class="sec-label">04 — Core Concept ⚡ สำคัญมาก</div>
+  <div class="sec-title">Assembly Line Balancing</div>
+  <div class="sec-desc">การแบ่งงานใน Assembly Line ให้สมดุล — เป้าหมายคือ Maximize Efficiency และ Throughput โดยไม่มี Bottleneck</div>
+
+  <!-- Formulas -->
+  <div class="lb-wrap">
+    <div class="card-title" style="color:var(--indigo)">📐 สูตรที่ต้องจำ (Closed Book)</div>
+    <div class="formula-box">
+      <div class="formula-title">① MAX THROUGHPUT (ผลผลิตสูงสุด/วัน)</div>
+      <div class="formula-expr">Max Production = <em>Production Time per Day</em> ÷ <em>Bottleneck Task Time</em></div>
+    </div>
+    <div class="formula-box" style="margin-bottom:12px">
+      <div class="formula-title">② REQUIRED CYCLE TIME (เวลาต่อชิ้นที่ต้องการ)</div>
+      <div class="formula-expr">C = <em>Production Time per Period</em> ÷ <em>Required Output per Period</em></div>
+    </div>
+    <div class="formula-box" style="margin-bottom:12px">
+      <div class="formula-title">③ THEORETICAL MIN WORKSTATIONS (สถานีขั้นต่ำทางทฤษฎี)</div>
+      <div class="formula-expr">Nt = <em>Sum of All Task Times (T)</em> ÷ <em>Cycle Time (C)</em>   → ปัดขึ้น</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-title">④ LINE EFFICIENCY (ประสิทธิภาพสาย)</div>
+      <div class="formula-expr">Efficiency = <em>T</em> ÷ (<em>Na</em> × <em>C</em>) × 100%</div>
+    </div>
+    <div class="note" style="margin-top:12px">
+      <strong>T</strong> = ผลรวมเวลาทุก Task &nbsp;|&nbsp; <strong>C</strong> = Cycle Time &nbsp;|&nbsp; <strong>Na</strong> = จำนวน Workstation จริง &nbsp;|&nbsp; <strong>Nt</strong> = ทฤษฎีขั้นต่ำ
+    </div>
+  </div>
+</div>
+
+<!-- ══ S5: INTERACTIVE CALCULATOR ══ -->
+<div class="section bg-white" id="s5">
+  <div class="sec-label">05 — คำนวณจริง ⚡</div>
+  <div class="sec-title">ตัวอย่างจากบทเรียน: Electric Fan Assembly</div>
+  <div class="sec-desc">8 Tasks · Production 100 units/day · 420 mins/day — ดูตารางแล้วลองคำนวณเอง หรือกดปุ่มเพื่อดูคำตอบ</div>
+
+  <!-- Task Table -->
+  <div class="card">
+    <div class="card-title" style="color:var(--indigo)">📋 Task Table — Electric Fan Assembly</div>
+    <table class="task-table">
+      <tr>
+        <th>Task</th><th>Time (min)</th><th>Description</th><th>Predecessors</th><th>Following Tasks</th><th>Workstation</th>
+      </tr>
+      <tr><td>A</td><td>2.00</td><td style="text-align:left">Assemble frame</td><td>None</td><td>6</td><td><span class="station-badge" style="background:#dbeafe;color:#1e40af">WS 1</span></td></tr>
+      <tr><td>B</td><td>1.00</td><td style="text-align:left">Mount switch</td><td>A</td><td>2</td><td><span class="station-badge" style="background:#dbeafe;color:#1e40af">WS 1</span></td></tr>
+      <tr class="bottleneck-row"><td>C</td><td><strong>3.25</strong></td><td style="text-align:left">Assemble motor housing ⚠️ BOTTLENECK</td><td>None</td><td>4</td><td><span class="station-badge" style="background:#fee2e2;color:#dc2626">WS 2</span></td></tr>
+      <tr><td>D</td><td>1.20</td><td style="text-align:left">Mount motor housing in frame</td><td>A, C</td><td>3</td><td><span class="station-badge" style="background:#dcfce7;color:#16a34a">WS 3</span></td></tr>
+      <tr><td>E</td><td>0.50</td><td style="text-align:left">Attach blade</td><td>D</td><td>2</td><td><span class="station-badge" style="background:#dcfce7;color:#16a34a">WS 3</span></td></tr>
+      <tr><td>F</td><td>1.00</td><td style="text-align:left">Assemble and attach safety grill</td><td>E</td><td>1</td><td><span class="station-badge" style="background:#dcfce7;color:#16a34a">WS 3</span></td></tr>
+      <tr><td>G</td><td>1.00</td><td style="text-align:left">Attach cord</td><td>B</td><td>1</td><td><span class="station-badge" style="background:#dbeafe;color:#1e40af">WS 1</span></td></tr>
+      <tr><td>H</td><td>1.40</td><td style="text-align:left">Test</td><td>F, G</td><td>0</td><td><span class="station-badge" style="background:#dcfce7;color:#16a34a">WS 3</span></td></tr>
+      <tr style="background:var(--indigo-soft)">
+        <td><strong>Σ</strong></td><td><strong>11.35</strong></td><td colspan="4" style="text-align:left;font-weight:700;color:var(--indigo)">Total Task Time = 11.35 min/unit</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Calculator -->
+  <div class="lb-wrap">
+    <div class="card-title" style="color:var(--indigo)">🧮 Calculator — ลองคำนวณเอง</div>
+    <div class="calc-input">
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Production Time/Day (min)</label>
+          <input type="number" id="ci_prodtime" value="420" placeholder="420">
+        </div>
+        <div class="calc-field">
+          <label>Required Output/Day (units)</label>
+          <input type="number" id="ci_output" value="100" placeholder="100">
+        </div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Sum of Task Times T (min)</label>
+          <input type="number" id="ci_T" value="11.35" placeholder="11.35" step="0.01">
+        </div>
+        <div class="calc-field">
+          <label>Actual Workstations Na</label>
+          <input type="number" id="ci_Na" value="3" placeholder="3">
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calculate()">⚡ คำนวณ</button>
+    <div class="calc-result" id="calc-result">
+      <div class="result-row"><span class="result-label">① Max Throughput</span><span class="result-val" id="r1">—</span></div>
+      <div class="result-row"><span class="result-label">② Required Cycle Time (C)</span><span class="result-val" id="r2">—</span></div>
+      <div class="result-row"><span class="result-label">③ Min Workstations (Nt)</span><span class="result-val" id="r3">—</span></div>
+      <div class="result-row"><span class="result-label">④ Line Efficiency</span><span class="result-val" id="r4">—</span></div>
+      <div class="result-row"><span class="result-label">⑤ Bottleneck Task Time</span><span class="result-val" id="r5">—</span></div>
+    </div>
+  </div>
+
+  <!-- Visual Station Pipeline -->
+  <div class="card" style="margin-top:14px">
+    <div class="card-title" style="color:var(--indigo)">🏭 Visual — 3 Workstations (ตัวอย่าง Fan Assembly)</div>
+    <div class="pipeline">
+      <div class="station-wrap">
+        <div class="station-box" style="background:#eff6ff;border-color:#3b82f6;color:#1e40af">
+          <div class="station-name">WS 1</div>
+          <div class="station-time">4.0</div>
+          <div class="station-unit">min (A+B+G)</div>
+        </div>
+        <div class="station-label" style="background:#dbeafe;color:#1e40af">ปกติ</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="station-wrap">
+        <div class="station-box bottleneck" style="background:#fee2e2;border-color:#dc2626;color:#dc2626">
+          <div class="station-name">WS 2</div>
+          <div class="station-time">3.25</div>
+          <div class="station-unit">min (C)</div>
+        </div>
+        <div class="station-label" style="background:#fee2e2;color:#dc2626">⚠️ BOTTLENECK</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="station-wrap">
+        <div class="station-box" style="background:#dcfce7;border-color:#16a34a;color:#16a34a">
+          <div class="station-name">WS 3</div>
+          <div class="station-time">4.1</div>
+          <div class="station-unit">min (D+E+F+H)</div>
+        </div>
+        <div class="station-label" style="background:#dcfce7;color:#16a34a">ปกติ</div>
+      </div>
+    </div>
+    <div class="bn-note">WS 2 คือ Bottleneck (3.25 min/unit) → Max Production = 420 ÷ 3.25 = <strong>129 units/day</strong></div>
+    <div style="margin-top:8px;background:var(--indigo-soft);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--indigo)">
+      <strong>Loading Rules (กฎการแบ่งงาน):</strong><br>
+      Primary: งานที่มี Following Tasks เยอะที่สุดก่อน (C มี 4, A มี 6 — เริ่มจาก A)<br>
+      Secondary (Tie-break): งานที่ใช้เวลานานที่สุด
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S6: BREAK-EVEN ANALYSIS ══ -->
+<div class="section bg-soft" id="s6">
+  <div class="sec-label">06 — Tool ⚡ ออกสอบแน่นอน</div>
+  <div class="sec-title">Break-Even Analysis</div>
+  <div class="sec-desc">เปรียบเทียบต้นทุนของแต่ละ Process Option เพื่อหาว่า Demand ระดับไหนควรใช้ Option ใด</div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--indigo)">📊 ตัวอย่างจากบทเรียน — ซื้อหรือผลิตเอง?</div>
+    <div class="case-scenario" style="margin-bottom:14px">
+      ผู้ผลิตต้องการ Machine Part มี 3 ทางเลือก:<br>
+      <strong>Option 1:</strong> ซื้อ $200/unit (ไม่มีต้นทุนคงที่)<br>
+      <strong>Option 2:</strong> ผลิตด้วย Semi-auto lathe $75/unit + Fixed $80,000<br>
+      <strong>Option 3:</strong> ผลิตด้วย Machine center $15/unit + Fixed $200,000<br>
+      ราคาขาย $300/unit · Demand = 1,000 units
+    </div>
+
+    <div class="be-options">
+      <div class="be-option" style="background:#eff6ff;border-color:#3b82f6" onclick="this.classList.toggle('open')">
+        <div class="be-opt-head">
+          <div class="be-opt-name" style="color:#1e40af">Option 1: Buy at $200/unit</div>
+          <div class="be-opt-cost" style="color:#3b82f6">Total Cost @ 1,000 = $200,000</div>
+        </div>
+        <div class="be-detail">
+          <strong>Total Cost = $200 × Q</strong><br>
+          @ 1,000 units = $200,000<br>
+          ไม่มี Fixed Cost — เหมาะสำหรับ Volume ต่ำ<br>
+          <span style="color:var(--red)">❌ ที่ 1,000 units แพงกว่า Option 2 และ 3</span>
+        </div>
+      </div>
+      <div class="be-option" style="background:#fdf4ff;border-color:#7c3aed" onclick="this.classList.toggle('open')">
+        <div class="be-opt-head">
+          <div class="be-opt-name" style="color:#5b21b6">Option 2: Semi-auto lathe</div>
+          <div class="be-opt-cost" style="color:#7c3aed">$80,000 Fixed + $75/unit</div>
+        </div>
+        <div class="be-detail">
+          <strong>Total Cost = $80,000 + $75 × Q</strong><br>
+          @ 1,000 units = $80,000 + $75,000 = <strong>$155,000</strong><br>
+          Break-even กับ Option 1 ที่: 80,000 = (200-75)×Q → Q = <strong>640 units</strong><br>
+          <span style="color:var(--green)">✅ ถูกกว่า Option 1 เมื่อ Q > 640 units</span>
+        </div>
+      </div>
+      <div class="be-option" style="background:#fff7ed;border-color:#ea580c" onclick="this.classList.toggle('open')">
+        <div class="be-opt-head">
+          <div class="be-opt-name" style="color:#9a3412">Option 3: Machine center</div>
+          <div class="be-opt-cost" style="color:#ea580c">$200,000 Fixed + $15/unit</div>
+        </div>
+        <div class="be-detail">
+          <strong>Total Cost = $200,000 + $15 × Q</strong><br>
+          @ 1,000 units = $200,000 + $15,000 = <strong>$215,000</strong><br>
+          Break-even กับ Option 2 ที่: 80,000 + 75Q = 200,000 + 15Q → Q = <strong>2,000 units</strong><br>
+          <span style="color:var(--amber)">⚠️ คุ้มเมื่อ Q > 2,000 units — ที่ 1,000 units แพงที่สุด!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="be-chart">
+      <div class="be-chart-title">📊 Total Cost @ Demand 1,000 units</div>
+      <div class="be-bar-wrap">
+        <div class="be-bar-row">
+          <div class="be-bar-label">Buy ($200)</div>
+          <div class="be-bar-track"><div class="be-bar-fill" style="width:93%;background:#3b82f6">$200,000</div></div>
+        </div>
+        <div class="be-bar-row">
+          <div class="be-bar-label">Semi-auto ($75)</div>
+          <div class="be-bar-track"><div class="be-bar-fill" style="width:72%;background:#16a34a">$155,000 ✅</div></div>
+        </div>
+        <div class="be-bar-row">
+          <div class="be-bar-label">Machine center</div>
+          <div class="be-bar-track"><div class="be-bar-fill" style="width:100%;background:#dc2626">$215,000 ❌</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong style="color:var(--amber)">💡 สรุป Decision Rule:</strong><br>
+      Q &lt; 640 → Buy (Option 1) &nbsp;|&nbsp; 640 &lt; Q &lt; 2,000 → Semi-auto (Option 2) &nbsp;|&nbsp; Q &gt; 2,000 → Machine center (Option 3)<br>
+      ที่ Q = 1,000 → <strong>Option 2 ถูกที่สุด ($155,000)</strong>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S7: LAYOUTS ══ -->
+<div class="section bg-white" id="s7">
+  <div class="sec-label">07 — Facility Design</div>
+  <div class="sec-title">Process Layouts</div>
+  <div class="sec-desc">การจัดวาง Workstation และเครื่องจักร — แตะแต่ละ Layout เพื่อดูรายละเอียดและตัวอย่าง</div>
+
+  <div class="layout-cards">
+    <div class="layout-card" onclick="this.classList.toggle('open')">
+      <div class="layout-head" style="background:#1e40af">
+        <div><div class="layout-title">🏗️ Job Shop Layout (Process Layout)</div><div class="layout-sub">จัดตามประเภทเครื่องจักร — เครื่องเดียวกันอยู่ด้วยกัน</div></div>
+        <span style="color:rgba(255,255,255,0.7);font-size:18px">▼</span>
+      </div>
+      <div class="layout-body">
+        <div class="layout-tag" style="background:#dbeafe;color:#1e40af">JOB SHOP / BATCH</div>
+        <strong>ลักษณะ:</strong> จัดกลุ่มเครื่องจักรตามประเภท เช่น Drilling ทั้งหมดอยู่ห้องเดียว Grinding อยู่ห้องเดียว<br><br>
+        <strong>ข้อดี:</strong> Flexible — ชิ้นงานเดินทางผ่านได้หลายเส้นทาง<br>
+        <strong>ข้อเสีย:</strong> ชิ้นงานเดินทางไกล ยาก Schedule<br><br>
+        <strong>เหมาะกับ:</strong> Custom products, หลาย Product family
+      </div>
+    </div>
+    <div class="layout-card" onclick="this.classList.toggle('open')">
+      <div class="layout-head" style="background:#5b21b6">
+        <div><div class="layout-title">🏭 Cellular Layout (Group Technology)</div><div class="layout-sub">จัดเครื่องจักรเป็น Cell ตาม Product Family</div></div>
+        <span style="color:rgba(255,255,255,0.7);font-size:18px">▼</span>
+      </div>
+      <div class="layout-body">
+        <div class="layout-tag" style="background:#ede9fe;color:#5b21b6">CELLULAR / GROUP TECH</div>
+        <strong>ลักษณะ:</strong> รวมเครื่องจักรต่างประเภทไว้ใน Cell เดียว เพื่อผลิต Product Family เดียวกัน<br><br>
+        <strong>ข้อดี:</strong> ลด Travel distance, ลด WIP, Setup เร็วขึ้น<br>
+        <strong>ข้อเสีย:</strong> ต้องลงทุน Rearrange ใหม่<br><br>
+        <strong>วิธีสร้าง:</strong> ใช้ Part-Routing Matrix วิเคราะห์ว่า Parts ไหนใช้ Machines ไหน → จัด Groups<br>
+        <strong>เหมาะกับ:</strong> Lean Manufacturing, Batch ที่ต้องการ Flexibility
+      </div>
+    </div>
+    <div class="layout-card" onclick="this.classList.toggle('open')">
+      <div class="layout-head" style="background:#9a3412">
+        <div><div class="layout-title">🔄 Assembly Line / Flow Layout</div><div class="layout-sub">จัดเป็นสาย ตามลำดับขั้นตอนการผลิต</div></div>
+        <span style="color:rgba(255,255,255,0.7);font-size:18px">▼</span>
+      </div>
+      <div class="layout-body">
+        <div class="layout-tag" style="background:#ffedd5;color:#9a3412">ASSEMBLY LINE</div>
+        <strong>ลักษณะ:</strong> ชิ้นงานไหลตามลำดับ Station 1 → 2 → 3 → … จนสำเร็จ<br><br>
+        <strong>ข้อดี:</strong> ประสิทธิภาพสูง Unit Cost ต่ำ<br>
+        <strong>ข้อเสีย:</strong> ยืดหยุ่นน้อย Bottleneck ส่งผลทั้งสาย<br><br>
+        <strong>เหมาะกับ:</strong> High-volume, Standard products เช่น รถยนต์ Electronics
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S8: CIM TECHNOLOGY ══ -->
+<div class="section bg-soft" id="s8">
+  <div class="sec-label">08 — Technology</div>
+  <div class="sec-title">Computer-Integrated Manufacturing (CIM)</div>
+  <div class="sec-desc">เทคโนโลยีที่ใช้ Computer ควบคุมการผลิต — แตะแต่ละรายการเพื่อดูรายละเอียด</div>
+
+  <div class="card">
+    <div class="cim-grid">
+      <div class="cim-item" style="border-color:#3b82f6" onclick="this.classList.toggle('open')">
+        <div class="cim-icon">🖥️</div>
+        <div class="cim-name" style="color:#1e40af">CAD</div>
+        <div class="cim-abbr">Computer-Aided Design</div>
+        <div class="cim-detail">ออกแบบ 2D/3D บน Computer ลด Error, แก้ไขง่าย, ส่งต่อ CAM ได้เลย ตัวอย่าง: AutoCAD, SolidWorks</div>
+      </div>
+      <div class="cim-item" style="border-color:#7c3aed" onclick="this.classList.toggle('open')">
+        <div class="cim-icon">⚙️</div>
+        <div class="cim-name" style="color:#5b21b6">CAM</div>
+        <div class="cim-abbr">Computer-Aided Manufacturing</div>
+        <div class="cim-detail">ใช้ Design จาก CAD สั่งงานเครื่องจักรอัตโนมัติ ลดความผิดพลาดของมนุษย์ เพิ่ม Speed และ Precision</div>
+      </div>
+      <div class="cim-item" style="border-color:#0891b2" onclick="this.classList.toggle('open')">
+        <div class="cim-icon">🔩</div>
+        <div class="cim-name" style="color:#0e7490">CNC Machines</div>
+        <div class="cim-abbr">Computer Numerically Controlled</div>
+        <div class="cim-detail">เครื่องจักรที่ควบคุมด้วย Program ตัดเจาะได้ความแม่นยำสูง ทำซ้ำได้เหมือนกันทุกครั้ง</div>
+      </div>
+      <div class="cim-item" style="border-color:#ea580c" onclick="this.classList.toggle('open')">
+        <div class="cim-icon">🤖</div>
+        <div class="cim-name" style="color:#9a3412">Industrial Robot</div>
+        <div class="cim-abbr">6 Degrees of Freedom</div>
+        <div class="cim-detail">แขนกล 6 แกน (Arm sweep, Shoulder swivel, Elbow, Yaw, Pitch, Roll) ทำงานซ้ำๆ แม่นยำ ไม่เหนื่อย ใช้แทน Manual labor ที่อันตราย</div>
+      </div>
+      <div class="cim-item" style="border-color:#16a34a" onclick="this.classList.toggle('open')">
+        <div class="cim-icon">🚗</div>
+        <div class="cim-name" style="color:#14532d">AGV</div>
+        <div class="cim-abbr">Automated Guided Vehicle</div>
+        <div class="cim-detail">รถขนวัสดุอัตโนมัติ วิ่งตาม Track/Line ที่กำหนด ลด Labor ใน Warehouse ส่วนหนึ่งของ AMH</div>
+      </div>
+      <div class="cim-item" style="border-color:#d97706" onclick="this.classList.toggle('open')">
+        <div class="cim-icon">🏗️</div>
+        <div class="cim-name" style="color:#92400e">FMS</div>
+        <div class="cim-abbr">Flexible Manufacturing System</div>
+        <div class="cim-detail">ระบบผลิตที่เปลี่ยน Product ได้เร็วโดยไม่ต้อง Setup ใหม่นาน ใช้ Computer Control + CNC + Robot ทำงานร่วมกัน</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ S9: MIND MAP ══ -->
+<div class="section bg-white" id="s9">
+  <div class="sec-label">09 — Overview</div>
+  <div class="sec-title">Mind Map — ภาพรวม Module 3</div>
+  <div class="mindmap">
+    <div class="mm-center">
+      <div class="mm-center-title">Process Analysis & Design</div>
+      <div class="mm-center-sub">Module 3 · BA6500 NIDA EMBA</div>
+    </div>
+    <div class="mm-grid">
+      <div class="mm-branch" style="background:#eff6ff;border-color:#3b82f6">
+        <div class="mm-branch-title" style="color:#1e40af">🏭 Process Types</div>
+        <div class="mm-item">Job Shop — Flex↑ Cost↑</div>
+        <div class="mm-item">Batch — กลาง กลาง</div>
+        <div class="mm-item">Assembly Line — Flex↓ Cost↓</div>
+        <div class="mm-item">Continuous — Auto 24/7</div>
+      </div>
+      <div class="mm-branch" style="background:var(--green-soft);border-color:var(--green)">
+        <div class="mm-branch-title" style="color:var(--green)">📋 Flowchart</div>
+        <div class="mm-item">Oval = Task/Operation</div>
+        <div class="mm-item">Rectangle = Storage/Queue</div>
+        <div class="mm-item">Diamond = Decision</div>
+        <div class="mm-item">Arrow = Flow</div>
+      </div>
+      <div class="mm-branch" style="background:var(--red-soft);border-color:var(--red)">
+        <div class="mm-branch-title" style="color:var(--red)">⚡ Line Balancing</div>
+        <div class="mm-item">Max Production = PT ÷ BN</div>
+        <div class="mm-item">Cycle Time C = PT ÷ Output</div>
+        <div class="mm-item">Nt = T ÷ C</div>
+        <div class="mm-item">Efficiency = T ÷ (Na×C)</div>
+      </div>
+      <div class="mm-branch" style="background:var(--orange-soft);border-color:var(--orange)">
+        <div class="mm-branch-title" style="color:var(--orange)">💰 Break-Even</div>
+        <div class="mm-item">TC = Fixed + Variable×Q</div>
+        <div class="mm-item">เปรียบ Options ต่างๆ</div>
+        <div class="mm-item">หา Q ที่ควร Switch</div>
+      </div>
+      <div class="mm-branch" style="background:#fdf4ff;border-color:var(--violet)">
+        <div class="mm-branch-title" style="color:var(--violet)">🏗️ Layouts</div>
+        <div class="mm-item">Job Shop — By Machine type</div>
+        <div class="mm-item">Cellular — By Product family</div>
+        <div class="mm-item">Assembly Line — Sequential</div>
+      </div>
+      <div class="mm-branch" style="background:var(--cyan-soft);border-color:var(--cyan)">
+        <div class="mm-branch-title" style="color:var(--cyan)">🤖 CIM Tech</div>
+        <div class="mm-item">CAD/CAM/CNC</div>
+        <div class="mm-item">Industrial Robot</div>
+        <div class="mm-item">AGV, FMS, AS/RS</div>
+      </div>
+      <div class="mm-link">
+        <strong>🔗 Flow Module 3:</strong> เลือก Process Type → วาด Flowchart → วิเคราะห์ Bottleneck → ทำ Line Balancing → คำนวณ Efficiency → เลือก Layout → ใช้ CIM Technology → <strong>Improve Process</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CASE STUDY ══ -->
+<div class="section bg-soft">
+  <div class="sec-label">10 — Case Study</div>
+  <div class="sec-title">ฝึกวิเคราะห์ Case Module 3</div>
+
+  <div class="case-wrap">
+    <div class="case-head">
+      <h4>🖊️ Case: โรงงานปากกาสยามวัลลา — Process Analysis</h4>
+      <p>วิเคราะห์กระบวนการผลิตจริง แบบ Closed Book</p>
+    </div>
+    <div class="case-body">
+      <div class="case-scenario">
+        โรงงานผลิตปากกาของสยามวัลลามี 5 Station:<br>
+        <strong>S1:</strong> ฉีดพลาสติก — 12 units/hr &nbsp;|&nbsp;
+        <strong>S2:</strong> ประกอบไส้ — 5 units/hr &nbsp;|&nbsp;
+        <strong>S3:</strong> พ่นสี — 8 units/hr &nbsp;|&nbsp;
+        <strong>S4:</strong> ประกอบสุดท้าย — 10 units/hr &nbsp;|&nbsp;
+        <strong>S5:</strong> บรรจุ — 9 units/hr<br><br>
+        Production time = 480 min/day · ต้องการ 200 units/day
+      </div>
+
+      <div class="case-q-title" style="background:var(--indigo-soft);color:var(--indigo)" onclick="toggleCase('c1')">
+        ❓ ข้อ 1: Bottleneck อยู่ที่ไหน? Throughput จริงเท่าไหร่? <span>▼</span>
+      </div>
+      <div class="case-a" id="c1" style="background:var(--indigo-soft)">
+        <strong>Bottleneck = S2 (ประกอบไส้) ช้าที่สุด = 5 units/hr</strong><br>
+        Throughput ของระบบ = 5 units/hr = <strong>5 × 8 hr = 40 units/8hr day</strong><br>
+        หรือถ้า production time = 480 min: Cycle time ของ Bottleneck = 60/5 = 12 min/unit<br>
+        Max Production = 480 ÷ 12 = <strong>40 units/day</strong> ← ต่ำกว่าที่ต้องการมาก!
+      </div>
+
+      <div class="case-q-title" style="background:var(--red-soft);color:var(--red)" onclick="toggleCase('c2')">
+        ❓ ข้อ 2: คำนวณ Required Cycle Time ถ้าต้องการ 200 units/day <span>▼</span>
+      </div>
+      <div class="case-a" id="c2" style="background:var(--red-soft)">
+        Required Cycle Time C = Production Time ÷ Required Output<br>
+        C = <strong>480 min ÷ 200 units = 2.4 min/unit</strong><br><br>
+        S2 ปัจจุบัน = 12 min/unit → <strong>ช้ากว่าที่ต้องการ 5 เท่า!</strong><br>
+        ต้องเพิ่ม Capacity ของ S2 ให้ทำได้อย่างน้อย 1 unit ทุก 2.4 นาที = 25 units/hr
+      </div>
+
+      <div class="case-q-title" style="background:var(--green-soft);color:var(--green)" onclick="toggleCase('c3')">
+        ❓ ข้อ 3: แนะนำวิธีแก้ Bottleneck พร้อมอ้าง Theory <span>▼</span>
+      </div>
+      <div class="case-a" id="c3" style="background:var(--green-soft)">
+        <strong>ตาม Bottleneck Theory (Assembly Line Balancing):</strong><br><br>
+        ① เพิ่มพนักงาน/เครื่องที่ S2: เพิ่มจาก 1 เป็น 5 คน → ทำได้ 25 units/hr (≥ 200/8hr)<br>
+        ② Re-balance workload: แยก Task ประกอบไส้ให้ทำพร้อมกันหลายจุด<br>
+        ③ ลด Cycle time S2: ใช้ Robot/Automation ช่วยประกอบ (CIM — Industrial Robot)<br><br>
+        <strong>Process Layout:</strong> พิจารณา Cellular Layout จัดกลุ่มเครื่องจักรใหม่ลด Travel time<br>
+        <strong>ผลที่คาดหวัง:</strong> Throughput เพิ่มจาก 40 → 200 units/day = เพิ่ม 400%
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div class="quiz-section" id="sq">
+  <div class="quiz-header">
+    <div style="font-size:36px;margin-bottom:8px">🧠</div>
+    <h3>Quiz Module 3</h3>
+    <p>8 ข้อ · มีทั้ง Concept และ คำนวณ · Closed Book Simulation</p>
+  </div>
+
+  <div id="qcont">
+    <div class="q-card" id="qc0">
+      <div class="q-num">ข้อ 1 / 8</div>
+      <div class="q-text">Process Type ใดที่มี Flexibility สูงที่สุดและ Unit Cost สูงที่สุด?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(0,0,0)">Job Shop</button>
+        <button class="q-opt" onclick="ans(0,1,0)">Batch</button>
+        <button class="q-opt" onclick="ans(0,2,0)">Assembly Line</button>
+        <button class="q-opt" onclick="ans(0,3,0)">Continuous Flow</button>
+      </div>
+      <div class="q-fb" id="qf0"></div>
+    </div>
+
+    <div class="q-card" id="qc1">
+      <div class="q-num">ข้อ 2 / 8</div>
+      <div class="q-text">สัญลักษณ์ Diamond (◇) ใน Process Flowchart หมายถึงอะไร?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(1,0,2)">Task หรือ Operation</button>
+        <button class="q-opt" onclick="ans(1,1,2)">Storage หรือ Queue</button>
+        <button class="q-opt" onclick="ans(1,2,2)">Decision Point</button>
+        <button class="q-opt" onclick="ans(1,3,2)">Flow of Materials</button>
+      </div>
+      <div class="q-fb" id="qf1"></div>
+    </div>
+
+    <div class="q-card" id="qc2">
+      <div class="q-num">ข้อ 3 / 8 (คำนวณ)</div>
+      <div class="q-text">Production time = 480 min/day, Bottleneck task = 6 min/unit<br>Max Production per day = ?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(2,0,2)">60 units/day</button>
+        <button class="q-opt" onclick="ans(2,1,2)">70 units/day</button>
+        <button class="q-opt" onclick="ans(2,2,2)">80 units/day</button>
+        <button class="q-opt" onclick="ans(2,3,2)">100 units/day</button>
+      </div>
+      <div class="q-fb" id="qf2"></div>
+    </div>
+
+    <div class="q-card" id="qc3">
+      <div class="q-num">ข้อ 4 / 8 (คำนวณ)</div>
+      <div class="q-text">Production time = 420 min/day, Required output = 100 units/day<br>Required Cycle Time = ?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(3,0,1)">3.5 min/unit</button>
+        <button class="q-opt" onclick="ans(3,1,1)">4.2 min/unit</button>
+        <button class="q-opt" onclick="ans(3,2,1)">4.5 min/unit</button>
+        <button class="q-opt" onclick="ans(3,3,1)">5.0 min/unit</button>
+      </div>
+      <div class="q-fb" id="qf3"></div>
+    </div>
+
+    <div class="q-card" id="qc4">
+      <div class="q-num">ข้อ 5 / 8 (คำนวณ)</div>
+      <div class="q-text">Sum of task times T = 11.35 min, Cycle time C = 4.2 min<br>Theoretical Min Workstations Nt = ?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(4,0,1)">2 stations</button>
+        <button class="q-opt" onclick="ans(4,1,1)">3 stations (2.70 → ปัดขึ้น)</button>
+        <button class="q-opt" onclick="ans(4,2,1)">4 stations</button>
+        <button class="q-opt" onclick="ans(4,3,1)">5 stations</button>
+      </div>
+      <div class="q-fb" id="qf4"></div>
+    </div>
+
+    <div class="q-card" id="qc5">
+      <div class="q-num">ข้อ 6 / 8 (คำนวณ)</div>
+      <div class="q-text">T = 11.35, Na = 3, C = 4.2 min → Line Efficiency = ?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(5,0,2)">80.1%</button>
+        <button class="q-opt" onclick="ans(5,1,2)">85.5%</button>
+        <button class="q-opt" onclick="ans(5,2,2)">90.1%</button>
+        <button class="q-opt" onclick="ans(5,3,2)">95.2%</button>
+      </div>
+      <div class="q-fb" id="qf5"></div>
+    </div>
+
+    <div class="q-card" id="qc6">
+      <div class="q-num">ข้อ 7 / 8</div>
+      <div class="q-text">Cellular Layout (Group Technology) แตกต่างจาก Job Shop Layout อย่างไร?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(6,0,1)">Cellular ใช้เครื่องจักรประเภทเดียวกันอยู่ด้วยกัน</button>
+        <button class="q-opt" onclick="ans(6,1,1)">Cellular จัดเครื่องจักรต่างประเภทรวมกันเป็น Cell ตาม Product Family</button>
+        <button class="q-opt" onclick="ans(6,2,1)">Cellular เหมาะสำหรับ Continuous Flow เท่านั้น</button>
+        <button class="q-opt" onclick="ans(6,3,1)">Cellular ไม่ต้องใช้ Computer ควบคุม</button>
+      </div>
+      <div class="q-fb" id="qf6"></div>
+    </div>
+
+    <div class="q-card" id="qc7">
+      <div class="q-num">ข้อ 8 / 8</div>
+      <div class="q-text">Break-Even: Option A ต้นทุน $50,000 Fixed + $30/unit, Option B ต้นทุน $0 Fixed + $80/unit<br>Break-even quantity = ?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(7,0,1)">500 units</button>
+        <button class="q-opt" onclick="ans(7,1,1)">1,000 units</button>
+        <button class="q-opt" onclick="ans(7,2,1)">1,500 units</button>
+        <button class="q-opt" onclick="ans(7,3,1)">2,000 units</button>
+      </div>
+      <div class="q-fb" id="qf7"></div>
+    </div>
+  </div>
+
+  <div class="score-box" id="scorebox">
+    <h3>ผลการทดสอบ Module 3 🎓</h3>
+    <div class="score-big" id="scorenum">0/8</div>
+    <div class="score-msg" id="scoremsg"></div>
+    <button class="retry-btn" onclick="resetQ()">🔄 ทำใหม่</button>
+  </div>
+</div>
+
+<div style="height:40px;background:#1e1b4b"></div>
+
+<script>
+// Scroll animation
+const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.07 });
+document.querySelectorAll('.section').forEach(s => obs.observe(s));
+
+// Progress
+const ticked = {};
+function tick(el, id) {
+  ticked[id] = !ticked[id];
+  el.classList.toggle('done', ticked[id]);
+  const pct = Math.round(Object.values(ticked).filter(Boolean).length / 10 * 100);
+  document.getElementById('pfill').style.width = pct + '%';
+  document.getElementById('pct').textContent = pct + '%';
+}
+
+// Process matrix detail
+let openPD = null;
+function showProcess(type) {
+  if (openPD) document.getElementById('pd-' + openPD).classList.remove('show');
+  if (openPD === type) { openPD = null; return; }
+  document.getElementById('pd-' + type).classList.add('show');
+  openPD = type;
+}
+
+// Case toggle
+function toggleCase(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  const btn = el.previousElementSibling;
+  if (btn) btn.querySelector('span').textContent = el.classList.contains('open') ? '▲' : '▼';
+}
+
+// Calculator
+function calculate() {
+  const PT = parseFloat(document.getElementById('ci_prodtime').value) || 420;
+  const OUT = parseFloat(document.getElementById('ci_output').value) || 100;
+  const T = parseFloat(document.getElementById('ci_T').value) || 11.35;
+  const Na = parseFloat(document.getElementById('ci_Na').value) || 3;
+
+  // Find bottleneck from fan table (task C = 3.25)
+  const BN = 3.25; // From example
+  const C = PT / OUT;
+  const Nt = Math.ceil(T / C);
+  const Eff = T / (Na * C) * 100;
+  const MaxProd = Math.floor(PT / BN);
+
+  document.getElementById('r1').textContent = MaxProd + ' units/day (BN=3.25)';
+  document.getElementById('r2').textContent = C.toFixed(2) + ' min/unit';
+  document.getElementById('r3').textContent = Nt + ' stations (' + (T/C).toFixed(3) + ' → ปัดขึ้น)';
+  document.getElementById('r4').textContent = Eff.toFixed(1) + '%';
+  document.getElementById('r5').textContent = BN + ' min/unit (Task C)';
+
+  document.getElementById('calc-result').classList.add('show');
+}
+
+// Quiz
+const ANSWERS = [0, 2, 2, 1, 1, 2, 1, 1];
+const EX = [
+  '✅ Job Shop = Flexibility สูงสุด, Unit Cost สูงสุด — ทำ One-of-a-kind, Custom',
+  '✅ Diamond = Decision Point — จุดตัดสินใจ Yes/No ใน Flowchart',
+  '✅ Max Production = 480 ÷ 6 = 80 units/day (Production Time ÷ Bottleneck Time)',
+  '✅ C = 420 ÷ 100 = 4.2 min/unit (Production Time ÷ Required Output)',
+  '✅ Nt = 11.35 ÷ 4.2 = 2.702 → ปัดขึ้น = 3 stations',
+  '✅ Efficiency = 11.35 ÷ (3 × 4.2) × 100 = 11.35 ÷ 12.6 × 100 = 90.1%',
+  '✅ Cellular Layout จัดเครื่องจักรต่างประเภทรวมกันเป็น Cell ตาม Product Family — Job Shop จัดตามประเภทเครื่อง',
+  '✅ 50,000 + 30Q = 80Q → 50,000 = 50Q → Q = 1,000 units'
+];
+const WR = [
+  '❌ Job Shop ≠ Assembly Line ที่มี Unit Cost ต่ำ — Job Shop มี Flexibility สูงและ Unit Cost สูงเพราะ Custom',
+  '❌ Diamond ≠ Task (ใช้ Oval/Rectangle) — Diamond แทน Decision Point เท่านั้น',
+  '❌ Max Production = 480 ÷ Bottleneck Time ไม่ใช่ 480 ÷ จำนวน Stations',
+  '❌ Cycle Time = Production Time ÷ Required Output = 420 ÷ 100 = 4.2 ไม่ใช่ 3.5 หรือ 4.5',
+  '❌ Nt = T ÷ C = 11.35 ÷ 4.2 = 2.70 → ปัดขึ้นเป็น 3 (ไม่ใช่ 2 หรือ 4)',
+  '❌ Efficiency = T ÷ (Na × C) = 11.35 ÷ (3×4.2) = 11.35 ÷ 12.6 = 0.901 = 90.1%',
+  '❌ Job Shop Layout จัดตามประเภทเครื่องจักร — Cellular จัดตาม Product Family ต่างกัน',
+  '❌ Break-even: 50,000 + 30Q = 80Q → 50Q = 50,000 → Q = 1,000 units ไม่ใช่ 500 หรือ 1,500'
+];
+
+let score = 0, done = {};
+function ans(qi, chosen, correct) {
+  if (done[qi]) return;
+  done[qi] = true;
+  if (chosen === correct) score++;
+  const card = document.getElementById('qc' + qi);
+  card.querySelectorAll('.q-opt').forEach((o, i) => {
+    o.disabled = true;
+    if (i === correct) o.classList.add(chosen === correct ? 'correct' : 'show-correct');
+    if (i === chosen && chosen !== correct) o.classList.add('wrong');
+  });
+  const fb = document.getElementById('qf' + qi);
+  fb.classList.add('show', chosen === correct ? 'ok' : 'fail');
+  fb.innerHTML = chosen === correct ? EX[qi] : WR[qi] + '<br>' + EX[qi];
+  if (Object.keys(done).length === 8) {
+    setTimeout(() => {
+      document.getElementById('scorebox').classList.add('show');
+      document.getElementById('scorenum').textContent = score + '/8';
+      const msgs = ['ต้องทบทวนสูตรเพิ่มครับ 📖', 'เริ่มดีแล้ว ฝึกคำนวณอีก 💪', 'ดีมาก! โฟกัสสูตรนะครับ ⭐', 'เกือบสมบูรณ์แบบ 🔥', 'Perfect! Module 3 Ready! 🏆'];
+      document.getElementById('scoremsg').textContent = msgs[Math.min(Math.floor(score / 2), 4)];
+      tick(document.querySelector('[onclick*="t10"]'), 't10');
+    }, 500);
+  }
+}
+function resetQ() {
+  score = 0; done = {};
+  document.getElementById('scorebox').classList.remove('show');
+  document.querySelectorAll('.q-card').forEach(c => {
+    c.querySelectorAll('.q-opt').forEach(o => { o.disabled = false; o.className = 'q-opt'; });
+    const fb = c.querySelector('.q-fb'); fb.className = 'q-fb'; fb.innerHTML = '';
+  });
+}
+</script>
+</body>
+</html>
