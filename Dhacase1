@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quality Management @ D.H.A. Siamwalla</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700;900&display=swap');
+
+:root {
+–navy:   #0f1e38;
+–dha:    #c8102e;   /* Siamwalla red */
+–dha2:   #8b0a1e;
+–gold:   #e8a020;
+–goldf:  #f5c842;
+–ink:    #1a1a2e;
+–teal:   #0d7c7c;
+–green:  #1e8449;
+–blue:   #1a3a6e;
+–cream:  #fdf9f4;
+–white:  #ffffff;
+–muted:  #5a6a8a;
+–shadow: 0 8px 32px rgba(15,30,56,0.13);
+}
+
+- { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:‘Sarabun’,sans-serif; background:var(–navy); color:var(–ink); min-height:100vh; }
+
+/* ── Hero ── */
+.hero {
+background: linear-gradient(135deg, #0f1e38 0%, #1a0a10 50%, #2e0612 100%);
+padding: 48px 28px 42px; text-align:center; position:relative; overflow:hidden;
+}
+.hero::before {
+content:’’; position:absolute; inset:0;
+background:
+radial-gradient(ellipse at 75% 25%, rgba(200,16,46,0.18) 0%, transparent 55%),
+radial-gradient(ellipse at 15% 75%, rgba(232,160,32,0.12) 0%, transparent 50%);
+}
+.hero-logo {
+display:inline-flex; align-items:center; gap:10px;
+background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+border-radius:30px; padding:6px 18px; margin-bottom:16px; position:relative;
+}
+.hero-logo-dot { width:10px; height:10px; border-radius:50%; background:var(–dha); }
+.hero-logo-text { font-size:12px; font-weight:700; color:rgba(255,255,255,0.8); letter-spacing:2px; }
+.hero h1 { font-family:‘Playfair Display’,serif; font-size:clamp(22px,5vw,40px); color:#fff; line-height:1.2; position:relative; margin-bottom:10px; }
+.hero h1 span { color:var(–goldf); }
+.hero-sub { color:rgba(255,255,255,0.6); font-size:13.5px; position:relative; line-height:1.7; max-width:560px; margin:0 auto; }
+
+/* ── Nav ── */
+.page-nav {
+background:#fff; display:flex; overflow-x:auto; border-bottom:2px solid #ece8e0;
+position:sticky; top:0; z-index:100;
+}
+.nav-btn {
+flex:1; min-width:105px; padding:12px 6px; border:none; background:transparent;
+font-family:‘Sarabun’,sans-serif; font-size:11.5px; font-weight:600; color:var(–muted);
+cursor:pointer; border-bottom:3px solid transparent; transition:all .2s; white-space:nowrap;
+}
+.nav-btn:hover { color:var(–navy); background:#fdf5f0; }
+.nav-btn.active { color:var(–dha); border-bottom-color:var(–dha); background:#fff5f6; }
+
+/* ── Sections ── */
+.section { display:none; background:var(–cream); padding:30px 16px 52px; }
+.section.active { display:block; animation:fadeUp .35s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+.sec-label { text-align:center; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(–muted); font-weight:600; margin-bottom:6px; }
+.sec-heading { text-align:center; font-family:‘Playfair Display’,serif; font-size:clamp(18px,4vw,26px); color:var(–navy); margin-bottom:22px; font-weight:700; }
+.wrap { max-width:740px; margin:0 auto; }
+
+/* ── Card base ── */
+.card { background:white; border-radius:16px; padding:22px 18px; box-shadow:var(–shadow); margin-bottom:18px; }
+.card-title { font-family:‘Playfair Display’,serif; font-size:17px; color:var(–navy); font-weight:700; margin-bottom:14px; }
+
+/* ── DHA Banner ── */
+.dha-banner {
+background:linear-gradient(135deg, var(–dha2), var(–dha));
+border-radius:16px; padding:22px 20px; color:white; margin-bottom:18px;
+display:flex; align-items:center; gap:16px;
+}
+.dha-banner-icon { font-size:36px; flex-shrink:0; }
+.dha-banner-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; opacity:0.75; margin-bottom:5px; }
+.dha-banner-text { font-size:14px; line-height:1.7; }
+.dha-banner-text strong { color:var(–goldf); }
+
+/* ── Packaging Quality Dimensions ── */
+.pq-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.pq-card {
+border-radius:12px; padding:14px 10px; text-align:center;
+transition:transform .2s; cursor:default;
+}
+.pq-card:hover { transform:translateY(-3px); }
+.pq-icon { font-size:24px; margin-bottom:6px; }
+.pq-title { font-size:12px; font-weight:700; color:var(–navy); margin-bottom:4px; }
+.pq-desc { font-size:11px; color:var(–muted); line-height:1.5; }
+.pq-c1 { background:linear-gradient(145deg,#fdf2f8,#f9d6e3); border-bottom:3px solid var(–dha); }
+.pq-c2 { background:linear-gradient(145deg,#fef9e7,#fdebd0); border-bottom:3px solid var(–gold); }
+.pq-c3 { background:linear-gradient(145deg,#eafaf1,#d5f5e3); border-bottom:3px solid var(–green); }
+.pq-c4 { background:linear-gradient(145deg,#eaf4fb,#d6eaf8); border-bottom:3px solid var(–blue); }
+.pq-c5 { background:linear-gradient(145deg,#f4ecf7,#e8daef); border-bottom:3px solid #8e44ad; }
+.pq-c6 { background:linear-gradient(145deg,#e8f8f5,#d1f2eb); border-bottom:3px solid var(–teal); }
+
+/* ── COQ DHA ── */
+.coq-dha { display:flex; flex-direction:column; gap:10px; }
+.coq-dha-row {
+display:flex; align-items:flex-start; gap:12px;
+background:white; border-radius:12px; padding:14px;
+box-shadow:0 2px 8px rgba(0,0,0,0.06); border-left:5px solid transparent;
+transition:transform .2s;
+}
+.coq-dha-row:hover { transform:translateX(4px); }
+.coq-dha-row.prev { border-left-color:#27ae60; }
+.coq-dha-row.appr { border-left-color:#2471a3; }
+.coq-dha-row.intl { border-left-color:#e67e22; }
+.coq-dha-row.extl { border-left-color:var(–dha); }
+.coq-type-badge {
+font-size:10px; font-weight:700; padding:3px 9px; border-radius:20px;
+display:inline-block; margin-bottom:5px; white-space:nowrap;
+}
+.prev .coq-type-badge { background:#d5f5e3; color:#145a32; }
+.appr .coq-type-badge { background:#d6eaf8; color:#1a5276; }
+.intl .coq-type-badge { background:#fdebd0; color:#784212; }
+.extl .coq-type-badge { background:#fadbd8; color:#922b21; }
+.coq-dha-title { font-size:13px; font-weight:700; color:var(–navy); margin-bottom:4px; }
+.coq-dha-items { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
+.coq-tag { font-size:11px; background:#f0f2f5; color:var(–navy); font-weight:600; padding:3px 9px; border-radius:20px; }
+
+/* ── SQC Tool Application ── */
+.tool-app-list { display:flex; flex-direction:column; gap:10px; }
+.tool-app-card {
+background:white; border-radius:12px; padding:14px 16px;
+box-shadow:0 2px 8px rgba(0,0,0,0.06);
+display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:start;
+transition:transform .2s;
+}
+.tool-app-card:hover { transform:translateX(4px); }
+.ta-icon { font-size:24px; }
+.ta-tool { font-size:10px; font-weight:700; color:var(–teal); text-transform:uppercase; letter-spacing:1px; margin-bottom:3px; }
+.ta-title { font-size:13px; font-weight:700; color:var(–navy); margin-bottom:3px; }
+.ta-desc { font-size:12px; color:#444; line-height:1.6; }
+.ta-badge { font-size:10.5px; font-weight:700; background:linear-gradient(135deg,var(–dha2),var(–dha)); color:white; padding:4px 10px; border-radius:20px; white-space:nowrap; align-self:flex-start; }
+
+/* ── PDCA Scenario ── */
+.pdca-scenario {
+background:linear-gradient(135deg, var(–navy), var(–dha2));
+border-radius:16px; padding:20px 18px; color:white; margin-bottom:12px;
+}
+.ps-title { font-family:‘Playfair Display’,serif; font-size:16px; font-weight:700; color:var(–goldf); margin-bottom:12px; }
+.ps-steps { display:flex; flex-direction:column; gap:8px; }
+.ps-step { background:rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px; display:flex; gap:12px; align-items:flex-start; }
+.ps-letter { font-family:‘Playfair Display’,serif; font-size:22px; font-weight:900; min-width:24px; line-height:1; }
+.ps-step.p .ps-letter { color:#48cae4; }
+.ps-step.d .ps-letter { color:#52be80; }
+.ps-step.c .ps-letter { color:#f5c842; }
+.ps-step.a .ps-letter { color:#f08080; }
+.ps-step-title { font-size:12.5px; font-weight:700; color:white; margin-bottom:3px; }
+.ps-step-desc { font-size:12px; color:rgba(255,255,255,0.8); line-height:1.6; }
+
+/* ── TQM Application ── */
+.tqm-app-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.tqm-app-card {
+background:white; border-radius:12px; padding:14px;
+box-shadow:0 2px 8px rgba(0,0,0,0.06);
+border-top:4px solid transparent; transition:transform .2s;
+}
+.tqm-app-card:hover { transform:translateY(-3px); }
+.tqm-app-card.c1 { border-top-color:var(–dha); }
+.tqm-app-card.c2 { border-top-color:var(–gold); }
+.tqm-app-card.c3 { border-top-color:var(–green); }
+.tqm-app-card.c4 { border-top-color:var(–blue); }
+.tqm-app-card.c5 { border-top-color:#8e44ad; }
+.tqm-app-card.c6 { border-top-color:var(–teal); }
+.tac-principle { font-size:10px; font-weight:700; color:var(–muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.tac-title { font-size:13px; font-weight:700; color:var(–navy); margin-bottom:5px; }
+.tac-dha { font-size:12px; color:#444; line-height:1.6; }
+.tac-eg { display:inline-block; font-size:10.5px; font-weight:700; background:#fff3cd; color:#784212; padding:3px 8px; border-radius:20px; margin-top:5px; }
+
+/* ── Six Sigma Scenario ── */
+.ss-project {
+background:white; border-radius:14px; padding:18px;
+box-shadow:var(–shadow); margin-bottom:12px; border-top:5px solid var(–dha);
+}
+.ss-project-title { font-size:15px; font-weight:700; color:var(–navy); margin-bottom:12px; }
+.dmaic-mini { display:flex; gap:0; border-radius:10px; overflow:hidden; margin-bottom:12px; }
+.dm-mini {
+flex:1; padding:10px 6px; text-align:center; color:white; font-size:11px;
+}
+.dm-mini strong { display:block; font-family:‘Playfair Display’,serif; font-size:18px; font-weight:900; }
+.dm-mini.dd { background:#03045e; }
+.dm-mini.dm { background:#0077b6; }
+.dm-mini.da { background:#00b4d8; }
+.dm-mini.di { background:#0d7c7c; }
+.dm-mini.dc { background:#1e8449; }
+.ss-detail { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.ss-det-card { background:#f8fafc; border-radius:8px; padding:10px; }
+.ss-det-label { font-size:10px; font-weight:700; color:var(–muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.ss-det-text { font-size:12px; color:var(–navy); line-height:1.6; }
+
+/* ── Packaging Levels ── */
+.pkg-levels { display:flex; flex-direction:column; gap:0; }
+.pkg-level {
+display:flex; align-items:center; gap:14px;
+padding:14px 16px; border-bottom:1px solid #f0f2f5;
+transition:background .15s; cursor:default;
+}
+.pkg-level:hover { background:#fff8f5; }
+.pkg-level:last-child { border-bottom:none; }
+.pl-icon { font-size:22px; flex-shrink:0; width:32px; text-align:center; }
+.pl-name { font-size:13px; font-weight:700; color:var(–navy); min-width:130px; }
+.pl-issues { display:flex; flex-wrap:wrap; gap:5px; flex:1; }
+.pl-issue { font-size:11px; background:#f0f2f5; color:var(–navy); font-weight:600; padding:3px 9px; border-radius:20px; }
+.pl-impact { font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; white-space:nowrap; }
+.hi { background:#fadbd8; color:#922b21; }
+.md { background:#fdebd0; color:#784212; }
+.lo { background:#d5f5e3; color:#145a32; }
+
+/* ── Roadmap ── */
+.roadmap { display:flex; flex-direction:column; gap:0; position:relative; padding-left:36px; }
+.roadmap::before {
+content:’’; position:absolute; left:14px; top:0; bottom:0;
+width:3px; background:linear-gradient(180deg, var(–dha), var(–gold), var(–green));
+border-radius:2px;
+}
+.rm-phase {
+position:relative; margin-bottom:20px;
+background:white; border-radius:12px; padding:14px 14px 12px;
+box-shadow:0 2px 10px rgba(0,0,0,0.07);
+}
+.rm-phase::before {
+content:’’; position:absolute; left:-28px; top:14px;
+width:14px; height:14px; border-radius:50%;
+background:var(–dha); border:3px solid white;
+box-shadow:0 0 0 3px var(–dha);
+}
+.rm-phase.p2::before { background:var(–gold); box-shadow:0 0 0 3px var(–gold); }
+.rm-phase.p3::before { background:var(–green); box-shadow:0 0 0 3px var(–green); }
+.rm-timeline { font-size:11px; font-weight:700; color:var(–dha); margin-bottom:4px; letter-spacing:1px; }
+.rm-phase.p2 .rm-timeline { color:var(–gold); }
+.rm-phase.p3 .rm-timeline { color:var(–green); }
+.rm-title { font-size:14px; font-weight:700; color:var(–navy); margin-bottom:5px; }
+.rm-desc { font-size:12px; color:#444; line-height:1.6; }
+.rm-actions { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+.rm-action { font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; }
+.rm-action.red { background:#fadbd8; color:#922b21; }
+.rm-action.yel { background:#fef9e7; color:#784212; }
+.rm-action.grn { background:#d5f5e3; color:#145a32; }
+
+/* Summary */
+.summary-box {
+background:linear-gradient(135deg, var(–navy), var(–dha2));
+border-radius:16px; padding:20px 18px; color:white;
+max-width:740px; margin:22px auto 0;
+display:flex; align-items:flex-start; gap:14px;
+}
+.summary-box-icon { font-size:28px; flex-shrink:0; }
+.summary-box strong { font-family:‘Playfair Display’,serif; font-size:15px; display:block; margin-bottom:6px; color:var(–goldf); }
+.summary-box p { font-size:13px; opacity:.9; line-height:1.7; }
+
+@media(max-width:520px){
+.pq-grid { grid-template-columns:1fr 1fr; }
+.tqm-app-grid { grid-template-columns:1fr; }
+.ss-detail { grid-template-columns:1fr; }
+.dmaic-mini { flex-wrap:wrap; }
+.tool-app-card { grid-template-columns:auto 1fr; }
+.ta-badge { grid-column:1/-1; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Hero -->
+
+<div class="hero">
+  <div class="hero-logo">
+    <div class="hero-logo-dot"></div>
+    <div class="hero-logo-text">D.H.A. SIAMWALLA · PACKAGING DIVISION</div>
+  </div>
+  <h1>Quality Management<br><span>ประยุกต์กับงานจริง</span></h1>
+  <p class="hero-sub">เชื่อมทฤษฎี Module 5 เข้ากับ Packaging &amp; Brand Development<br>ที่ D.H.A. Siamwalla — Writing Instruments Industry</p>
+</div>
+
+<!-- Nav -->
+
+<div class="page-nav">
+  <button class="nav-btn active" onclick="show('pkg')">📦 Packaging Quality</button>
+  <button class="nav-btn" onclick="show('coq')">💰 COQ @ DHA</button>
+  <button class="nav-btn" onclick="show('sqc')">🔬 SQC Tools</button>
+  <button class="nav-btn" onclick="show('pdca')">🔄 PDCA Case</button>
+  <button class="nav-btn" onclick="show('tqm')">🏛️ TQM @ DHA</button>
+  <button class="nav-btn" onclick="show('sigma')">σ Six Sigma</button>
+  <button class="nav-btn" onclick="show('road')">🗺️ Roadmap</button>
+</div>
+
+<!-- ══════ 1: PACKAGING QUALITY ══════ -->
+
+<div class="section active" id="sec-pkg">
+  <div class="wrap">
+    <div class="sec-label">Section 1</div>
+    <div class="sec-heading">มิติคุณภาพใน Packaging Industry</div>
+
+```
+<div class="dha-banner">
+  <div class="dha-banner-icon">✏️</div>
+  <div>
+    <div class="dha-banner-label">Context — D.H.A. Siamwalla</div>
+    <div class="dha-banner-text">
+      ผลิตภัณฑ์ = <strong>Writing Instruments (ปากกา ดินสอ ไม้บรรทัด)</strong><br>
+      Packaging ไม่ใช่แค่กล่อง — มันคือ <strong>First Touch Point</strong> ที่ลูกค้าเห็นก่อนใช้สินค้า และ <strong>Silent Salesman</strong> บน Shelf
+    </div>
+  </div>
+</div>
+
+<!-- Customer's 9 Dimensions mapped to Packaging -->
+<div class="card">
+  <div class="card-title">9 มิติคุณภาพ → แปลงเป็น Packaging Context</div>
+  <div class="pq-grid">
+    <div class="pq-card pq-c1">
+      <div class="pq-icon">🎯</div>
+      <div class="pq-title">Performance</div>
+      <div class="pq-desc">กล่องปกป้องสินค้าได้จริง — ทนแรงกด ทนความชื้น ไม่แตกหักระหว่างขนส่ง</div>
+    </div>
+    <div class="pq-card pq-c2">
+      <div class="pq-icon">✨</div>
+      <div class="pq-title">Feature</div>
+      <div class="pq-desc">มี Window Film ให้เห็นสินค้า / Easy-open Tab / Hang Hole สำหรับแขวน</div>
+    </div>
+    <div class="pq-card pq-c3">
+      <div class="pq-icon">🔁</div>
+      <div class="pq-title">Reliability</div>
+      <div class="pq-desc">งาน Print ทุก Lot สีตรง — ไม่มี Color Shift ระหว่าง Batch</div>
+    </div>
+    <div class="pq-card pq-c4">
+      <div class="pq-icon">📐</div>
+      <div class="pq-title">Conformance</div>
+      <div class="pq-desc">ขนาดกล่องตรง Spec ทุกด้าน — ใส่ปากกาได้พอดี ไม่แน่นหรือหลวมเกิน</div>
+    </div>
+    <div class="pq-card pq-c5">
+      <div class="pq-icon">⏳</div>
+      <div class="pq-title">Durability</div>
+      <div class="pq-desc">สีและ Coating ไม่ลอกง่าย — ทนการจับถือบน Shelf นาน 6–12 เดือน</div>
+    </div>
+    <div class="pq-card pq-c6">
+      <div class="pq-icon">🎨</div>
+      <div class="pq-title">Aesthetics</div>
+      <div class="pq-desc">งาน Design โดดเด่นบน Shelf — สีตรง Pantone / Barcode อ่านได้ 100%</div>
+    </div>
+  </div>
+</div>
+
+<!-- Packaging Defect Types by Level -->
+<div class="card">
+  <div class="card-title">📋 ประเภท Defect ใน Packaging — 3 ระดับ</div>
+  <div class="pkg-levels">
+    <div class="pkg-level" style="background:#fff8f5; border-radius:12px 12px 0 0;">
+      <div class="pl-icon">🖨️</div>
+      <div class="pl-name">Print Defects</div>
+      <div class="pl-issues">
+        <span class="pl-issue">Color Off-Spec</span>
+        <span class="pl-issue">Ink Smear</span>
+        <span class="pl-issue">Misregister</span>
+        <span class="pl-issue">Barcode Unreadable</span>
+        <span class="pl-issue">Ghosting</span>
+      </div>
+      <span class="pl-impact hi">High Impact</span>
+    </div>
+    <div class="pkg-level">
+      <div class="pl-icon">📦</div>
+      <div class="pl-name">Structural Defects</div>
+      <div class="pl-issues">
+        <span class="pl-issue">Wrong Die-Cut</span>
+        <span class="pl-issue">Crease ผิดตำแหน่ง</span>
+        <span class="pl-issue">Glue Fail</span>
+        <span class="pl-issue">Size Out of Spec</span>
+      </div>
+      <span class="pl-impact hi">High Impact</span>
+    </div>
+    <div class="pkg-level">
+      <div class="pl-icon">🏷️</div>
+      <div class="pl-name">Material Defects</div>
+      <div class="pl-issues">
+        <span class="pl-issue">Wrong GSM Paper</span>
+        <span class="pl-issue">Coating ไม่สม่ำเสมอ</span>
+        <span class="pl-issue">Delamination</span>
+      </div>
+      <span class="pl-impact md">Med Impact</span>
+    </div>
+    <div class="pkg-level">
+      <div class="pl-icon">📝</div>
+      <div class="pl-name">Content Defects</div>
+      <div class="pl-issues">
+        <span class="pl-issue">ข้อมูลผิด</span>
+        <span class="pl-issue">Version ผิด</span>
+        <span class="pl-issue">Font ไม่ตรง</span>
+        <span class="pl-issue">Logo ผิด</span>
+      </div>
+      <span class="pl-impact md">Med Impact</span>
+    </div>
+    <div class="pkg-level" style="border-radius:0 0 12px 12px;">
+      <div class="pl-icon">🔍</div>
+      <div class="pl-name">Minor Defects</div>
+      <div class="pl-issues">
+        <span class="pl-issue">รอยขีดข่วนเล็กน้อย</span>
+        <span class="pl-issue">Dust particle</span>
+        <span class="pl-issue">Slight Scratch</span>
+      </div>
+      <span class="pl-impact lo">Low Impact</span>
+    </div>
+  </div>
+</div>
+
+<div class="summary-box">
+  <div class="summary-box-icon">💡</div>
+  <div>
+    <strong>Key Insight — Packaging Quality</strong>
+    <p>ใน Packaging, <strong>"Quality of Design"</strong> คือออกแบบ Artwork ที่สื่อสาร Brand ได้ถูกต้อง และ <strong>"Quality of Conformance"</strong> คือ Supplier พิมพ์ออกมาตรง Spec ทุก Lot — งานของ Packaging Supervisor ต้องดูแลทั้ง 2 ด้านนี้พร้อมกัน</p>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════ 2: COQ @ DHA ══════ -->
+
+<div class="section" id="sec-coq">
+  <div class="wrap">
+    <div class="sec-label">Section 2</div>
+    <div class="sec-heading">Costs of Quality ในงาน Packaging จริง</div>
+
+```
+<div class="dha-banner">
+  <div class="dha-banner-icon">💰</div>
+  <div>
+    <div class="dha-banner-label">Why COQ Matters @ DHA</div>
+    <div class="dha-banner-text">
+      Packaging Defect ที่ผ่านไปถึงลูกค้า (Retailer/Consumer) = <strong>External Failure Cost</strong> ที่แพงที่สุด เพราะกระทบทั้ง <strong>Brand Image</strong> และ <strong>Retail Relationship</strong>
+    </div>
+  </div>
+</div>
+
+<div class="coq-dha">
+  <div class="coq-dha-row prev">
+    <div>
+      <span class="coq-type-badge">PREVENTION — ลงทุนตรงนี้คุ้มที่สุด</span>
+      <div class="coq-dha-title">ป้องกันก่อน Defect เกิด</div>
+      <div style="font-size:12px; color:#444; line-height:1.7; margin-bottom:6px;">
+        ลงทุนในการวางระบบตั้งแต่แรก ดีกว่าต้องแก้ทีหลัง
+      </div>
+      <div class="coq-dha-items">
+        <span class="coq-tag">💻 Dieline Spec Management</span>
+        <span class="coq-tag">🎨 Color Proof Approval Process</span>
+        <span class="coq-tag">📋 Supplier Qualification (Pre-Approved)</span>
+        <span class="coq-tag">📏 AQL Sampling Plan</span>
+        <span class="coq-tag">🎓 Artwork Briefing Template</span>
+        <span class="coq-tag">🔄 Design Review Checklist</span>
+      </div>
+    </div>
+  </div>
+  <div class="coq-dha-row appr">
+    <div>
+      <span class="coq-type-badge">APPRAISAL — จำเป็นแต่ลด Cost ได้</span>
+      <div class="coq-dha-title">ตรวจสอบก่อนรับของ</div>
+      <div style="font-size:12px; color:#444; line-height:1.7; margin-bottom:6px;">
+        ต้นทุนที่หลีกเลี่ยงไม่ได้ แต่ออกแบบระบบให้ Efficient ช่วยลดได้
+      </div>
+      <div class="coq-dha-items">
+        <span class="coq-tag">🔍 Incoming Inspection (สุ่มตาม AQL)</span>
+        <span class="coq-tag">📊 Color Measurement (Spectrophotometer)</span>
+        <span class="coq-tag">📐 Dimensional Check</span>
+        <span class="coq-tag">🏷️ Barcode Verification</span>
+        <span class="coq-tag">✅ Press Pass (อยู่หน้าโรงพิมพ์)</span>
+      </div>
+    </div>
+  </div>
+  <div class="coq-dha-row intl">
+    <div>
+      <span class="coq-type-badge">INTERNAL FAILURE — แก้ได้ก่อนลูกค้าเห็น</span>
+      <div class="coq-dha-title">ของเสียที่พบก่อนส่งโรงงาน/ร้านค้า</div>
+      <div style="font-size:12px; color:#444; line-height:1.7; margin-bottom:6px;">
+        ยังพอควบคุมได้ แต่กระทบ Cost และ Lead Time
+      </div>
+      <div class="coq-dha-items">
+        <span class="coq-tag">🔁 Reprint ล็อตใหม่</span>
+        <span class="coq-tag">🗑️ Scrap Packaging</span>
+        <span class="coq-tag">⏰ Delay Launch</span>
+        <span class="coq-tag">🔄 Re-inspection ซ้ำ</span>
+        <span class="coq-tag">📋 Artwork Revision รอบที่ 3+</span>
+      </div>
+    </div>
+  </div>
+  <div class="coq-dha-row extl">
+    <div>
+      <span class="coq-type-badge">EXTERNAL FAILURE — แพงและเจ็บปวดที่สุด</span>
+      <div class="coq-dha-title">ของเสียที่ลูกค้า/ร้านค้าพบแล้ว</div>
+      <div style="font-size:12px; color:#444; line-height:1.7; margin-bottom:6px;">
+        กระทบ Brand Trust และ Relationship กับ Retailer โดยตรง
+      </div>
+      <div class="coq-dha-items">
+        <span class="coq-tag">🔴 Recall สินค้า</span>
+        <span class="coq-tag">😡 Retailer Complaint</span>
+        <span class="coq-tag">📉 Brand Damage</span>
+        <span class="coq-tag">💸 Rework ที่ปลายทาง</span>
+        <span class="coq-tag">🏪 De-listing จากร้านค้า</span>
+        <span class="coq-tag">🔖 Barcode Recall</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COQ Rule of thumb -->
+<div style="background:white; border-radius:16px; padding:18px; box-shadow:var(--shadow); margin-top:4px;">
+  <div style="font-family:'Playfair Display',serif; font-size:15px; color:var(--navy); font-weight:700; margin-bottom:12px;">📐 Rule of Thumb สำหรับ Packaging</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; text-align:center;">
+    <div style="background:#d5f5e3; border-radius:10px; padding:12px;">
+      <div style="font-size:22px; font-weight:900; color:#145a32;">$1</div>
+      <div style="font-size:11px; color:#145a32; font-weight:600; margin-top:3px;">ป้องกัน<br>(Prevention)</div>
+    </div>
+    <div style="background:#fdebd0; border-radius:10px; padding:12px;">
+      <div style="font-size:22px; font-weight:900; color:#784212;">$10</div>
+      <div style="font-size:11px; color:#784212; font-weight:600; margin-top:3px;">แก้ใน Internal<br>(Re-print)</div>
+    </div>
+    <div style="background:#fadbd8; border-radius:10px; padding:12px;">
+      <div style="font-size:22px; font-weight:900; color:#922b21;">$100+</div>
+      <div style="font-size:11px; color:#922b21; font-weight:600; margin-top:3px;">แก้หลัง External<br>(Recall + Brand)</div>
+    </div>
+  </div>
+</div>
+
+<div class="summary-box">
+  <div class="summary-box-icon">💡</div>
+  <div>
+    <strong>Key Insight — COQ @ DHA</strong>
+    <p>งาน Packaging Supervisor ที่ดีคือ<strong>ลงทุนใน Prevention</strong> ให้มากพอ — Color Proof Approval, Supplier Briefing, Dieline Spec ที่ชัดเจน ทำให้ External Failure ลดลงอย่างมีนัยสำคัญ</p>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════ 3: SQC Tools ══════ -->
+
+<div class="section" id="sec-sqc">
+  <div class="wrap">
+    <div class="sec-label">Section 3</div>
+    <div class="sec-heading">SQC Tools — ใช้งานจริงใน Packaging</div>
+
+```
+<div class="tool-app-list">
+  <div class="tool-app-card">
+    <div class="ta-icon">🗺️</div>
+    <div>
+      <div class="ta-tool">Tool #1 — Process Flow Chart</div>
+      <div class="ta-title">Map กระบวนการ Packaging Development</div>
+      <div class="ta-desc">วาด Flow ตั้งแต่ <strong>Marketing Brief → Design → Proof → Supplier → Inspection → Production</strong> เพื่อหาว่า Defect มักเกิดที่จุดไหน — มักพบว่า Briefing ที่ไม่ชัดเจนคือต้นเหตุ</div>
+    </div>
+    <div class="ta-badge">Packaging Dev</div>
+  </div>
+  <div class="tool-app-card">
+    <div class="ta-icon">☑️</div>
+    <div>
+      <div class="ta-tool">Tool #2 — Check Sheet</div>
+      <div class="ta-title">บันทึกประเภท Defect ที่พบในแต่ละ Lot</div>
+      <div class="ta-desc">ทุกครั้งที่ตรวจรับ Packaging บันทึก Defect Type ลง Check Sheet — <strong>Color Off-spec / Barcode Error / Die-cut Wrong / Crease ผิดตำแหน่ง</strong> สะสมข้อมูล 3 เดือนก่อน Pareto</div>
+    </div>
+    <div class="ta-badge">QC Receiving</div>
+  </div>
+  <div class="tool-app-card">
+    <div class="ta-icon">📊</div>
+    <div>
+      <div class="ta-tool">Tool #3 — Pareto Analysis</div>
+      <div class="ta-title">80/20 — หา Defect ที่ต้องแก้ก่อน</div>
+      <div class="ta-desc">หลังเก็บข้อมูล 3 เดือน พบว่า <strong>Color Off-Spec (45%) + Barcode Unreadable (30%)</strong> = 75% ของ Defect ทั้งหมด → โฟกัสแก้ 2 ตัวนี้ก่อน แทนที่จะแก้ทุกตัวพร้อมกัน</div>
+    </div>
+    <div class="ta-badge">Root Cause</div>
+  </div>
+  <div class="tool-app-card">
+    <div class="ta-icon">🐟</div>
+    <div>
+      <div class="ta-tool">Tool #5 — Fishbone Diagram</div>
+      <div class="ta-title">วิเคราะห์สาเหตุ Color Off-Spec</div>
+      <div class="ta-desc">
+        <strong>Man:</strong> Designer ใช้ RGB ไม่ใช่ CMYK<br>
+        <strong>Machine:</strong> Printer Calibration ไม่ตรง<br>
+        <strong>Material:</strong> Paper Stock ดูด Ink ต่างกัน<br>
+        <strong>Method:</strong> ไม่มี Color Proof Approval<br>
+        <strong>Environment:</strong> แสงใน QC Room ไม่มาตรฐาน
+      </div>
+    </div>
+    <div class="ta-badge">Color Quality</div>
+  </div>
+  <div class="tool-app-card">
+    <div class="ta-icon">📉</div>
+    <div>
+      <div class="ta-tool">Tool #6 — Run Chart</div>
+      <div class="ta-title">Track Defect Rate รายเดือนหลัง Implement</div>
+      <div class="ta-desc">Plot % Defect ต่อ Lot ตามเวลา — ดูว่า Solution ที่ทำไปได้ผลจริงหรือเปล่า เช่น หลัง Implement Color Proof Process → Defect Rate ลดจาก 8% → 2%</div>
+    </div>
+    <div class="ta-badge">Monitoring</div>
+  </div>
+  <div class="tool-app-card">
+    <div class="ta-icon">🎯</div>
+    <div>
+      <div class="ta-tool">Tool #8 — Control Chart</div>
+      <div class="ta-title">Monitor ΔE (Color Deviation) ทุก Lot</div>
+      <div class="ta-desc">กำหนด <strong>UCL = ΔE 3.0 / LCL = ΔE 0</strong> วัดค่า ΔE ทุก Lot ที่รับ ถ้าเกิน UCL → Hold และ Reject ทันที ไม่รอให้เข้าสาย Production</div>
+    </div>
+    <div class="ta-badge">Color SPC</div>
+  </div>
+</div>
+
+<div class="summary-box">
+  <div class="summary-box-icon">💡</div>
+  <div>
+    <strong>Key Insight — SQC in Packaging</strong>
+    <p>เครื่องมือที่ใช้บ่อยที่สุดใน Packaging คือ <strong>Fishbone + Pareto</strong> (หาปัญหา) และ <strong>Control Chart</strong> (Monitor Color ด้วย ΔE) — ลองเอา Check Sheet ไปเริ่มใช้กับงานจริงได้เลย ใช้เวลาแค่ 2–3 สัปดาห์ได้ข้อมูลพอทำ Pareto</p>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════ 4: PDCA Case ══════ -->
+
+<div class="section" id="sec-pdca">
+  <div class="wrap">
+    <div class="sec-label">Section 4</div>
+    <div class="sec-heading">PDCA Case Study — แก้ปัญหาจริงที่ DHA</div>
+
+```
+<!-- Case 1 -->
+<div class="pdca-scenario">
+  <div class="ps-title">Case 1: ปัญหา Barcode ไม่ผ่านสแกนที่ Retailer</div>
+  <div class="ps-steps">
+    <div class="ps-step p">
+      <div class="ps-letter">P</div>
+      <div>
+        <div class="ps-step-title">PLAN — วิเคราะห์สาเหตุ</div>
+        <div class="ps-step-desc">เก็บข้อมูลจาก Retailer → 30% ของ Barcode ล็อตใหม่ Scan ไม่ผ่าน → ใช้ Fishbone พบว่า <strong>Barcode Background Color เข้มเกิน + Font Size เล็กกว่า GS1 Spec</strong> → วางแผนปรับ Artwork Spec และ QC Process</div>
+      </div>
+    </div>
+    <div class="ps-step d">
+      <div class="ps-letter">D</div>
+      <div>
+        <div class="ps-step-title">DO — ทดลองทำ</div>
+        <div class="ps-step-desc">แก้ Artwork Template: เพิ่ม Quiet Zone, ปรับ Bar Color เป็น Black บน White เท่านั้น, กำหนด Minimum Size ตาม GS1 Standard → ทดลองกับ Pilot Lot 500 ใบ → ส่ง Barcode Verifier ก่อนอนุมัติ</div>
+      </div>
+    </div>
+    <div class="ps-step c">
+      <div class="ps-letter">C</div>
+      <div>
+        <div class="ps-step-title">CHECK — ตรวจผล</div>
+        <div class="ps-step-desc">Scan Rate = 100% ผ่านทุกใบใน Pilot Lot → ทดสอบกับ Scanner ของ Retailer รายใหญ่ 3 ราย → ผ่านหมด → ยืนยันว่า Solution ได้ผล</div>
+      </div>
+    </div>
+    <div class="ps-step a">
+      <div class="ps-letter">A</div>
+      <div>
+        <div class="ps-step-title">ACT — บรรจุเป็น Standard</div>
+        <div class="ps-step-desc">อัพเดท <strong>Artwork Guideline ทุก SKU</strong>, เพิ่ม Barcode Verification Step ใน QC Checklist, อบรม Graphic Designer ทุกคน, Monitor ต่อเนื่อง 3 เดือนถัดไป</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Case 2 -->
+<div class="pdca-scenario" style="background:linear-gradient(135deg, var(--navy), #1a4010);">
+  <div class="ps-title">Case 2: ปัญหา Color Shift ระหว่าง Reprint</div>
+  <div class="ps-steps">
+    <div class="ps-step p">
+      <div class="ps-letter">P</div>
+      <div>
+        <div class="ps-step-title">PLAN — ตั้งเป้าหมาย</div>
+        <div class="ps-step-desc">ลูกค้า Modern Trade แจ้งว่า Packaging ล็อตใหม่ <strong>สีต่างจากล็อตเดิม</strong> ตั้งเป้า ΔE ≤ 2.0 ทุก Lot → วิเคราะห์พบว่าไม่มี Color Standard ที่ Supplier ต้องยึดถือ</div>
+      </div>
+    </div>
+    <div class="ps-step d">
+      <div class="ps-letter">D</div>
+      <div>
+        <div class="ps-step-title">DO — สร้าง Color Management System</div>
+        <div class="ps-step-desc">ทำ <strong>Approved Color Sample</strong> เก็บไว้เป็น Physical Reference, กำหนด ΔE ≤ 2.0 ในสัญญา Supplier, ส่ง Spectrophotometer ข้อมูลให้ Supplier ทุก Reprint</div>
+      </div>
+    </div>
+    <div class="ps-step c">
+      <div class="ps-letter">C</div>
+      <div>
+        <div class="ps-step-title">CHECK — วัด ΔE ทุก Lot</div>
+        <div class="ps-step-desc">วัดค่า ΔE 3 จุดในกล่องตัวอย่าง → ค่าเฉลี่ย ΔE ลดจาก 4.8 → 1.6 → Complaint จาก Retailer หายไป</div>
+      </div>
+    </div>
+    <div class="ps-step a">
+      <div class="ps-letter">A</div>
+      <div>
+        <div class="ps-step-title">ACT — ขยายทุก Supplier</div>
+        <div class="ps-step-desc">บรรจุ <strong>ΔE ≤ 2.0 เป็น Supplier Contract Clause</strong> ทุกราย, ทำ Color Control Chart Monitor รายเดือน, Kaizen ต่อ → ตั้งเป้า ΔE ≤ 1.5 ในปีถัดไป</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="summary-box">
+  <div class="summary-box-icon">💡</div>
+  <div>
+    <strong>Key Insight — PDCA in Packaging</strong>
+    <p>ทั้ง 2 Case นี้เป็นปัญหาที่เกิดได้จริงใน Packaging — PDCA ช่วยให้แก้ปัญหา<strong>อย่างเป็นระบบ</strong> ไม่ใช่แค่ "บอก Supplier ให้ระวัง" แล้วรอให้เกิดปัญหาซ้ำ</p>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════ 5: TQM @ DHA ══════ -->
+
+<div class="section" id="sec-tqm">
+  <div class="wrap">
+    <div class="sec-label">Section 5</div>
+    <div class="sec-heading">TQM 11 Principles — ประยุกต์กับ DHA</div>
+
+```
+<div class="dha-banner">
+  <div class="dha-banner-icon">🏛️</div>
+  <div>
+    <div class="dha-banner-label">TQM @ DHA Context</div>
+    <div class="dha-banner-text">
+      DHA Siamwalla มีทั้ง <strong>B2B</strong> (ขายส่งให้ Retailer) และ <strong>B2C</strong> (ผู้บริโภค) — TQM ต้องครอบคลุมทั้ง Supply Chain ตั้งแต่ <strong>Supplier → Production → Packaging → Distribution → End Customer</strong>
+    </div>
+  </div>
+</div>
+
+<div class="tqm-app-grid">
+  <div class="tqm-app-card c1">
+    <div class="tac-principle">Principle 1</div>
+    <div class="tac-title">👤 Customer-Driven Quality</div>
+    <div class="tac-dha">ลูกค้า DHA = นักเรียน/นักศึกษา + Retailer — Packaging ต้องตอบทั้ง <strong>ผู้ซื้อ (Retailer)</strong> และ <strong>ผู้ใช้ (นักเรียน)</strong></div>
+    <span class="tac-eg">VOC: Consumer Survey + Retail Visit</span>
+  </div>
+  <div class="tqm-app-card c2">
+    <div class="tac-principle">Principle 2</div>
+    <div class="tac-title">🎯 Quality as Strategic Issue</div>
+    <div class="tac-dha">Packaging Quality คือ <strong>Brand Differentiation</strong> — ปากกา DHA ที่กล่องสวย อ่านชัด จับง่าย ขายได้ราคาสูงกว่า Generic Brand</div>
+    <span class="tac-eg">Packaging = Brand Investment</span>
+  </div>
+  <div class="tqm-app-card c3">
+    <div class="tac-principle">Principle 4</div>
+    <div class="tac-title">🏢 All Functions Responsible</div>
+    <div class="tac-dha">คุณภาพ Packaging ไม่ใช่แค่หน้าที่ QC — <strong>Marketing</strong> (Brief), <strong>Design</strong> (Artwork), <strong>Procurement</strong> (Supplier), <strong>Production</strong> (Assembly) ต้องร่วมรับผิดชอบ</div>
+    <span class="tac-eg">Cross-function QC Gate</span>
+  </div>
+  <div class="tqm-app-card c4">
+    <div class="tac-principle">Principle 6</div>
+    <div class="tac-title">📊 Management by Fact</div>
+    <div class="tac-dha">ตัดสินใจจาก <strong>ΔE Data, Defect Rate, AQL Result</strong> — ไม่ใช่ "ดูว่าใกล้เคียง" ด้วยตาเปล่า → ต้องมี Measurement System ที่เชื่อถือได้</div>
+    <span class="tac-eg">Spectrophotometer + Dashboard</span>
+  </div>
+  <div class="tqm-app-card c5">
+    <div class="tac-principle">Principle 8</div>
+    <div class="tac-title">🛡️ Design Quality & Prevention</div>
+    <div class="tac-dha">ลงทุนใน <strong>Structural Engineering ของกล่องตั้งแต่แรก</strong> — ทดสอบ Drop Test, Stack Test ก่อน Mass Production แทนที่จะรอให้สินค้าเสียหายระหว่างขนส่ง</div>
+    <span class="tac-eg">Prototype Testing Protocol</span>
+  </div>
+  <div class="tqm-app-card c6">
+    <div class="tac-principle">Principle 10</div>
+    <div class="tac-title">🤝 Partnership Development</div>
+    <div class="tac-dha">Supplier Packaging คือ <strong>Long-term Partner</strong> ไม่ใช่แค่คู่ราคา — Share Color Spec, Dieline Template, และ Feedback อย่างสม่ำเสมอ ยิ่ง Partner เข้าใจ Brand มาก ของเสียยิ่งน้อย</div>
+    <span class="tac-eg">Supplier Development Program</span>
+  </div>
+</div>
+
+<div class="summary-box">
+  <div class="summary-box-icon">💡</div>
+  <div>
+    <strong>Key Insight — TQM @ DHA</strong>
+    <p>ในฐานะ Packaging Supervisor คุณอยู่ตรงกลางระหว่าง Marketing, Design, Supplier, และ Production — งานของคุณคือ <strong>ออกแบบระบบที่ทำให้ทุก Function ทำงานร่วมกันได้โดยไม่พลาด</strong> นั่นคือหัวใจของ TQM</p>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════ 6: Six Sigma ══════ -->
+
+<div class="section" id="sec-sigma">
+  <div class="wrap">
+    <div class="sec-label">Section 6</div>
+    <div class="sec-heading">Six Sigma Project — Packaging @ DHA</div>
+
+```
+<!-- Project 1: Color Consistency -->
+<div class="ss-project">
+  <div class="ss-project-title">🎨 Project 1: Color Consistency Program — ลด ΔE ให้ถึง 6σ</div>
+  <div class="dmaic-mini">
+    <div class="dm-mini dd"><strong>D</strong>Define</div>
+    <div class="dm-mini dm"><strong>M</strong>Measure</div>
+    <div class="dm-mini da"><strong>A</strong>Analyze</div>
+    <div class="dm-mini di"><strong>I</strong>Improve</div>
+    <div class="dm-mini dc"><strong>C</strong>Control</div>
+  </div>
+  <div class="ss-detail">
+    <div class="ss-det-card">
+      <div class="ss-det-label">D — Define</div>
+      <div class="ss-det-text">
+        VOC: Retailer ต้องการ Packaging สม่ำเสมอทุก Lot<br>
+        CTQ: ΔE ≤ 2.0 ทุก SKU ทุก Reprint<br>
+        Scope: Packaging Supplier 5 ราย / 120 SKU
+      </div>
+    </div>
+    <div class="ss-det-card">
+      <div class="ss-det-label">M — Measure</div>
+      <div class="ss-det-text">
+        Baseline: ΔE เฉลี่ย = 4.2 (ประมาณ 3σ)<br>
+        Defect Rate: 22% ของ Lot มี ΔE > 2.0<br>
+        เก็บข้อมูล 6 เดือน 480 Lots
+      </div>
+    </div>
+    <div class="ss-det-card">
+      <div class="ss-det-label">A — Analyze</div>
+      <div class="ss-det-text">
+        Root Cause 1: ไม่มี Physical Color Standard<br>
+        Root Cause 2: Supplier ไม่ Calibrate Printer<br>
+        Root Cause 3: Paper Stock ต่าง Lot ต่าง Batch
+      </div>
+    </div>
+    <div class="ss-det-card">
+      <div class="ss-det-label">I — Improve</div>
+      <div class="ss-det-text">
+        ทำ Pantone-to-CMYK Color Library<br>
+        กำหนด Substrate Spec ใน Contract<br>
+        Require Press Pass ทุก New Job
+      </div>
+    </div>
+    <div class="ss-det-card" style="grid-column:1/-1;">
+      <div class="ss-det-label">C — Control</div>
+      <div class="ss-det-text">
+        ΔE Control Chart (UCL=2.0) ทุก Lot → Result: ΔE เฉลี่ย = 1.4 / Defect Rate 4% → ประมาณ 4.5σ → เป้าถัดไปคือ ΔE ≤ 1.0 (5σ+)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Project 2: Barcode -->
+<div class="ss-project" style="border-top-color:var(--teal);">
+  <div class="ss-project-title">🏷️ Project 2: Zero Barcode Failure — ลด Scan Fail Rate เหลือ 0</div>
+  <div class="dmaic-mini">
+    <div class="dm-mini dd"><strong>D</strong>Define</div>
+    <div class="dm-mini dm"><strong>M</strong>Measure</div>
+    <div class="dm-mini da"><strong>A</strong>Analyze</div>
+    <div class="dm-mini di"><strong>I</strong>Improve</div>
+    <div class="dm-mini dc"><strong>C</strong>Control</div>
+  </div>
+  <div class="ss-detail">
+    <div class="ss-det-card">
+      <div class="ss-det-label">D — Business Case</div>
+      <div class="ss-det-text">
+        Barcode Fail ที่ Checkout = Retailer Complaint<br>
+        เป้าหมาย: Scan Pass Rate 100%<br>
+        (เท่ากับ Zero Defect ในมิตินี้)
+      </div>
+    </div>
+    <div class="ss-det-card">
+      <div class="ss-det-label">M — Baseline</div>
+      <div class="ss-det-text">
+        Scan Fail Rate: 3.2% (ประมาณ 3.5σ)<br>
+        = 32,000 DPMO<br>
+        วัดจาก 1,000 SKU × 100 ตัวอย่าง
+      </div>
+    </div>
+    <div class="ss-det-card">
+      <div class="ss-det-label">A — Root Causes</div>
+      <div class="ss-det-text">
+        1. Quiet Zone ไม่พอตาม GS1<br>
+        2. ใช้สีพื้นหลังมืดเกิน<br>
+        3. ขนาดย่อกว่า Minimum
+      </div>
+    </div>
+    <div class="ss-det-card">
+      <div class="ss-det-label">I+C — Solution</div>
+      <div class="ss-det-text">
+        สร้าง Barcode Spec Template<br>
+        เพิ่ม Barcode Verifier Grade A ใน QC<br>
+        Result: Fail Rate → 0.08% (5σ+)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Belt system for DHA -->
+<div class="card">
+  <div class="card-title">🥋 Belt System ที่เหมาะกับ DHA</div>
+  <div style="display:flex; flex-direction:column; gap:8px;">
+    <div style="background:linear-gradient(135deg,#145a32,#27ae60); border-radius:10px; padding:13px 14px; color:white;">
+      <div style="font-size:11px; opacity:0.8; margin-bottom:3px;">ระยะสั้น (ตอนนี้)</div>
+      <div style="font-size:13px; font-weight:700;">🟢 Green Belt — ระดับ Packaging Supervisor</div>
+      <div style="font-size:12px; opacity:0.9; margin-top:3px; line-height:1.6;">เรียน DMAIC + SQC Tools → นำ Improvement Project ใน Packaging Quality ควบคู่งานประจำ</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#0a1628,#1a3a6e); border-radius:10px; padding:13px 14px; color:white;">
+      <div style="font-size:11px; opacity:0.8; margin-bottom:3px;">ระยะกลาง (Creative Manager / Art Director)</div>
+      <div style="font-size:13px; font-weight:700;">⚫ Black Belt — ระดับ Creative Manager</div>
+      <div style="font-size:12px; opacity:0.9; margin-top:3px; line-height:1.6;">นำ Cross-function DMAIC Projects ที่ครอบคลุม Design → Production → Supplier Chain</div>
+    </div>
+  </div>
+</div>
+
+<div class="summary-box">
+  <div class="summary-box-icon">💡</div>
+  <div>
+    <strong>Key Insight — Six Sigma @ DHA</strong>
+    <p>Six Sigma ใน Packaging ไม่จำเป็นต้องรอให้เป็น Manufacturing Plant — <strong>ΔE Control, Barcode Verification, Structural Integrity</strong> ล้วนวัดได้เป็นตัวเลข DPMO ทำให้ DMAIC ประยุกต์ใช้ได้ทันที</p>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════ 7: Roadmap ══════ -->
+
+<div class="section" id="sec-road">
+  <div class="wrap">
+    <div class="sec-label">Section 7</div>
+    <div class="sec-heading">Quality Roadmap — DHA Packaging Division</div>
+
+```
+<div class="dha-banner" style="background:linear-gradient(135deg,#0f1e38,#2e0612);">
+  <div class="dha-banner-icon">🗺️</div>
+  <div>
+    <div class="dha-banner-label">Practical Roadmap</div>
+    <div class="dha-banner-text">
+      แผนพัฒนาระบบคุณภาพ Packaging แบบ<strong>ทำได้จริง</strong> — เรียงลำดับจากสิ่งที่ทำได้ทันทีไปสู่ระดับที่ต้องการ Organizational Buy-in
+    </div>
+  </div>
+</div>
+
+<div class="roadmap">
+  <div class="rm-phase">
+    <div class="rm-timeline">PHASE 1 — เดือนที่ 1–3 (Quick Wins)</div>
+    <div class="rm-title">สร้าง Foundation — ระบบที่ต้องมีก่อน</div>
+    <div class="rm-desc">ทำได้ทันทีโดยไม่ต้องรออนุมัติองค์กร — เริ่มเก็บข้อมูลและสร้าง Standard ที่ชัดเจน</div>
+    <div class="rm-actions">
+      <span class="rm-action red">✏️ Artwork Spec Template ทุก SKU</span>
+      <span class="rm-action red">📋 QC Checklist มาตรฐาน</span>
+      <span class="rm-action red">☑️ Check Sheet เก็บ Defect</span>
+      <span class="rm-action red">📏 กำหนด AQL Level</span>
+    </div>
+  </div>
+  <div class="rm-phase p2">
+    <div class="rm-timeline">PHASE 2 — เดือนที่ 4–9 (System Building)</div>
+    <div class="rm-title">ยกระดับ Supplier Quality Management</div>
+    <div class="rm-desc">ใช้ข้อมูลจาก Phase 1 ทำ Pareto วิเคราะห์ Root Cause และ Implement Solution กับ Supplier</div>
+    <div class="rm-actions">
+      <span class="rm-action yel">📊 Pareto Analysis — Top 3 Defects</span>
+      <span class="rm-action yel">🐟 Fishbone — หา Root Cause</span>
+      <span class="rm-action yel">🎨 Color Management System (ΔE)</span>
+      <span class="rm-action yel">🏷️ Barcode Verification Process</span>
+      <span class="rm-action yel">📄 Supplier Scorecard รายไตรมาส</span>
+    </div>
+  </div>
+  <div class="rm-phase p3">
+    <div class="rm-timeline">PHASE 3 — เดือนที่ 10–18 (Excellence)</div>
+    <div class="rm-title">Six Sigma Culture — Data-Driven Packaging QC</div>
+    <div class="rm-desc">เมื่อระบบพื้นฐานแข็งแกร่งแล้ว ยกระดับสู่ DMAIC Projects และ Statistical Process Control</div>
+    <div class="rm-actions">
+      <span class="rm-action grn">🎯 DMAIC Project — Color Consistency</span>
+      <span class="rm-action grn">📉 Control Chart ทุก Critical Dimension</span>
+      <span class="rm-action grn">🥋 Green Belt Certification</span>
+      <span class="rm-action grn">🏭 Supplier Capability Index (Cpk)</span>
+      <span class="rm-action grn">📈 Quality Dashboard Real-time</span>
+    </div>
+  </div>
+</div>
+
+<!-- Expected Results -->
+<div class="card">
+  <div class="card-title">📈 ผลลัพธ์ที่คาดหวัง</div>
+  <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px;">
+    <div style="background:linear-gradient(145deg,#d5f5e3,#eafaf1); border-radius:12px; padding:14px; text-align:center; border-bottom:3px solid var(--green);">
+      <div style="font-size:26px; font-weight:900; color:var(--green);">50%↓</div>
+      <div style="font-size:12px; color:#145a32; font-weight:700; margin-top:4px;">Defect Rate</div>
+      <div style="font-size:11px; color:var(--muted); margin-top:3px;">จากระบบ Prevention + SQC</div>
+    </div>
+    <div style="background:linear-gradient(145deg,#d6eaf8,#eaf4fb); border-radius:12px; padding:14px; text-align:center; border-bottom:3px solid var(--blue);">
+      <div style="font-size:26px; font-weight:900; color:var(--blue);">ΔE≤2.0</div>
+      <div style="font-size:12px; color:#1a5276; font-weight:700; margin-top:4px;">Color Consistency</div>
+      <div style="font-size:11px; color:var(--muted); margin-top:3px;">ทุก Lot ทุก Supplier</div>
+    </div>
+    <div style="background:linear-gradient(145deg,#fdebd0,#fef9e7); border-radius:12px; padding:14px; text-align:center; border-bottom:3px solid var(--gold);">
+      <div style="font-size:26px; font-weight:900; color:#784212;">100%</div>
+      <div style="font-size:12px; color:#784212; font-weight:700; margin-top:4px;">Barcode Scan Rate</div>
+      <div style="font-size:11px; color:var(--muted); margin-top:3px;">Zero Retailer Complaint</div>
+    </div>
+    <div style="background:linear-gradient(145deg,#fadbd8,#fdf2f8); border-radius:12px; padding:14px; text-align:center; border-bottom:3px solid var(--dha);">
+      <div style="font-size:26px; font-weight:900; color:var(--dha);">4σ+</div>
+      <div style="font-size:12px; color:var(--dha2); font-weight:700; margin-top:4px;">Packaging Sigma Level</div>
+      <div style="font-size:11px; color:var(--muted); margin-top:3px;">จาก ~3σ ปัจจุบัน</div>
+    </div>
+  </div>
+</div>
+
+<!-- Career Link -->
+<div style="background:linear-gradient(135deg,var(--navy),var(--dha2)); border-radius:16px; padding:20px 18px; color:white; box-shadow:var(--shadow);">
+  <div style="font-family:'Playfair Display',serif; font-size:16px; font-weight:700; color:var(--goldf); margin-bottom:12px;">💼 เชื่อมกับ Career Path</div>
+  <div style="display:flex; flex-direction:column; gap:8px;">
+    <div style="background:rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
+      <div style="font-size:13px; font-weight:700; color:white; margin-bottom:4px;">📝 ใส่ใน Resume / LinkedIn</div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.8); line-height:1.7;">
+        "Implemented Color Management System reducing ΔE deviation by 67% across 5 suppliers" → ตัวเลขแบบนี้คือสิ่งที่ Hiring Manager ระดับ Creative Manager ต้องการเห็น
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
+      <div style="font-size:13px; font-weight:700; color:white; margin-bottom:4px;">🎤 ใช้เล่าใน Interview</div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.8); line-height:1.7;">
+        PDCA Case Study ทั้ง 2 เป็น <strong>STAR Stories</strong> (Situation → Task → Action → Result) ที่ใช้ตอบ Behavioral Interview ได้ทันที: "Tell me about a time you improved a process"
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
+      <div style="font-size:13px; font-weight:700; color:white; margin-bottom:4px;">📚 EMBA Connection</div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.8); line-height:1.7;">
+        Operations Management Report ที่ทำ → เชื่อมกับ Kittirit International ได้ในแง่ <strong>Quality Assurance System ของ Prefab Industry</strong> — ใช้ Framework เดียวกัน
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="summary-box">
+  <div class="summary-box-icon">🚀</div>
+  <div>
+    <strong>Final Key Takeaway</strong>
+    <p>ทฤษฎีใน Module 5 ไม่ได้ไกลจากงานจริงเลย — <strong>Check Sheet, Pareto, Fishbone, PDCA, ΔE Control Chart</strong> คือ Tools ที่ใช้ได้จริงใน Packaging Production Management ตั้งแต่วันพรุ่งนี้ เริ่มจาก Quick Win ใน Phase 1 แล้วค่อยๆ Build ขึ้นไปสู่ Six Sigma Mindset</p>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<script>
+  function show(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+</script>
+
+</body>
+</html>
