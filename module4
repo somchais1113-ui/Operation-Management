@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4 — SCM · Inventory · Lean · ERP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Kanit:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap');
+:root {
+  --teal:#0f766e;--teal2:#0d9488;--teal3:#14b8a6;--teal-soft:#ccfbf1;
+  --amber:#d97706;--amber2:#f59e0b;--amber-soft:#fef3c7;
+  --red:#dc2626;--red-soft:#fee2e2;--green:#16a34a;--green-soft:#dcfce7;
+  --blue:#1d4ed8;--blue-soft:#dbeafe;--violet:#7c3aed;--violet-soft:#ede9fe;
+  --orange:#ea580c;--orange-soft:#ffedd5;--slate:#475569;
+  --bg:#f0fdfa;--white:#ffffff;--border:#99f6e4;--text:#1e293b;--shadow:rgba(15,118,110,0.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Sarabun',sans-serif;font-size:15px;line-height:1.7;overflow-x:hidden}
+.hero{background:linear-gradient(150deg,#042f2e 0%,var(--teal) 50%,var(--teal3) 100%);padding:44px 20px 64px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:40px;background:var(--bg);clip-path:ellipse(58% 100% at 50% 100%)}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);background-size:28px 28px}
+.hi{position:relative}
+.htag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#99f6e4;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1.5px;margin-bottom:14px}
+.hero h1{font-family:'Kanit',sans-serif;font-size:24px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:8px}
+.hero h1 em{font-style:normal;color:var(--amber2)}
+.hero-sub{color:rgba(255,255,255,0.55);font-size:13px;margin-bottom:20px}
+.part-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pchip{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 12px}
+.pchip-n{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#99f6e4;font-weight:600;letter-spacing:1px;margin-bottom:3px}
+.pchip-t{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:#fff}
+.pchip-s{font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px}
+.sticky-p{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:2px solid var(--border);padding:10px 20px;box-shadow:0 2px 12px var(--shadow)}
+.pt{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--slate)}
+.pt strong{color:var(--teal)}
+.pbar{height:6px;background:var(--teal-soft);border-radius:6px;overflow:hidden;margin-bottom:9px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal3));border-radius:6px;width:0%;transition:width 0.5s ease}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;border:1.5px solid var(--border);color:var(--slate);background:var(--bg);cursor:pointer;transition:all 0.2s;font-family:'Kanit',sans-serif;user-select:none}
+.pill.done{background:var(--teal);color:#99f6e4;border-color:var(--teal)}
+.pbanner{padding:14px 20px;color:#fff;display:flex;align-items:center;gap:12px}
+.pbn{background:rgba(255,255,255,0.15);border-radius:6px;padding:5px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:#99f6e4}
+.pbt{font-family:'Kanit',sans-serif;font-size:15px;font-weight:800}
+.pbs{font-size:11px;opacity:0.65;margin-top:1px}
+.section{padding:24px 20px;opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease}
+.section.visible{opacity:1;transform:translateY(0)}
+.slbl{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:2px;color:var(--teal2);text-transform:uppercase;margin-bottom:5px}
+.slbl::before{content:'';display:block;width:18px;height:2px;background:var(--teal2);border-radius:2px}
+.stitle{font-family:'Kanit',sans-serif;font-size:19px;font-weight:800;color:var(--teal);line-height:1.25;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--slate);margin-bottom:18px}
+.card{background:var(--white);border-radius:14px;padding:16px;box-shadow:0 2px 14px var(--shadow);border:1px solid var(--border);margin-bottom:12px}
+.ctitle{font-family:'Kanit',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.note{background:var(--amber-soft);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:10px 14px;font-size:12px;margin-top:10px}
+/* SCM */
+.scm-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px 0}
+.snode{border-radius:10px;padding:10px 12px;font-size:11px;font-weight:700;text-align:center;border:2px solid;min-width:70px;line-height:1.3}
+.sarr{font-size:18px;color:var(--teal3)}
+.flow-list{display:flex;flex-direction:column;gap:8px}
+.fi{border-radius:10px;padding:12px 14px;border-left:4px solid;display:flex;gap:12px;align-items:flex-start}
+.fi-icon{font-size:22px;flex-shrink:0}
+.fi-name{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700}
+.fi-desc{font-size:11px;color:var(--slate);margin-top:2px}
+/* Stages */
+.stages-list{display:flex;flex-direction:column;gap:8px}
+.stage-item{border-radius:10px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);cursor:pointer}
+.stage-head{padding:11px 14px;display:flex;justify-content:space-between;align-items:center}
+.stage-title{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;color:#fff}
+.stage-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px}
+.stage-body{display:none;padding:12px 14px;font-size:12px;line-height:1.7;background:var(--white);border-top:1px solid var(--border)}
+.stage-item.open .stage-body{display:block;animation:fadeIn 0.25s}
+/* Formulas */
+.fbox{background:var(--teal);border-radius:10px;padding:13px 16px;margin-bottom:10px}
+.ftitle{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:#99f6e4;letter-spacing:1px;margin-bottom:5px}
+.fexpr{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#fff;font-weight:600;line-height:1.7}
+.fexpr em{color:var(--amber2);font-style:normal}
+/* Calculator */
+.cw{background:var(--white);border-radius:14px;padding:16px;box-shadow:0 2px 14px var(--shadow);border:1px solid var(--border)}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.cfield{display:flex;flex-direction:column;gap:3px}
+.cfield label{font-size:11px;font-weight:700;color:var(--teal);font-family:'Kanit',sans-serif}
+.cfield input{background:var(--bg);border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--text);outline:none;transition:border-color 0.2s;width:100%}
+.cfield input:focus{border-color:var(--teal2)}
+.cbtn{background:linear-gradient(135deg,var(--teal),var(--teal3));color:#fff;border:none;border-radius:10px;padding:11px;font-family:'Kanit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px}
+.cresult{background:var(--teal);border-radius:10px;padding:14px;display:none}
+.cresult.show{display:block;animation:fadeIn 0.3s}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px}
+.rrow:last-child{border-bottom:none}
+.rlbl{color:rgba(255,255,255,0.7);font-size:11px}
+.rval{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--amber2);font-size:14px}
+/* ABC */
+.abc-grid{display:flex;flex-direction:column;gap:8px}
+.abc-item{border-radius:10px;padding:12px 14px;display:flex;gap:14px;align-items:center;border:2px solid}
+.abc-lbl{font-family:'Kanit',sans-serif;font-size:32px;font-weight:800;flex-shrink:0;width:40px;text-align:center}
+.abc-bw{flex:1}
+.abc-name{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;margin-bottom:4px}
+.abc-bar{height:12px;border-radius:6px;margin-bottom:3px}
+.abc-stat{font-size:10px;font-family:'IBM Plex Mono',monospace}
+/* Inventory systems */
+.inv-cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inv-card{border-radius:12px;padding:13px;border-top:4px solid}
+.inv-t{font-family:'Kanit',sans-serif;font-size:12px;font-weight:800;margin-bottom:8px}
+.inv-f{font-size:11px;padding:3px 0 3px 12px;position:relative;border-bottom:1px solid rgba(0,0,0,0.05)}
+.inv-f::before{content:'✓';position:absolute;left:0;font-size:10px;font-weight:700}
+.inv-f:last-child{border-bottom:none}
+/* 7 Wastes */
+.waste-list{display:flex;flex-direction:column;gap:7px}
+.wr{display:flex;gap:0;border-radius:10px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);cursor:pointer}
+.wl{width:44px;display:flex;align-items:center;justify-content:center;font-family:'Kanit',sans-serif;font-size:22px;font-weight:800;color:#fff;flex-shrink:0}
+.wi{flex:1;background:var(--white);padding:10px 13px;border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:0 10px 10px 0}
+.wn{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700}
+.wt{font-size:11px;color:var(--slate)}
+.we{display:none;margin-top:5px;font-size:11px;padding:5px 10px;border-radius:6px;background:var(--teal-soft);color:var(--teal)}
+.wr.open .we{display:block}
+/* Lean grid */
+.lean-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.li{background:var(--white);border-radius:10px;padding:12px;border:1px solid var(--border);box-shadow:0 1px 6px var(--shadow);border-left:4px solid;cursor:pointer}
+.li-icon{font-size:20px;margin-bottom:5px}
+.li-name{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700}
+.li-det{display:none;font-size:11px;color:var(--slate);margin-top:5px;line-height:1.5}
+.li.open .li-det{display:block;animation:fadeIn 0.25s}
+/* Kanban */
+.kflow{background:var(--teal);border-radius:12px;padding:16px}
+.krow{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:10px;flex-wrap:wrap}
+.kbox{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 12px;font-size:11px;font-weight:700;color:#fff;text-align:center}
+.kcard{background:var(--amber);border-radius:4px;padding:3px 8px;font-size:9px;font-weight:700;color:#fff;font-family:'IBM Plex Mono',monospace}
+.karr{color:#99f6e4;font-size:14px}
+.klbl{font-size:11px;color:#99f6e4;font-family:'Kanit',sans-serif;font-weight:600;text-align:center}
+/* ERP */
+.erp-mods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.emod{border-radius:8px;padding:10px 8px;text-align:center;font-size:11px;font-weight:700;border:2px solid}
+.eflow{display:flex;align-items:center;gap:6px;justify-content:center;flex-wrap:wrap;font-size:12px;font-weight:700;margin-bottom:12px}
+.efbox{border-radius:8px;padding:8px 12px;font-size:11px;font-weight:700;border:2px solid;text-align:center}
+.efarr{color:var(--slate);font-size:16px}
+/* Case */
+.case-wrap{background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 4px 18px var(--shadow)}
+.case-head{padding:14px 18px;color:#fff}
+.case-head h4{font-family:'Kanit',sans-serif;font-size:14px;font-weight:700}
+.case-head p{font-size:11px;opacity:0.7;margin-top:2px}
+.case-body{padding:14px 18px}
+.cscen{background:var(--bg);border-left:4px solid var(--teal2);border-radius:0 10px 10px 0;padding:12px 14px;font-size:12px;line-height:1.7;margin-bottom:12px}
+.cqt{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;padding:9px 13px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.ca{display:none;padding:10px 13px;font-size:12px;line-height:1.7;border-radius:8px;margin-bottom:7px}
+.ca.open{display:block;animation:fadeIn 0.3s}
+/* Quiz */
+.quiz-section{background:linear-gradient(160deg,#042f2e,var(--teal));padding:26px 20px 40px}
+.quiz-header{text-align:center;margin-bottom:18px}
+.quiz-header h3{font-family:'Kanit',sans-serif;font-size:20px;font-weight:800;color:#fff}
+.quiz-header p{color:rgba(255,255,255,0.5);font-size:12px;margin-top:4px}
+.qcard{background:var(--white);border-radius:12px;padding:14px;margin-bottom:10px}
+.qnum{display:inline-block;background:var(--teal2);color:#fff;font-family:'Kanit',sans-serif;font-size:10px;font-weight:800;padding:2px 10px;border-radius:20px;margin-bottom:7px}
+.qtext{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.5}
+.qopts{display:flex;flex-direction:column;gap:6px}
+.qopt{background:var(--bg);border:2px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer;transition:all 0.2s;text-align:left;font-family:'Sarabun',sans-serif}
+.qopt:hover:not(:disabled){border-color:var(--teal2);background:var(--teal-soft)}
+.qopt.correct{background:var(--green-soft);border-color:var(--green);color:#14532d;font-weight:700}
+.qopt.wrong{background:var(--red-soft);border-color:var(--red);color:#7f1d1d}
+.qopt.show-correct{background:var(--green-soft);border-color:var(--green)}
+.qfb{display:none;margin-top:7px;padding:7px 12px;border-radius:8px;font-size:12px}
+.qfb.show{display:block}
+.qfb.ok{background:var(--green-soft);color:#14532d}
+.qfb.fail{background:var(--red-soft);color:#7f1d1d}
+.sbox{display:none;background:linear-gradient(135deg,var(--teal2),var(--teal3));border-radius:14px;padding:22px;text-align:center}
+.sbox.show{display:block;animation:fadeIn 0.4s}
+.sbox h3{font-family:'Kanit',sans-serif;font-size:18px;font-weight:800;color:#fff}
+.sbig{font-family:'Kanit',sans-serif;font-size:50px;font-weight:800;color:var(--amber2);line-height:1;margin:6px 0}
+.smsg{font-size:13px;color:rgba(255,255,255,0.85)}
+.rbtn{background:#fff;color:var(--teal);border:none;font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;padding:9px 26px;border-radius:20px;cursor:pointer;margin-top:12px}
+.bg-white{background:var(--white)}.bg-soft{background:var(--bg)}
+.divider{height:2px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 20px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hi">
+    <div class="htag">BA6500 · NIDA EMBA · MODULE 4</div>
+    <h1>SCM · Inventory · <em>Lean</em> · ERP</h1>
+    <div class="hero-sub">ผศ.ดร.ชัยรัช หิรัญยะวะสิต · 4 Parts · Interactive Study Guide</div>
+    <div class="part-chips">
+      <div class="pchip"><div class="pchip-n">4(1)</div><div class="pchip-t">Supply Chain Management</div><div class="pchip-s">4 Flows · 4 Stages · Hub & Spoke</div></div>
+      <div class="pchip"><div class="pchip-n">4(2)</div><div class="pchip-t">Inventory Management</div><div class="pchip-s">⚡ EOQ · ROP · Safety Stock · ABC</div></div>
+      <div class="pchip"><div class="pchip-n">4(3)</div><div class="pchip-t">Lean Manufacturing & JIT</div><div class="pchip-s">7 Wastes · Kanban · 5S · Kaizen</div></div>
+      <div class="pchip"><div class="pchip-n">4(4)</div><div class="pchip-t">ERP System</div><div class="pchip-s">MRP · MPS · Integrated Planning</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-p">
+  <div class="pt"><strong>MODULE 4 — Progress</strong><span id="pct">0%</span></div>
+  <div class="pbar"><div class="pfill" id="pfill"></div></div>
+  <div class="pills">
+    <div class="pill" onclick="tick(this,'t1')">SCM Concept</div><div class="pill" onclick="tick(this,'t2')">4 Flows</div><div class="pill" onclick="tick(this,'t3')">4 Stages</div><div class="pill" onclick="tick(this,'t4')">EOQ สูตร</div><div class="pill" onclick="tick(this,'t5')">ROP+Safety</div><div class="pill" onclick="tick(this,'t6')">ABC</div><div class="pill" onclick="tick(this,'t7')">7 Wastes</div><div class="pill" onclick="tick(this,'t8')">Lean Tools</div><div class="pill" onclick="tick(this,'t9')">Kanban/JIT</div><div class="pill" onclick="tick(this,'t10')">ERP/MRP</div><div class="pill" onclick="tick(this,'t11')">Quiz ✓</div>
+  </div>
+</div>
+
+<!-- PART 4(1) SCM -->
+<div class="pbanner" style="background:linear-gradient(135deg,#042f2e,var(--teal))">
+  <div><div class="pbn">PART 4(1)</div><div class="pbt">Supply Chain Management & Logistics</div><div class="pbs">การบริหารห่วงโซ่อุปทาน</div></div>
+</div>
+
+<div class="section bg-white" id="s1">
+  <div class="slbl">01 — SCM Foundation</div>
+  <div class="stitle">What is SCM? + 4 Flows</div>
+  <div class="sdesc">SCM = บริหารการไหลของข้อมูล วัตถุดิบ สินค้า บริการ และเงินสด จาก Supplier ถึง Customer อย่างเป็นระบบ</div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--teal)">🔗 Supply Chain Structure</div>
+    <div class="scm-flow">
+      <div class="snode" style="background:#f0fdfa;border-color:var(--teal2);color:var(--teal)">SUPPLIERS</div>
+      <div class="sarr">→</div>
+      <div class="snode" style="background:var(--teal);color:#fff;border-color:var(--teal)">MANU-<br>FACTURERS</div>
+      <div class="sarr">→</div>
+      <div class="snode" style="background:var(--amber-soft);border-color:var(--amber);color:#92400e">DISTRI-<br>BUTORS</div>
+      <div class="sarr">→</div>
+      <div class="snode" style="background:var(--violet-soft);border-color:var(--violet);color:var(--violet)">RETAILERS</div>
+      <div class="sarr">→</div>
+      <div class="snode" style="background:var(--green-soft);border-color:var(--green);color:var(--green)">CUSTOMERS</div>
+    </div>
+    <div class="note"><strong style="color:var(--amber)">Win-Win Strategy:</strong> ลูกค้าได้สินค้าดีราคาแข่งขัน + Supplier/Manufacturer/Retailer ได้ธุรกิจระยะยาวที่มีกำไร — เป็นไปไม่ได้ที่คนเดียวจะกำไรในขณะที่คนอื่นขาดทุน</div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--teal)">🔄 4 Flows ใน SCM</div>
+    <div class="flow-list">
+      <div class="fi" style="background:#f0fdfa;border-color:var(--teal2)"><div class="fi-icon">📦</div><div><div class="fi-name" style="color:var(--teal)">Material, Product & Service Flow</div><div class="fi-desc">วัตถุดิบ/สินค้าไหลไปข้างหน้า Supplier → Customer</div></div></div>
+      <div class="fi" style="background:var(--blue-soft);border-color:var(--blue)"><div class="fi-icon">💻</div><div><div class="fi-name" style="color:var(--blue)">Information Flow</div><div class="fi-desc">ข้อมูล Order, Forecast, Inventory — ขาดข้อมูลที่ถูกต้อง = ปัญหาทั้งระบบ</div></div></div>
+      <div class="fi" style="background:var(--amber-soft);border-color:var(--amber)"><div class="fi-icon">🤝</div><div><div class="fi-name" style="color:#92400e">Collaborative Planning Flow</div><div class="fi-desc">วางแผนร่วมกัน — Product Dev, Production Scheduling, Demand Planning, Logistics</div></div></div>
+      <div class="fi" style="background:var(--green-soft);border-color:var(--green)"><div class="fi-icon">💰</div><div><div class="fi-name" style="color:var(--green)">Cash Flow</div><div class="fi-desc">การชำระเงินไหลจาก Customer ย้อนกลับตลอดห่วงโซ่</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--teal)">🏗️ Hub & Spoke vs Traditional</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#fff7ed;border-radius:10px;padding:12px;border:2px solid var(--orange)"><div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--orange);margin-bottom:6px">❌ Traditional</div><div style="font-size:11px;color:var(--slate)">Supplier ส่งตรงทุก Store = เส้นทางซ้ำซ้อน ต้นทุนสูง ควบคุมยาก</div></div>
+      <div style="background:var(--teal-soft);border-radius:10px;padding:12px;border:2px solid var(--teal2)"><div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px">✅ Hub & Spoke</div><div style="font-size:11px;color:var(--slate)">ทุก Supplier → DC → ทุก Store = รวมสินค้า ประหยัด ควบคุมง่าย</div></div>
+    </div>
+    <div style="margin-top:10px;background:var(--bg);border-radius:10px;padding:10px 14px;font-size:12px"><strong style="color:var(--teal)">Milk-Run:</strong> รถวนรับสินค้าหลาย Supplier ในเส้นทางเดียว ลดต้นทุนขนส่ง<br><strong style="color:var(--teal)">Cross Docking:</strong> สินค้าเข้า DC → แยก → ส่งออกทันที ไม่เก็บ Stock ลด Lead time</div>
+  </div>
+</div>
+
+<div class="section bg-soft" id="s2">
+  <div class="slbl">02 — Integration Stages</div>
+  <div class="stitle">4 Stages of SCM Integration</div>
+  <div class="sdesc">วิวัฒนาการจากแยกส่วนไปสู่ Integrate ทั้งภายในและภายนอก — แตะดูรายละเอียดแต่ละขั้น</div>
+  <div class="stages-list">
+    <div class="stage-item" onclick="this.classList.toggle('open')">
+      <div class="stage-head" style="background:#64748b"><div><div class="stage-title">Stage 1: Functional Independence</div><div class="stage-sub">แต่ละ Function ทำงานแยกกัน ไม่มีการ Integrate</div></div><span style="color:rgba(255,255,255,0.6)">▼</span></div>
+      <div class="stage-body">Purchasing / Production / Sales แยกกันทำงาน ไม่แชร์ข้อมูล → Inventory สูง Lead time นาน ต้นทุนสูง</div>
+    </div>
+    <div class="stage-item" onclick="this.classList.toggle('open')">
+      <div class="stage-head" style="background:var(--blue)"><div><div class="stage-title">Stage 2: Functional Integration</div><div class="stage-sub">รวม Function ที่เกี่ยวข้องเข้าด้วยกัน</div></div><span style="color:rgba(255,255,255,0.6)">▼</span></div>
+      <div class="stage-body">Materials Management รวมกัน + Manufacturing Management รวมกัน + Sales & Distribution รวมกัน แต่ยังแยก 3 กลุ่ม</div>
+    </div>
+    <div class="stage-item" onclick="this.classList.toggle('open')">
+      <div class="stage-head" style="background:var(--teal)"><div><div class="stage-title">Stage 3: Internal Integration</div><div class="stage-sub">ทุก Function ภายในองค์กร Integrate เป็นหนึ่งเดียว</div></div><span style="color:rgba(255,255,255,0.6)">▼</span></div>
+      <div class="stage-body">Materials + Manufacturing + Sales & Distribution ทำงานเป็น Seamless System ข้อมูลไหลทั่วถึง ใช้ ERP เป็น Backbone</div>
+    </div>
+    <div class="stage-item" onclick="this.classList.toggle('open')">
+      <div class="stage-head" style="background:linear-gradient(135deg,var(--teal),var(--teal3))"><div><div class="stage-title">⭐ Stage 4: External Integration — เป้าหมายสูงสุด</div><div class="stage-sub">Integrate กับ Suppliers และ Customers ภายนอก</div></div><span style="color:rgba(255,255,255,0.6)">▼</span></div>
+      <div class="stage-body"><strong>Suppliers → [Internal Integration] → Customers</strong><br><br>ข้อมูลไหลข้ามองค์กร ทำ Collaborative Planning, VMI (Vendor-Managed Inventory), RFID Tracking → Win-Win ทั้ง Supply Chain</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PART 4(2) INVENTORY -->
+<div class="pbanner" style="background:linear-gradient(135deg,#78350f,var(--amber))">
+  <div><div class="pbn">PART 4(2)</div><div class="pbt">Inventory Management</div><div class="pbs">⚡ สูตรคำนวณ — ต้องจำให้ขึ้นใจ Closed Book</div></div>
+</div>
+
+<div class="section bg-white" id="s3">
+  <div class="slbl">03 — Formulas ⚡</div>
+  <div class="stitle">EOQ · ROP · Safety Stock</div>
+  <div class="sdesc">4 สูตรหลักที่ต้องจำและคำนวณได้ — มี Interactive Calculator ให้ฝึก</div>
+  <div class="fbox"><div class="ftitle">① EOQ — Economic Order Quantity</div><div class="fexpr">Q* = √( <em>2DS</em> / <em>H</em> )</div></div>
+  <div class="fbox"><div class="ftitle">② TOTAL ANNUAL COST (TC)</div><div class="fexpr">TC = <em>DC</em> + (<em>D/Q</em>)×<em>S</em> + (<em>Q/2</em>)×<em>H</em></div></div>
+  <div class="fbox"><div class="ftitle">③ REORDER POINT (ROP) — ไม่มี Safety Stock</div><div class="fexpr">R = <em>d</em> × <em>L</em></div></div>
+  <div class="fbox" style="margin-bottom:14px"><div class="ftitle">④ SAFETY STOCK + ROP</div><div class="fexpr">B = <em>Z × σ</em>    →    R = <em>d×L</em> + <em>B</em></div></div>
+  <div style="background:var(--amber-soft);border-radius:10px;padding:12px 14px;font-size:12px;margin-bottom:14px;border-left:4px solid var(--amber)">
+    <strong style="color:var(--amber)">Variables:</strong> D=Annual Demand · S=Order/Setup Cost · H=Holding Cost/unit/yr · C=Cost/unit · d=Daily demand · L=Lead time · Z=Z-score (95%=1.65) · σ=Std dev
+  </div>
+  <div class="cw">
+    <div class="ctitle" style="color:var(--teal)">🧮 EOQ Calculator</div>
+    <div class="cgrid">
+      <div class="cfield"><label>D — Annual Demand</label><input type="number" id="ci_D" value="1000"></div>
+      <div class="cfield"><label>S — Order Cost ($)</label><input type="number" id="ci_S" value="10"></div>
+      <div class="cfield"><label>H — Holding Cost ($/unit/yr)</label><input type="number" id="ci_H" value="2.50" step="0.01"></div>
+      <div class="cfield"><label>C — Cost per unit ($)</label><input type="number" id="ci_C" value="15" step="0.01"></div>
+      <div class="cfield"><label>L — Lead time (days)</label><input type="number" id="ci_L" value="7"></div>
+      <div class="cfield"><label>Days per year</label><input type="number" id="ci_days" value="365"></div>
+    </div>
+    <button class="cbtn" onclick="calcEOQ()">⚡ คำนวณ EOQ + ROP</button>
+    <div class="cresult" id="eoq-result">
+      <div class="rrow"><span class="rlbl">① EOQ (Q*)</span><span class="rval" id="r_eoq">—</span></div>
+      <div class="rrow"><span class="rlbl">② Daily Demand (d)</span><span class="rval" id="r_d">—</span></div>
+      <div class="rrow"><span class="rlbl">③ ROP (d×L)</span><span class="rval" id="r_rop">—</span></div>
+      <div class="rrow"><span class="rlbl">④ Total Annual Cost</span><span class="rval" id="r_tc">—</span></div>
+      <div class="rrow"><span class="rlbl">⑤ Orders per Year</span><span class="rval" id="r_ord">—</span></div>
+    </div>
+    <div class="note" style="margin-top:10px"><strong style="color:var(--amber)">ตัวอย่างจากบทเรียน:</strong> D=1,000 · S=$10 · H=$2.50 · L=7 days → EOQ=<strong>90 units</strong> · ROP=<strong>20 units</strong></div>
+  </div>
+</div>
+
+<div class="section bg-soft" id="s4">
+  <div class="slbl">04 — Systems + ABC</div>
+  <div class="stitle">Inventory Systems & ABC Analysis</div>
+  <div class="sdesc">2 ระบบหลักในการบริหาร Inventory + การจัดหมวดหมู่สินค้า</div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--teal)">📊 Fixed-Order Qty vs Fixed-Time Period</div>
+    <div class="inv-cmp">
+      <div class="inv-card" style="background:#f0fdfa;border-color:var(--teal2)">
+        <div class="inv-t" style="color:var(--teal)">Fixed-Order Quantity (Q)</div>
+        <div class="inv-f">สั่งปริมาณเท่ากันทุกครั้ง (Q=EOQ)</div>
+        <div class="inv-f">สั่งเมื่อ Stock ลงถึง ROP</div>
+        <div class="inv-f">Continuous Review</div>
+        <div class="inv-f">เหมาะกับ A-class items</div>
+      </div>
+      <div class="inv-card" style="background:var(--amber-soft);border-color:var(--amber)">
+        <div class="inv-t" style="color:#92400e">Fixed-Time Period (P)</div>
+        <div class="inv-f">สั่งทุก T วัน (ช่วงเวลาตายตัว)</div>
+        <div class="inv-f">ปริมาณ q = M - I เปลี่ยนได้</div>
+        <div class="inv-f">M = d(T+L) + Safety Stock</div>
+        <div class="inv-f">เช่น P&G เข้าร้านทุก 4 สัปดาห์</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--teal)">📦 ABC Analysis</div>
+    <div class="abc-grid">
+      <div class="abc-item" style="background:#fff7ed;border-color:var(--orange)">
+        <div class="abc-lbl" style="color:var(--orange)">A</div>
+        <div class="abc-bw">
+          <div class="abc-name" style="color:var(--orange)">High Value — ควบคุมเข้มงวด</div>
+          <div class="abc-bar" style="background:var(--orange);width:80%"></div>
+          <div class="abc-stat" style="color:var(--orange)">80% $ Value · 20% Items · นับ Monthly</div>
+        </div>
+      </div>
+      <div class="abc-item" style="background:var(--blue-soft);border-color:var(--blue)">
+        <div class="abc-lbl" style="color:var(--blue)">B</div>
+        <div class="abc-bw">
+          <div class="abc-name" style="color:var(--blue)">Medium Value — ปานกลาง</div>
+          <div class="abc-bar" style="background:var(--blue);width:50%"></div>
+          <div class="abc-stat" style="color:var(--blue)">15% $ Value · 30% Items · นับ Quarterly</div>
+        </div>
+      </div>
+      <div class="abc-item" style="background:var(--green-soft);border-color:var(--green)">
+        <div class="abc-lbl" style="color:var(--green)">C</div>
+        <div class="abc-bw">
+          <div class="abc-name" style="color:var(--green)">Low Value — ควบคุมง่าย</div>
+          <div class="abc-bar" style="background:var(--green);width:25%"></div>
+          <div class="abc-stat" style="color:var(--green)">5% $ Value · 50% Items · นับ Annually</div>
+        </div>
+      </div>
+    </div>
+    <div class="note"><strong style="color:var(--amber)">Cycle Counting:</strong> นับ Inventory บ่อยตาม Class แทนการ Shutdown ประจำปี<br><strong style="color:var(--amber)">VMI (Vendor-Managed Inventory):</strong> Supplier บริหาร Inventory ของเราเอง → ลด Admin cost</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PART 4(3) LEAN -->
+<div class="pbanner" style="background:linear-gradient(135deg,#1c1917,var(--orange))">
+  <div><div class="pbn">PART 4(3)</div><div class="pbt">Lean Manufacturing & JIT</div><div class="pbs">Better · Faster · Cheaper — กำจัด Waste ทุกรูปแบบ</div></div>
+</div>
+
+<div class="section bg-white" id="s5">
+  <div class="slbl">05 — 7 Wastes</div>
+  <div class="stitle">7 Wastes (Muda) — TIMWOOD</div>
+  <div class="sdesc">บริษัทส่วนใหญ่เสียทรัพยากรไป 70-90% อย่างสูญเปล่า! — แตะแต่ละ Waste เพื่อดูตัวอย่างจริง</div>
+  <div class="card">
+    <div class="waste-list">
+      <div class="wr" onclick="this.classList.toggle('open')"><div class="wl" style="background:#ef4444">T</div><div class="wi"><div class="wn">Transportation — ขนส่งไม่จำเป็น</div><div class="wt">เคลื่อนย้ายชิ้นงานโดยไม่เพิ่มคุณค่า</div><div class="we">ขนวัตถุดิบ A→B→กลับ A โดยไม่มีเหตุผล · ใน Siamwalla: ขนปากการะหว่างอาคารหลายครั้งก่อนบรรจุ</div></div></div>
+      <div class="wr" onclick="this.classList.toggle('open')"><div class="wl" style="background:#f97316">I</div><div class="wi"><div class="wn">Inventory — สต็อกเกินความต้องการ</div><div class="wt">Raw material / WIP / Finished goods มากเกินไป</div><div class="we">ผลิตปากกา 10,000 ด้าม แต่ Order มีแค่ 2,000 → เงินจมอยู่ใน Stock</div></div></div>
+      <div class="wr" onclick="this.classList.toggle('open')"><div class="wl" style="background:#eab308">M</div><div class="wi"><div class="wn">Motion — เคลื่อนไหวไม่จำเป็น</div><div class="wt">คนงานเดินหาของ ก้มเงย หยิบวางซ้ำซ้อน</div><div class="we">พนักงานเดินข้ามอาคารไปหยิบไส้ปากกาทุก 30 นาที เพราะ 5S ไม่ดี</div></div></div>
+      <div class="wr" onclick="this.classList.toggle('open')"><div class="wl" style="background:#22c55e">W</div><div class="wi"><div class="wn">Waiting — รอคอย</div><div class="wt">รอเครื่องจักร รอวัตถุดิบ รอ Approval</div><div class="we">Station 3 รอ Station 2 (Bottleneck) ทุกชั่วโมง → เสียเวลาคนงาน</div></div></div>
+      <div class="wr" onclick="this.classList.toggle('open')"><div class="wl" style="background:#14b8a6">O</div><div class="wi"><div class="wn">Overproduction — ผลิตเกินความต้องการ</div><div class="wt">ผลิตก่อนที่จะมี Order (Early production)</div><div class="we">ผลิตปากกาเผื่อฤดูเปิดเทอม แต่ถ้า Demand เปลี่ยน = Stock ค้างทั้งหมด</div></div></div>
+      <div class="wr" onclick="this.classList.toggle('open')"><div class="wl" style="background:#8b5cf6">O</div><div class="wi"><div class="wn">Over-processing — กระบวนการเกินจำเป็น</div><div class="wt">ทำงานเกินกว่าที่ลูกค้าต้องการ</div><div class="we">พ่นสีด้านในกล่องที่ลูกค้าไม่เห็น หรือตรวจ QC 5 ชั้นทั้งที่ 2 ชั้นพอ</div></div></div>
+      <div class="wr" onclick="this.classList.toggle('open')"><div class="wl" style="background:#ec4899">D</div><div class="wi"><div class="wn">Defects — ของเสีย/แก้งานซ้ำ</div><div class="wt">สินค้าไม่ผ่าน QC ต้องแก้หรือทิ้ง</div><div class="we">ผลิต 1,000 ด้าม มีของเสีย 80 ด้าม = ต้นทุนบวม เสียเวลาแก้ทุกชิ้น</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section bg-soft" id="s6">
+  <div class="slbl">06 — Lean Tools + Toyota</div>
+  <div class="stitle">Lean Principles, Kanban & Toyota Way</div>
+  <div class="sdesc">เครื่องมือหลักของ Lean Manufacturing — แตะแต่ละรายการ</div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--orange)">🔧 Key Lean Principles</div>
+    <div class="lean-grid">
+      <div class="li" style="border-color:var(--teal2)" onclick="this.classList.toggle('open')"><div class="li-icon">🏭</div><div class="li-name" style="color:var(--teal)">Cellular Layout</div><div class="li-det">จัดเครื่องจักรต่างประเภทเป็น Cell ตาม Product Family ลด Travel distance และ WIP</div></div>
+      <div class="li" style="border-color:var(--orange)" onclick="this.classList.toggle('open')"><div class="li-icon">📦</div><div class="li-name" style="color:var(--orange)">Small Lot Production</div><div class="li-det">ผลิตทีละน้อย บ่อยๆ → ลด Inventory เพิ่ม Flexibility — ต้องลด Setup time ก่อน</div></div>
+      <div class="li" style="border-color:var(--amber)" onclick="this.classList.toggle('open')"><div class="li-icon">🔽</div><div class="li-name" style="color:var(--amber)">Pull System / Kanban</div><div class="li-det">ผลิตเมื่อมีการร้องขอจาก Downstream ไม่ผลิตเผื่อ → ลด Overproduction สูงสุด</div></div>
+      <div class="li" style="border-color:var(--violet)" onclick="this.classList.toggle('open')"><div class="li-icon">🔁</div><div class="li-name" style="color:var(--violet)">Kaizen</div><div class="li-det">改善 = Change for Better — ปรับปรุงทุกวัน ทุกคน ทุกระดับ Core ของ Toyota Way</div></div>
+      <div class="li" style="border-color:var(--green)" onclick="this.classList.toggle('open')"><div class="li-icon">🤖</div><div class="li-name" style="color:var(--green)">Jidoka</div><div class="li-det">Intelligent Automation — เครื่องหยุดเองเมื่อพบปัญหา ไม่ผลิตของเสียต่อ สร้าง Quality ใน Process</div></div>
+      <div class="li" style="border-color:var(--red)" onclick="this.classList.toggle('open')"><div class="li-icon">📋</div><div class="li-name" style="color:var(--red)">5S</div><div class="li-det">① Sort ② Set in Order ③ Shine ④ Standardize ⑤ Sustain — พื้นฐานของ Lean ทุกอย่าง</div></div>
+      <div class="li" style="border-color:var(--blue)" onclick="this.classList.toggle('open')"><div class="li-icon">⚙️</div><div class="li-name" style="color:var(--blue)">Setup Reduction (SMED)</div><div class="li-det">ลดเวลา Setup → ทำ Small Lot ได้โดยต้นทุนไม่สูง → รองรับ Pull System ได้จริง</div></div>
+      <div class="li" style="border-color:var(--teal3)" onclick="this.classList.toggle('open')"><div class="li-icon">🤝</div><div class="li-name" style="color:var(--teal)">Supplier Partnership</div><div class="li-det">Long-term relationship กับ Supplier แชร์ข้อมูล ลด Lead time → Extend Lean ออกทั้ง Supply Chain</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--orange)">📋 Kanban — Pull System</div>
+    <div class="kflow">
+      <div class="klbl" style="margin-bottom:10px">Kanban = "Card" ญี่ปุ่น — ส่งสัญญาณ Pull จาก Downstream ขึ้นไป Upstream</div>
+      <div class="krow"><div class="kbox">🏭 Process A</div><div class="karr">→ 📦 →</div><div class="kbox">🏭 Process B</div><div class="karr">→ 📦 →</div><div class="kbox">🛒 Customer</div></div>
+      <div class="krow"><div style="color:#99f6e4;font-size:12px">⟵ <span class="kcard">KANBAN</span> ⟵ <span class="kcard">KANBAN</span> ⟵</div></div>
+      <div class="klbl" style="margin-top:8px">B ต้องการชิ้นส่วน → ส่ง Kanban ให้ A → A ผลิตเท่าที่ต้องการเท่านั้น</div>
+    </div>
+    <div class="note" style="margin-top:10px"><strong style="color:var(--amber)">JIT:</strong> ผลิตสิ่งที่ต้องการ ในปริมาณที่ต้องการ ในเวลาที่ต้องการ — Kanban คือ Mechanism ของ JIT<br><strong style="color:var(--amber)">Kanban อาจเป็น:</strong> กระดาษ Card · ธงสี · ดวงไฟ · สัญญาณ Computer · Kanban Square บนพื้น</div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--orange)">🚗 Toyota Way — 5 หลักการ</div>
+    <div style="display:flex;flex-direction:column;gap:7px">
+      <div style="background:#fff7ed;border-radius:8px;padding:10px 14px;font-size:12px;border-left:3px solid var(--orange)"><strong style="color:var(--orange)">① Challenge:</strong> สร้างวิสัยทัศน์ระยะยาว กล้าเผชิญสิ่งท้าทายด้วยความคิดสร้างสรรค์</div>
+      <div style="background:var(--teal-soft);border-radius:8px;padding:10px 14px;font-size:12px;border-left:3px solid var(--teal2)"><strong style="color:var(--teal)">② Kaizen:</strong> ปรับปรุงและพัฒนาอย่างต่อเนื่อง ผลักดัน Innovation ตลอดเวลา</div>
+      <div style="background:var(--blue-soft);border-radius:8px;padding:10px 14px;font-size:12px;border-left:3px solid var(--blue)"><strong style="color:var(--blue)">③ Genchi Genbutsu:</strong> ลงไปดูที่หน้างานจริง — "Go and See" ค้นหาข้อเท็จจริงด้วยตนเอง</div>
+      <div style="background:var(--green-soft);border-radius:8px;padding:10px 14px;font-size:12px;border-left:3px solid var(--green)"><strong style="color:var(--green)">④ Respect for People:</strong> เคารพกันและกัน สร้างความไว้วางใจ รับผิดชอบร่วมกัน</div>
+      <div style="background:var(--violet-soft);border-radius:8px;padding:10px 14px;font-size:12px;border-left:3px solid var(--violet)"><strong style="color:var(--violet)">⑤ Teamwork:</strong> ทำงานเป็นทีม รับผิดชอบร่วมกัน — Lean คือวัฒนธรรม ไม่ใช่แค่ระบบ</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PART 4(4) ERP -->
+<div class="pbanner" style="background:linear-gradient(135deg,#1e1b4b,var(--violet))">
+  <div><div class="pbn">PART 4(4)</div><div class="pbt">ERP System</div><div class="pbs">Enterprise Resource Planning — สมองขององค์กร</div></div>
+</div>
+
+<div class="section bg-white" id="s7">
+  <div class="slbl">07 — ERP</div>
+  <div class="stitle">Enterprise Resource Planning</div>
+  <div class="sdesc">ERP = Software ที่ Integrate ทุก Function เป็น Single System — IT Backbone ของ SCM Stage 3-4</div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--violet)">🏢 ERP Integration Flow</div>
+    <div class="eflow">
+      <div class="efbox" style="background:var(--green-soft);border-color:var(--green);color:var(--green)">SUPPLIERS</div>
+      <div class="efarr">→</div>
+      <div class="efbox" style="background:var(--blue-soft);border-color:var(--blue);color:var(--blue)">BUY</div>
+      <div class="efarr">→</div>
+      <div class="efbox" style="background:var(--amber-soft);border-color:var(--amber);color:#92400e">MAKE</div>
+      <div class="efarr">→</div>
+      <div class="efbox" style="background:var(--violet-soft);border-color:var(--violet);color:var(--violet)">SELL</div>
+      <div class="efarr">→</div>
+      <div class="efbox" style="background:var(--teal-soft);border-color:var(--teal2);color:var(--teal)">CUSTOMERS</div>
+    </div>
+    <div style="font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--violet);margin-bottom:8px">ERP Modules ที่ Integrate:</div>
+    <div class="erp-mods">
+      <div class="emod" style="background:var(--blue-soft);border-color:var(--blue);color:var(--blue)">Account Payable (AP)</div>
+      <div class="emod" style="background:var(--green-soft);border-color:var(--green);color:var(--green)">Account Receivable (AR)</div>
+      <div class="emod" style="background:var(--amber-soft);border-color:var(--amber);color:#92400e">Costing</div>
+      <div class="emod" style="background:var(--violet-soft);border-color:var(--violet);color:var(--violet)">Fixed Asset (FA)</div>
+      <div class="emod" style="background:var(--teal-soft);border-color:var(--teal2);color:var(--teal)">General Ledger (GL)</div>
+      <div class="emod" style="background:var(--red-soft);border-color:var(--red);color:var(--red)">Payroll (PR)</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="color:var(--violet)">📋 MRP — Material Requirements Planning</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:var(--violet-soft);border-radius:8px;padding:10px 14px;font-size:12px"><strong style="color:var(--violet)">Planning Flow:</strong> Business Plan → Production Plan → <strong>MPS (Master Production Schedule)</strong> → <strong>MRP</strong> → Capacity Planning → Purchase Orders / Work Orders → Shop Floor Control</div>
+      <div style="background:var(--bg);border-radius:8px;padding:10px 14px;font-size:12px;border-left:3px solid var(--violet)"><strong>MPS:</strong> กำหนดว่าจะผลิตอะไร เท่าไหร่ เมื่อไหร่<br><strong>MRP:</strong> คำนวณว่าต้องการวัตถุดิบ/ชิ้นส่วนอะไร เท่าไหร่ เมื่อไหร่ โดยอิง BOM + Lead time</div>
+    </div>
+    <div class="note" style="margin-top:10px"><strong style="color:var(--amber)">ประโยชน์ ERP:</strong> ข้อมูล Real-time ทั้งองค์กร → ตัดสินใจเร็วและถูกต้อง → ลด Inventory, ลด Cost, เพิ่ม Customer Service Level</div>
+  </div>
+</div>
+
+<!-- MIND MAP -->
+<div class="section bg-soft" id="s8">
+  <div class="slbl">08 — Overview</div>
+  <div class="stitle">Mind Map — ภาพรวม Module 4</div>
+  <div class="card">
+    <div style="background:linear-gradient(135deg,#042f2e,var(--teal));border-radius:12px;padding:14px;text-align:center;margin-bottom:14px"><div style="font-family:'Kanit',sans-serif;font-size:15px;font-weight:800;color:#99f6e4">SCM · Inventory · Lean · ERP</div><div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:3px">Module 4 · BA6500 NIDA EMBA</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:var(--teal-soft);border-radius:10px;padding:12px;border-top:3px solid var(--teal2)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--teal);margin-bottom:7px">🔗 SCM</div><div style="font-size:11px;color:var(--text)">• 4 Flows (Material/Info/Planning/Cash)<br>• Hub & Spoke + Cross Docking<br>• 4 Integration Stages<br>• Win-Win Strategy</div></div>
+      <div style="background:var(--amber-soft);border-radius:10px;padding:12px;border-top:3px solid var(--amber)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:#92400e;margin-bottom:7px">⚡ Inventory</div><div style="font-size:11px;color:var(--text)">• EOQ = √(2DS/H)<br>• ROP = d×L (+Safety Stock)<br>• Fixed-Q vs Fixed-T System<br>• ABC: A=80%$·20%items</div></div>
+      <div style="background:var(--orange-soft);border-radius:10px;padding:12px;border-top:3px solid var(--orange)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--orange);margin-bottom:7px">♻️ Lean/JIT</div><div style="font-size:11px;color:var(--text)">• 7 Wastes TIMWOOD<br>• Kanban = Pull System<br>• 5S + Kaizen + Jidoka<br>• Toyota Way 5 หลักการ</div></div>
+      <div style="background:var(--violet-soft);border-radius:10px;padding:12px;border-top:3px solid var(--violet)"><div style="font-family:'Kanit',sans-serif;font-size:11px;font-weight:800;color:var(--violet);margin-bottom:7px">🖥️ ERP</div><div style="font-size:11px;color:var(--text)">• Integrate ทุก Function<br>• Business Plan→MPS→MRP<br>• AP,AR,GL,Costing,HR<br>• IT Backbone SCM Stage 3-4</div></div>
+      <div style="grid-column:span 2;background:linear-gradient(135deg,#042f2e,var(--teal));border-radius:10px;padding:12px;color:rgba(255,255,255,0.85);font-size:12px;line-height:1.7"><strong style="color:#99f6e4">🔗 Flow:</strong> SCM ต้องการ ERP เป็น Backbone → Inventory บริหารด้วย EOQ/ROP → Lean ลด Waste ใน Process → Kanban ทำ Pull System → <strong style="color:#99f6e4">Win-Win ทุกคนใน Supply Chain</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE -->
+<div class="section bg-white">
+  <div class="slbl">09 — Case Study</div>
+  <div class="stitle">ฝึกวิเคราะห์ Case Module 4</div>
+  <div class="case-wrap">
+    <div class="case-head" style="background:linear-gradient(135deg,#042f2e,var(--teal))">
+      <h4>🖊️ Case: สยามวัลลา — SCM + Inventory + Lean</h4><p>วิเคราะห์แบบ Closed Book + อ้าง Theory</p>
+    </div>
+    <div class="case-body">
+      <div class="cscen">สยามวัลลาพบปัญหา: (1) สต็อกพลาสติกค้าง 3 เดือน (2) ส่งสินค้าล่าช้าบ่อย (3) ของเสีย 8% (4) พนักงานเดินหาอุปกรณ์นาน<br>D=120,000 units/yr · S=฿500 · H=฿2/unit/yr · L=14 days</div>
+      <div class="cqt" style="background:var(--teal-soft);color:var(--teal)" onclick="toggleC('c1')">❓ ข้อ 1: คำนวณ EOQ และ ROP <span>▼</span></div>
+      <div class="ca" id="c1" style="background:var(--teal-soft)"><strong>EOQ = √(2×120,000×500/2) = √(60,000,000) ≈ 7,746 units</strong><br>Daily demand = 120,000÷365 = 328.8 units/day<br><strong>ROP = 328.8 × 14 = 4,603 units</strong><br>→ เมื่อ Stock ลงถึง 4,603 units สั่งซื้อทีละ 7,746 units</div>
+      <div class="cqt" style="background:var(--orange-soft);color:var(--orange)" onclick="toggleC('c2')">❓ ข้อ 2: ระบุ 7 Wastes ที่พบ <span>▼</span></div>
+      <div class="ca" id="c2" style="background:var(--orange-soft)"><strong>I:</strong> สต็อก 3 เดือน = เงินจม ต้องลดด้วย EOQ/JIT<br><strong>D:</strong> ของเสีย 8% = ต้องแก้งานซ้ำ ใช้ Jidoka<br><strong>M:</strong> พนักงานเดินหาของ = ต้อง 5S จัดระเบียบ<br><strong>W:</strong> ส่งล่าช้า = มี Bottleneck หรือ Process ไม่ Smooth</div>
+      <div class="cqt" style="background:var(--violet-soft);color:var(--violet)" onclick="toggleC('c3')">❓ ข้อ 3: แนะนำ Lean Implementation Plan <span>▼</span></div>
+      <div class="ca" id="c3" style="background:var(--violet-soft)">① <strong>5S ก่อน</strong> — ลด Motion waste จัดวางให้หยิบได้ทันที<br>② <strong>Jidoka</strong> — ตรวจ QC ใน Process หยุดเมื่อพบ Defect ลดของเสีย 8%<br>③ <strong>Setup Reduction</strong> — ลด Setup time เพื่อทำ Small Lot ได้<br>④ <strong>Kanban System</strong> — Pull System กับ Supplier ลด Inventory 3 เดือน → 2 สัปดาห์<br>⑤ <strong>SCM Stage 4</strong> — Share Forecast ผ่าน ERP กับ Supplier ลด Uncertainty<br><strong>ผล:</strong> Defect↓ → On-time Delivery↑ → Customer Satisfaction↑ + Inventory Cost↓</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-section" id="sq">
+  <div class="quiz-header"><div style="font-size:34px;margin-bottom:8px">🧠</div><h3>Quiz Module 4</h3><p>10 ข้อ · SCM + Inventory (คำนวณ) + Lean + ERP</p></div>
+  <div id="qcont">
+    <div class="qcard" id="qc0"><div class="qnum">1/10</div><div class="qtext">SCM Stage 4 (External Integration) แตกต่างจาก Stage 3 อย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(0,0,2)">Stage 4 ใช้ ERP มากกว่า</button><button class="qopt" onclick="ans(0,1,2)">Stage 4 มีพนักงานมากกว่า</button><button class="qopt" onclick="ans(0,2,2)">Stage 4 Integrate กับ Suppliers และ Customers ภายนอกด้วย</button><button class="qopt" onclick="ans(0,3,2)">Stage 4 ใช้ Manual มากกว่า</button></div><div class="qfb" id="qf0"></div></div>
+    <div class="qcard" id="qc1"><div class="qnum">2/10</div><div class="qtext">Hub & Spoke System ดีกว่า Traditional Point-to-Point อย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(1,0,1)">เร็วกว่าเพราะส่งตรง</button><button class="qopt" onclick="ans(1,1,1)">รวม Shipment ผ่าน DC → ลดเส้นทางซ้ำซ้อน ต้นทุนต่ำ</button><button class="qopt" onclick="ans(1,2,1)">ใช้คน Warehouse น้อยกว่า</button><button class="qopt" onclick="ans(1,3,1)">ไม่ต้องใช้ ERP</button></div><div class="qfb" id="qf1"></div></div>
+    <div class="qcard" id="qc2"><div class="qnum">3/10 (คำนวณ)</div><div class="qtext">D=800/yr · S=$20 · H=$4/unit/yr → EOQ = ?</div><div class="qopts"><button class="qopt" onclick="ans(2,0,2)">60 units</button><button class="qopt" onclick="ans(2,1,2)">75 units</button><button class="qopt" onclick="ans(2,2,2)">89 units</button><button class="qopt" onclick="ans(2,3,2)">100 units</button></div><div class="qfb" id="qf2"></div></div>
+    <div class="qcard" id="qc3"><div class="qnum">4/10 (คำนวณ)</div><div class="qtext">D=3,650/yr · L=5 days (365 days/yr) → ROP = ?</div><div class="qopts"><button class="qopt" onclick="ans(3,0,1)">40 units</button><button class="qopt" onclick="ans(3,1,1)">50 units</button><button class="qopt" onclick="ans(3,2,1)">60 units</button><button class="qopt" onclick="ans(3,3,1)">70 units</button></div><div class="qfb" id="qf3"></div></div>
+    <div class="qcard" id="qc4"><div class="qnum">5/10</div><div class="qtext">ABC Analysis: Class A items หมายความว่าอย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(4,0,2)">สินค้าจำนวนมากที่สุด 50% of items</button><button class="qopt" onclick="ans(4,1,2)">สินค้าคุณภาพดีที่สุด</button><button class="qopt" onclick="ans(4,2,2)">80% of annual $ value แต่มีแค่ 20% of items — ต้องควบคุมเข้มงวด</button><button class="qopt" onclick="ans(4,3,2)">สินค้าที่สั่งบ่อยที่สุด</button></div><div class="qfb" id="qf4"></div></div>
+    <div class="qcard" id="qc5"><div class="qnum">6/10</div><div class="qtext">Kanban Pull System ต่างจาก Push System อย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(5,0,1)">Pull ผลิตเผื่อไว้ก่อน Push ผลิตตามสั่ง</button><button class="qopt" onclick="ans(5,1,1)">Pull ผลิตเมื่อ Downstream ร้องขอ Push ผลิตตาม Forecast เผื่อ</button><button class="qopt" onclick="ans(5,2,1)">Pull และ Push เหมือนกัน</button><button class="qopt" onclick="ans(5,3,1)">Pull ใช้ได้เฉพาะโรงงานรถยนต์</button></div><div class="qfb" id="qf5"></div></div>
+    <div class="qcard" id="qc6"><div class="qnum">7/10</div><div class="qtext">Jidoka ใน Lean Manufacturing หมายถึงอะไร?</div><div class="qopts"><button class="qopt" onclick="ans(6,0,2)">ระบบ Kanban สำหรับสั่งวัตถุดิบ</button><button class="qopt" onclick="ans(6,1,2)">การปรับปรุงต่อเนื่อง Kaizen</button><button class="qopt" onclick="ans(6,2,2)">Intelligent Automation — เครื่องหยุดเองเมื่อพบปัญหา ไม่ผลิตของเสียต่อ</button><button class="qopt" onclick="ans(6,3,2)">Cellular Layout</button></div><div class="qfb" id="qf6"></div></div>
+    <div class="qcard" id="qc7"><div class="qnum">8/10</div><div class="qtext">5S ข้อที่ 2 คืออะไร?</div><div class="qopts"><button class="qopt" onclick="ans(7,0,2)">Sort (คัดแยก)</button><button class="qopt" onclick="ans(7,1,2)">Shine (ทำความสะอาด)</button><button class="qopt" onclick="ans(7,2,2)">Set in Order (จัดวางให้เป็นระเบียบ)</button><button class="qopt" onclick="ans(7,3,2)">Sustain (รักษาต่อเนื่อง)</button></div><div class="qfb" id="qf7"></div></div>
+    <div class="qcard" id="qc8"><div class="qnum">9/10</div><div class="qtext">ERP ต่างจาก Software ทั่วไปอย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(8,0,1)">ERP ราคาถูกกว่า ใช้ง่ายกว่า</button><button class="qopt" onclick="ans(8,1,1)">ERP Integrate ทุก Function (Manufacturing/Finance/HR/Sales) เป็น Single System ข้อมูล Real-time</button><button class="qopt" onclick="ans(8,2,1)">ERP ใช้ได้เฉพาะ Manufacturing</button><button class="qopt" onclick="ans(8,3,1)">ERP คือ E-commerce Platform</button></div><div class="qfb" id="qf8"></div></div>
+    <div class="qcard" id="qc9"><div class="qnum">10/10</div><div class="qtext">Win-Win Strategy ใน SCM หมายความว่าอย่างไร?</div><div class="qopts"><button class="qopt" onclick="ans(9,0,3)">Manufacturer ชนะ Supplier ต้องยอมแพ้</button><button class="qopt" onclick="ans(9,1,3)">ลูกค้าได้ราคาถูก Supplier รับต้นทุนทั้งหมด</button><button class="qopt" onclick="ans(9,2,3)">มีผู้ชนะได้แค่คนเดียว</button><button class="qopt" onclick="ans(9,3,3)">ลูกค้าได้สินค้าดีราคาแข่งขัน + ทุกคนใน Supply Chain ได้ธุรกิจระยะยาวที่มีกำไร</button></div><div class="qfb" id="qf9"></div></div>
+  </div>
+  <div class="sbox" id="scorebox"><h3>ผลการทดสอบ Module 4 🎓</h3><div class="sbig" id="scorenum">0/10</div><div class="smsg" id="scoremsg"></div><button class="rbtn" onclick="resetQ()">🔄 ทำใหม่</button></div>
+</div>
+
+<div style="height:40px;background:#042f2e"></div>
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.06});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+const ticked={};
+function tick(el,id){ticked[id]=!ticked[id];el.classList.toggle('done',ticked[id]);const pct=Math.round(Object.values(ticked).filter(Boolean).length/11*100);document.getElementById('pfill').style.width=pct+'%';document.getElementById('pct').textContent=pct+'%'}
+function toggleC(id){const el=document.getElementById(id);el.classList.toggle('open');const btn=el.previousElementSibling;if(btn)btn.querySelector('span').textContent=el.classList.contains('open')?'▲':'▼'}
+function calcEOQ(){
+  const D=parseFloat(document.getElementById('ci_D').value)||1000;
+  const S=parseFloat(document.getElementById('ci_S').value)||10;
+  const H=parseFloat(document.getElementById('ci_H').value)||2.5;
+  const C=parseFloat(document.getElementById('ci_C').value)||15;
+  const L=parseFloat(document.getElementById('ci_L').value)||7;
+  const days=parseFloat(document.getElementById('ci_days').value)||365;
+  const eoq=Math.round(Math.sqrt(2*D*S/H));
+  const d=D/days;const rop=Math.ceil(d*L);
+  const tc=(D*C)+(D/eoq)*S+(eoq/2)*H;
+  document.getElementById('r_eoq').textContent=eoq+' units';
+  document.getElementById('r_d').textContent=d.toFixed(2)+' units/day';
+  document.getElementById('r_rop').textContent=rop+' units';
+  document.getElementById('r_tc').textContent='$'+tc.toFixed(2);
+  document.getElementById('r_ord').textContent=(D/eoq).toFixed(1)+' orders/yr';
+  document.getElementById('eoq-result').classList.add('show');
+}
+const ANSWERS=[2,1,2,1,2,1,2,2,1,3];
+const EX=['✅ Stage 4 = External Integration — Integrate กับ Suppliers + Customers ภายนอก ไม่ใช่แค่ภายในองค์กร','✅ Hub & Spoke รวม Shipment ผ่าน DC → ลดเส้นทางซ้ำซ้อน ต้นทุน Logistics ต่ำกว่ามาก','✅ EOQ = √(2×800×20/4) = √8,000 = 89 units','✅ d=3,650÷365=10/day · ROP=10×5=50 units','✅ A = 80% of Annual $ Value, 20% of Items — ควบคุมเข้มงวด นับ Monthly','✅ Pull = ผลิตเมื่อ Downstream ร้องขอ (Kanban) ลด Overproduction','✅ Jidoka = Intelligent Automation เครื่องหยุดเองเมื่อพบปัญหา Build Quality in Process','✅ 5S: ① Sort ② Set in Order ③ Shine ④ Standardize ⑤ Sustain','✅ ERP Integrates ALL Functions เป็น Single System ข้อมูล Real-time ทั้งองค์กร','✅ Win-Win = ทุกคนในห่วงโซ่ได้ประโยชน์ร่วมกัน ไม่ใช่ Zero-sum'];
+const WR=['❌ ความแตกต่างหลักคือ External Integration (กับ Supplier+Customer ภายนอก) ไม่ใช่แค่เรื่อง ERP','❌ Hub & Spoke ดีเพราะรวม Shipment ผ่าน DC ไม่ใช่เพราะเร็วหรือใช้คนน้อย','❌ EOQ = √(2×800×20/4) = √(32,000/4) = √8,000 = 89 ไม่ใช่ 60 หรือ 100','❌ d=3,650÷365=10/day · ROP=10×5=50 ไม่ใช่ 40 หรือ 60','❌ A items = มูลค่า $ สูง 80% แต่จำนวนน้อยแค่ 20% ไม่ใช่จำนวนมาก','❌ Pull = ผลิตเมื่อร้องขอ (ลด Overproduction) ไม่ใช่ผลิตเผื่อ ซึ่งคือ Push','❌ Jidoka ≠ Kanban หรือ Kaizen — คือ "เครื่องหยุดอัตโนมัติเมื่อพบปัญหา"','❌ 5S: ① Sort ② Set in Order ③ Shine ④ Standardize ⑤ Sustain — ข้อ 2 คือ Set in Order','❌ ERP ไม่ใช่แค่ Manufacturing — Integrate Finance, HR, Sales, Distribution ทั้งหมด','❌ Win-Win ไม่ใช่ Zero-sum — ทุกคนในห่วงโซ่ต้องได้ประโยชน์ร่วมกัน'];
+let score=0,done={};
+function ans(qi,chosen,correct){
+  if(done[qi])return;done[qi]=true;if(chosen===correct)score++;
+  const card=document.getElementById('qc'+qi);
+  card.querySelectorAll('.qopt').forEach((o,i)=>{o.disabled=true;if(i===correct)o.classList.add(chosen===correct?'correct':'show-correct');if(i===chosen&&chosen!==correct)o.classList.add('wrong')});
+  const fb=document.getElementById('qf'+qi);fb.classList.add('show',chosen===correct?'ok':'fail');fb.innerHTML=chosen===correct?EX[qi]:WR[qi]+'<br>'+EX[qi];
+  if(Object.keys(done).length===10){setTimeout(()=>{document.getElementById('scorebox').classList.add('show');document.getElementById('scorenum').textContent=score+'/10';const msgs=['ต้องทบทวนเพิ่มครับ 📖','เริ่มดีแล้ว 💪','ดีมาก! ⭐','เกือบเต็ม! 🔥','Perfect! 🏆'];document.getElementById('scoremsg').textContent=msgs[Math.min(Math.floor(score/2),4)];tick(document.querySelector('[onclick*="t11"]'),'t11')},500)}
+}
+function resetQ(){score=0;done={};document.getElementById('scorebox').classList.remove('show');document.querySelectorAll('.qcard').forEach(c=>{c.querySelectorAll('.qopt').forEach(o=>{o.disabled=false;o.className='qopt'});const fb=c.querySelector('.qfb');fb.className='qfb';fb.innerHTML=''})}
+</script>
+</body>
+</html>
