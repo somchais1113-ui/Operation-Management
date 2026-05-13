@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OM Final Study Dashboard 2026</title>
+    <title>OM Master Dashboard 2026</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@300;400;600&display=swap');
         
         :root {
-            --primary-grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-grad: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
             --glass: rgba(255, 255, 255, 0.1);
-            --glass-hover: rgba(255, 255, 255, 0.2);
         }
 
         body {
@@ -23,121 +22,109 @@
             padding: 40px 20px;
         }
 
-        .header { text-align: center; margin-bottom: 50px; }
-        .header h1 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header p { font-family: 'Sarabun', sans-serif; opacity: 0.9; font-size: 1.1rem; }
-
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
         }
 
         .card {
             background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 24px;
-            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 25px;
             text-decoration: none;
             color: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            position: relative; overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-12px);
-            background: var(--glass-hover);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 6px;
-        }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; }
 
-        /* สีแยกตาม Module */
-        .m1::before { background: #ff6b9d; } /* Pink */
-        .m2::before { background: #3b82f6; } /* Blue */
-        .m3::before { background: #14b8a6; } /* Teal */
-        .m4::before { background: #f97316; } /* Orange */
-        .m5::before { background: #a855f7; } /* Purple */
-        .cs::before { background: #ef4444; } /* Red */
+        /* แยกสีตามหมวดหมู่ */
+        .mod::before { background: #3b82f6; } /* บทเรียนหลัก - ฟ้า */
+        .mkt::before { background: #10b981; } /* Marketing - เขียว */
+        .case::before { background: #f59e0b; } /* Case Study - ส้ม */
+        .final::before { background: #ec4899; } /* Final - ชมพู */
 
-        .icon { font-size: 48px; margin-bottom: 15px; }
-        .title { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
-        .desc { font-family: 'Sarabun', sans-serif; font-size: 0.95rem; opacity: 0.8; line-height: 1.5; }
+        .icon { font-size: 40px; margin-bottom: 15px; }
+        .title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .desc { font-family: 'Sarabun', sans-serif; font-size: 0.85rem; opacity: 0.8; }
 
-        .footer { margin-top: 60px; font-family: 'Sarabun', sans-serif; font-size: 0.8rem; opacity: 0.6; }
-
-        @media (max-width: 600px) {
-            .header h1 { font-size: 2rem; }
-            .menu-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 600px) { .header h1 { font-size: 1.8rem; } }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🏭 OM Final Dashboard</h1>
-        <p>ศูนย์รวมเนื้อหาและการทบทวนวิชา Operation Management</p>
+        <h1>📊 OM Learning Portal</h1>
+        <p>ทบทวนเนื้อหาทั้งหมดจากไฟล์ใน GitHub ของคุณ</p>
     </div>
 
     <div class="menu-grid">
-        <!-- Module 1 -->
-        <a href="module1.html" class="card m1">
-            <div class="icon">⚙️</div>
-            <div class="title">Module 1</div>
-            <div class="desc">Process Analysis & Design<br>สัญลักษณ์ Flowchart, Bottleneck, VA/NVA</div>
+        <!-- 5 Modules หลัก -->
+        <a href="module1.html" class="card mod">
+            <div class="icon">01</div>
+            <div class="title">Process Analysis</div>
+            <div class="desc">พื้นฐาน Flowchart & Bottleneck</div>
+        </a>
+        <a href="module2.html" class="card mod">
+            <div class="icon">02</div>
+            <div class="title">Inventory</div>
+            <div class="desc">การจัดการสต็อก & EOQ</div>
+        </a>
+        <a href="module3.html" class="card mod">
+            <div class="icon">03</div>
+            <div class="title">Supply Chain</div>
+            <div class="desc">โซ่อุปทาน & โลจิสติกส์</div>
+        </a>
+        <a href="module4.html" class="card mod">
+            <div class="icon">04</div>
+            <div class="title">Capacity</div>
+            <div class="desc">การวางแผนกำลังการผลิต</div>
+        </a>
+        <a href="module5.html" class="card mod">
+            <div class="icon">05</div>
+            <div class="title">Quality & Lean</div>
+            <div class="desc">ลีน & การควบคุมคุณภาพ</div>
         </a>
 
-        <!-- Module 2 -->
-        <a href="module2.html" class="card m2">
-            <div class="icon">📦</div>
-            <div class="title">Module 2</div>
-            <div class="desc">Inventory Management<br>การจัดการสต็อก, EOQ, Reorder Point</div>
+        <!-- Marketing Case Study ที่เพิ่มมาใหม่ -->
+        <a href="dhasmarketing1.html" class="card mkt">
+            <div class="icon">📢</div>
+            <div class="title">Marketing Case 1</div>
+            <div class="desc">บทวิเคราะห์การตลาด Part 1</div>
         </a>
-
-        <!-- Module 3 -->
-        <a href="module3.html" class="card m3">
-            <div class="icon">🌐</div>
-            <div class="title">Module 3</div>
-            <div class="desc">Supply Chain Management<br>การจัดการโซ่อุปทานและโลจิสติกส์</div>
-        </a>
-
-        <!-- Module 4 -->
-        <a href="module4.html" class="card m4">
+        <a href="dhasmarketing2.html" class="card mkt">
             <div class="icon">📈</div>
-            <div class="title">Module 4</div>
-            <div class="desc">Capacity Planning<br>การวางแผนกำลังการผลิตและทำเลที่ตั้ง</div>
+            <div class="title">Marketing Case 2</div>
+            <div class="desc">กลยุทธ์และการเติบโต Part 2</div>
         </a>
 
-        <!-- Module 5 -->
-        <a href="module5.html" class="card m5">
-            <div class="icon">✨</div>
-            <div class="title">Module 5</div>
-            <div class="desc">Quality Control & Lean<br>การควบคุมคุณภาพและแนวคิดแบบลีน</div>
-        </a>
-
-        <!-- Case Study -->
-        <a href="casestudy.html" class="card cs">
+        <!-- Case Study & Final Module -->
+        <a href="casestudy.html" class="card case">
             <div class="icon">📝</div>
-            <div class="title">Case Study</div>
-            <div class="desc">Final Analysis<br>วิเคราะห์กรณีศึกษาและแนวทางแก้ไข</div>
+            <div class="title">General Case Study</div>
+            <div class="desc">วิเคราะห์กรณีศึกษาภาพรวม</div>
         </a>
-    </div>
-
-    <div class="footer">
-        © 2026 OM Final Interactive Guide • Created for Self-Study
+        <a href="finalmodule.html" class="card final">
+            <div class="icon">🏆</div>
+            <div class="title">Final Module</div>
+            <div class="desc">สรุปเนื้อหาเตรียมสอบทั้งหมด</div>
+        </a>
     </div>
 
 </body>
