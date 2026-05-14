@@ -25,7 +25,65 @@ button{font-family:'Sarabun',sans-serif;color:inherit}.gamefont{font-family:'Fre
 .lesson-card{display:flex;flex-direction:column}.brief{padding:17px;overflow:auto}.brief h2{font-family:'Fredoka';font-size:26px;color:var(--red2);margin-bottom:6px}.concept{font-size:15px;line-height:1.75;font-weight:700}.concept strong{color:var(--red2)}.concept em{font-style:normal;background:#e7ffe8;color:var(--green2);padding:1px 5px;border-radius:8px;font-weight:900}.playbook{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.play-card{background:#fff7d8;border:4px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 4px 0 var(--shadow);font-weight:800;line-height:1.55}.play-card b{display:block;color:var(--red2);font-family:'Fredoka';font-size:18px;margin-bottom:4px}.system-link{margin-top:14px;background:#e9fbff;border:4px solid var(--line);border-radius:22px;padding:13px;font-weight:800;line-height:1.65;box-shadow:0 5px 0 var(--shadow)}.system-link b{color:var(--blue2)}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}.step{border:3px solid var(--line);background:var(--paper);border-radius:16px;padding:7px;text-align:center;font-weight:900;font-size:12px}.step.active{background:var(--yellow)}.step.done{background:#e1ffe8;color:var(--green2)}
 .quest{border-top:5px solid var(--line);background:#fff0c9;padding:15px}.quest-title{font-family:'Fredoka';font-size:22px;color:var(--blue2);font-weight:700;margin-bottom:4px}.quest-help{font-weight:800;color:var(--muted);line-height:1.55;margin-bottom:10px}.selected-list{background:var(--paper);border:4px solid var(--line);border-radius:18px;padding:10px 12px;min-height:48px;font-weight:900;line-height:1.5;box-shadow:0 4px 0 var(--shadow);margin-bottom:10px}.selected-list span{display:inline-block;background:#e9fbff;border:3px solid var(--line);border-radius:999px;padding:3px 8px;margin:2px;font-size:12px}.option-list{display:grid;gap:8px;margin-top:8px}.option{background:var(--paper);border:4px solid var(--line);border-radius:18px;padding:10px 12px;font-weight:900;line-height:1.4;cursor:pointer;box-shadow:0 4px 0 var(--shadow)}.option.selected{background:#fff1a5;box-shadow:0 4px 0 var(--line),inset 0 0 0 4px rgba(255,216,92,.5)}.actions{display:flex;gap:9px;margin-top:11px;flex-wrap:wrap}.btn-action{border:4px solid var(--line);border-radius:17px;padding:11px 14px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 var(--line);background:var(--paper)}.btn-action.green{background:linear-gradient(#69eba2,#35c979);color:#073a21}.btn-action.gold{background:linear-gradient(#ffe57a,#ffc93d);color:#422800}.btn-action.blue{background:linear-gradient(#73d3ff,#3ab8ff);color:#07324d}.btn-action:disabled{opacity:.45;filter:grayscale(.5);cursor:not-allowed}.feedback{display:none;margin-top:11px;border:4px solid var(--line);border-radius:20px;padding:13px;font-weight:800;line-height:1.65}.feedback.show{display:block}.feedback.ok{background:#e2ffe8;color:#126b3e}.feedback.no{background:#ffe4e8;color:#9d2431}
 #final{align-items:center;justify-content:center;text-align:center;padding:22px;overflow:auto}.final-card{position:relative;z-index:1;max-width:1040px;background:var(--paper);border:5px solid var(--line);border-radius:34px;padding:28px;box-shadow:0 10px 0 var(--shadow)}.final-card h1{font-family:'Fredoka';font-size:38px;color:var(--red2);margin:8px 0}.final-card p{font-size:16px;line-height:1.8;font-weight:800}.tps-map{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0}.node{border:4px solid var(--line);border-radius:20px;background:#e9fbff;padding:10px 12px;font-weight:900;box-shadow:0 4px 0 var(--shadow)}.arrow-node{font-weight:900;font-size:24px;align-self:center}.report{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-top:16px}.report-card{background:#fff7d8;border:4px solid var(--line);border-radius:22px;padding:14px;box-shadow:0 5px 0 var(--shadow);font-weight:800;line-height:1.65}.report-card h3{font-family:'Fredoka';color:var(--red2);font-size:22px;margin-bottom:6px}.mini-table{display:grid;gap:6px}.mini-row{display:flex;justify-content:space-between;border-bottom:2px dashed rgba(37,48,74,.25);padding-bottom:4px}.lesson-list{columns:2;column-gap:22px}.lesson-list li{break-inside:avoid;margin:0 0 6px 18px}
-@media(max-width:960px){.stage-layout{grid-template-columns:1fr;overflow:auto}.metrics{grid-template-columns:repeat(2,1fr)}.preview{grid-template-columns:repeat(2,1fr)}.canvas-zone{min-height:360px}.playbook,.report{grid-template-columns:1fr}.title-main{font-size:44px}.lesson-list{columns:1}.steps{grid-template-columns:1fr}}
+@media(max-width:960px){
+  html,body{height:auto;min-height:100%;overflow:auto;background:var(--grass2)}
+  .screen{position:relative;min-height:100svh;overflow:visible;display:none}
+  .screen.active{display:flex}
+  .topbar{height:auto;min-height:62px;padding:8px 10px;gap:8px;position:sticky;top:0;z-index:30}
+  .top-title h1{font-size:clamp(22px,7vw,34px);line-height:1.05;white-space:normal;overflow:visible;text-overflow:clip}
+  .top-title small{font-size:14px;white-space:normal;line-height:1.25;overflow:visible;text-overflow:clip}
+  .btn-small{padding:8px 10px;border-width:4px;border-radius:16px;min-width:70px}
+
+  .metrics{display:flex;overflow-x:auto;gap:8px;padding:8px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .metrics::-webkit-scrollbar{display:none}
+  .metric{flex:0 0 142px;scroll-snap-align:start;border-width:3px;border-radius:18px;padding:8px;box-shadow:0 4px 0 var(--shadow)}
+  .metric-label{font-size:11px}
+  .metric-value{font-size:24px;line-height:1.05}
+  .bar{height:8px;margin-top:7px}
+
+  .stage-layout{display:block;flex:0 0 auto;min-height:auto;overflow:visible;padding:10px;background:linear-gradient(var(--sky2),var(--grass2))}
+  .scene-card,.lesson-card{border-width:4px;border-radius:28px;box-shadow:0 6px 0 var(--shadow);margin-bottom:12px;overflow:hidden}
+  .canvas-zone{height:clamp(280px,48svh,390px);min-height:280px;flex:0 0 auto}
+  .mission-badge{left:10px;top:10px;right:10px;max-width:none;width:auto;font-size:15px;line-height:1.35;padding:8px 10px;border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--shadow)}
+  .selected-badge{right:10px;top:auto;bottom:10px;font-size:15px;padding:8px 10px;border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--shadow)}
+  .dialogue{grid-template-columns:48px 1fr;padding:10px;gap:9px;border-top-width:4px}
+  .sensei{width:48px;height:48px;border-radius:16px;font-size:26px;border-width:3px}
+  .speech{font-size:14px;line-height:1.55}
+
+  .brief{max-height:none;overflow:visible;padding:14px}
+  .brief h2{font-size:24px;line-height:1.1;margin-bottom:8px}
+  .concept{font-size:14px;line-height:1.65}
+  .playbook{grid-template-columns:1fr;gap:8px;margin:12px 0}
+  .play-card{border-width:3px;border-radius:18px;padding:10px;box-shadow:0 3px 0 var(--shadow);font-size:14px}
+  .play-card b{font-size:17px}
+  .system-link{border-width:3px;border-radius:18px;padding:11px;font-size:14px;box-shadow:0 3px 0 var(--shadow)}
+
+  .quest{padding:12px;border-top-width:4px}
+  .quest-title{font-size:24px}
+  .steps{grid-template-columns:1fr;gap:7px}
+  .step{padding:9px;font-size:14px;border-width:3px}
+  .selected-list{font-size:14px;border-width:3px;border-radius:16px;box-shadow:0 3px 0 var(--shadow)}
+  .option{border-width:3px;border-radius:16px;box-shadow:0 3px 0 var(--shadow);font-size:14px}
+  .actions{position:sticky;bottom:0;background:#fff0c9;padding-top:8px;margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px;padding-bottom:max(10px,env(safe-area-inset-bottom));z-index:10}
+  .btn-action{flex:1 1 130px;border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--line);padding:11px 10px}
+
+  .preview{grid-template-columns:repeat(2,1fr)}
+  .title-main{font-size:44px}
+  .report{grid-template-columns:1fr}
+  .lesson-list{columns:1}
+}
+
+@media(max-width:520px){
+  .topbar{align-items:flex-start}
+  .btn-small{font-size:14px;min-width:62px;padding:7px 8px}
+  .top-title h1{font-size:30px}
+  .top-title small{font-size:13px}
+  .metric{flex-basis:132px}
+  .stage-layout{padding:8px}
+  .canvas-zone{height:clamp(300px,44svh,360px);min-height:300px}
+  .mission-badge{font-size:14px;padding:8px;max-height:78px;overflow:auto}
+  .selected-badge{font-size:14px}
+}.metrics{grid-template-columns:repeat(2,1fr)}.preview{grid-template-columns:repeat(2,1fr)}.canvas-zone{min-height:360px}.playbook,.report{grid-template-columns:1fr}.title-main{font-size:44px}.lesson-list{columns:1}.steps{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
