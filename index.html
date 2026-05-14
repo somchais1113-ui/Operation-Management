@@ -3,129 +3,917 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OM Master Dashboard 2026</title>
+    <title>OM Learning Portal 2026</title>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@300;400;600&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600&display=swap');
+
         :root {
-            --primary-grad: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-            --glass: rgba(255, 255, 255, 0.1);
+            --bg-1: #070b1f;
+            --bg-2: #11194a;
+            --bg-3: #1e1b4b;
+
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.72);
+            --text-soft: rgba(255, 255, 255, 0.55);
+
+            --glass: rgba(255, 255, 255, 0.095);
+            --glass-strong: rgba(255, 255, 255, 0.16);
+            --border: rgba(255, 255, 255, 0.16);
+
+            --blue: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --amber: #fbbf24;
+            --pink: #f472b6;
+            --purple: #a78bfa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            margin: 0; padding: 0;
-            font-family: 'Kanit', sans-serif;
-            background: var(--primary-grad);
+            margin: 0;
             min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-            color: white;
-            padding: 40px 20px;
+            font-family: 'Kanit', sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 15% 15%, rgba(96, 165, 250, 0.28), transparent 30%),
+                radial-gradient(circle at 85% 10%, rgba(167, 139, 250, 0.20), transparent 28%),
+                radial-gradient(circle at 50% 90%, rgba(34, 211, 238, 0.14), transparent 35%),
+                linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 52%, var(--bg-3) 100%);
+            overflow-x: hidden;
         }
 
-        .header { text-align: center; margin-bottom: 40px; }
-        .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.25), transparent);
+            pointer-events: none;
+            z-index: -3;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.045) 45%, transparent 55%),
+                radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 900px 900px, 26px 26px;
+            animation: backgroundMove 18s linear infinite;
+            opacity: 0.55;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        @keyframes backgroundMove {
+            from {
+                background-position: 0 0, 0 0;
+            }
+            to {
+                background-position: 900px 900px, 260px 260px;
+            }
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 34px 22px 56px;
+            position: relative;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 52px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            background:
+                linear-gradient(135deg, rgba(96, 165, 250, 0.95), rgba(34, 211, 238, 0.75)),
+                rgba(255,255,255,0.12);
+            box-shadow: 0 18px 45px rgba(34, 211, 238, 0.22);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand-text {
+            line-height: 1.15;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 1rem;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-text span {
+            font-family: 'Sarabun', sans-serif;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(16px);
+            color: var(--text-muted);
+            font-family: 'Sarabun', sans-serif;
+            font-size: 0.9rem;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.16);
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 18px rgba(52, 211, 153, 0.9);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            gap: 28px;
+            align-items: stretch;
+            margin-bottom: 32px;
+        }
+
+        .hero-copy {
+            position: relative;
+            padding: 38px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055));
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 28px 90px rgba(0,0,0,0.28);
+            overflow: hidden;
+        }
+
+        .hero-copy::before {
+            content: "";
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            right: -150px;
+            top: -160px;
+            background: radial-gradient(circle, rgba(96,165,250,0.28), transparent 68%);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(96, 165, 250, 0.13);
+            color: #bfdbfe;
+            border: 1px solid rgba(147, 197, 253, 0.18);
+            font-size: 0.88rem;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(2.25rem, 6vw, 5.2rem);
+            line-height: 0.96;
+            letter-spacing: -2.5px;
+        }
+
+        .hero h1 span {
+            display: block;
+            background: linear-gradient(90deg, #ffffff, #93c5fd, #67e8f9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin: 22px 0 0;
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-muted);
+            font-size: 1.08rem;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 13px 18px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .btn-primary {
+            color: #08111f;
+            background: linear-gradient(135deg, #ffffff, #93c5fd);
+            box-shadow: 0 16px 34px rgba(96, 165, 250, 0.25);
+        }
+
+        .btn-secondary {
+            color: white;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-panel {
+            position: relative;
+            min-height: 360px;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            background:
+                linear-gradient(145deg, rgba(15,23,42,0.75), rgba(255,255,255,0.08)),
+                rgba(255,255,255,0.08);
+            backdrop-filter: blur(18px);
+            overflow: hidden;
+            box-shadow: 0 28px 90px rgba(0,0,0,0.26);
+        }
+
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            inset: 18px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .flow-line {
+            position: absolute;
+            width: 72%;
+            height: 3px;
+            left: 14%;
+            background: linear-gradient(90deg, transparent, rgba(34,211,238,0.9), transparent);
+            box-shadow: 0 0 22px rgba(34,211,238,0.5);
+            animation: scan 4.5s ease-in-out infinite;
+        }
+
+        .flow-line.one { top: 28%; }
+        .flow-line.two { top: 50%; animation-delay: 0.9s; }
+        .flow-line.three { top: 72%; animation-delay: 1.8s; }
+
+        @keyframes scan {
+            0%, 100% {
+                transform: translateX(-18px);
+                opacity: 0.22;
+            }
+            50% {
+                transform: translateX(18px);
+                opacity: 0.95;
+            }
+        }
+
+        .node {
+            position: absolute;
+            width: 76px;
+            height: 76px;
+            border-radius: 24px;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.16);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.20);
+            font-weight: 800;
+            color: white;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .node small {
+            display: block;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .node.n1 { left: 10%; top: 17%; }
+        .node.n2 { right: 12%; top: 38%; animation-delay: 0.8s; }
+        .node.n3 { left: 20%; bottom: 15%; animation-delay: 1.4s; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .panel-caption {
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
+            left: 24px;
+            padding: 16px;
+            border-radius: 20px;
+            background: rgba(2,6,23,0.45);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(14px);
+        }
+
+        .panel-caption strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .panel-caption span {
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.86rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 34px;
+        }
+
+        .stat {
+            padding: 18px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.075);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.6rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat span {
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 18px;
+            margin: 18px 0 20px;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+            letter-spacing: -0.5px;
+        }
+
+        .section-head p {
+            margin: 6px 0 0;
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-muted);
+        }
+
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
         }
 
         .card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 20px;
-            padding: 25px;
+            position: relative;
+            min-height: 210px;
+            padding: 24px;
+            border-radius: 26px;
             text-decoration: none;
             color: white;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            position: relative; overflow: hidden;
+            background:
+                linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055));
+            border: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            overflow: hidden;
+            transition:
+                transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+                border-color 0.28s ease,
+                background 0.28s ease,
+                box-shadow 0.28s ease;
+            box-shadow: 0 18px 48px rgba(0,0,0,0.18);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at top right, var(--accent-soft), transparent 42%),
+                linear-gradient(120deg, transparent, rgba(255,255,255,0.10), transparent);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            transform: skewX(-18deg);
+            transition: 0.65s ease;
+            pointer-events: none;
         }
 
         .card:hover {
             transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.30);
+            background: linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.075));
+            box-shadow: 0 24px 70px rgba(0,0,0,0.32);
         }
 
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; }
+        .card:hover::after {
+            left: 130%;
+        }
 
-        /* แยกสีตามหมวดหมู่ */
-        .mod::before { background: #3b82f6; } /* บทเรียนหลัก - ฟ้า */
-        .mkt::before { background: #10b981; } /* Marketing - เขียว */
-        .case::before { background: #f59e0b; } /* Case Study - ส้ม */
-        .final::before { background: #ec4899; } /* Final - ชมพู */
+        .card-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
 
-        .icon { font-size: 40px; margin-bottom: 15px; }
-        .title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-        .desc { font-family: 'Sarabun', sans-serif; font-size: 0.85rem; opacity: 0.8; }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
 
-        @media (max-width: 600px) { .header h1 { font-size: 1.8rem; } }
+        .icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.16);
+            font-size: 1.15rem;
+            font-weight: 800;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+        }
+
+        .tag {
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 0.76rem;
+            color: rgba(255,255,255,0.86);
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 9px;
+            letter-spacing: -0.2px;
+        }
+
+        .desc {
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin-bottom: 22px;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: rgba(255,255,255,0.84);
+            font-size: 0.92rem;
+        }
+
+        .arrow {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.10);
+            transition: 0.25s ease;
+        }
+
+        .card:hover .arrow {
+            transform: translateX(4px);
+            background: rgba(255,255,255,0.18);
+        }
+
+        .mod {
+            --accent-soft: rgba(96, 165, 250, 0.28);
+        }
+
+        .mkt {
+            --accent-soft: rgba(52, 211, 153, 0.25);
+        }
+
+        .case {
+            --accent-soft: rgba(251, 191, 36, 0.26);
+        }
+
+        .final {
+            --accent-soft: rgba(244, 114, 182, 0.28);
+        }
+
+        .mod .icon {
+            color: #bfdbfe;
+        }
+
+        .mkt .icon {
+            color: #bbf7d0;
+        }
+
+        .case .icon {
+            color: #fde68a;
+        }
+
+        .final .icon {
+            color: #fbcfe8;
+        }
+
+        .footer {
+            margin-top: 34px;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-soft);
+        }
+
+        @media (max-width: 980px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel {
+                min-height: 300px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .menu-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page {
+                padding: 22px 14px 36px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                margin-bottom: 28px;
+            }
+
+            .status-pill {
+                display: none;
+            }
+
+            .hero-copy {
+                padding: 26px;
+                border-radius: 26px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1.4px;
+            }
+
+            .hero p {
+                font-size: 0.98rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .section-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: 190px;
+            }
+        }
     </style>
 </head>
+
 <body>
+    <main class="page">
 
-    <div class="header">
-        <h1>📊 OM Learning Portal</h1>
-        <p>ทบทวนเนื้อหาทั้งหมดจากไฟล์ใน GitHub ของคุณ</p>
-    </div>
+        <nav class="topbar">
+            <a href="index.html" class="brand">
+                <div class="brand-mark">OM</div>
+                <div class="brand-text">
+                    <strong>OM Learning Portal</strong>
+                    <span>Operation Management Dashboard</span>
+                </div>
+            </a>
 
-    <div class="menu-grid">
-        <!-- 5 Modules หลัก -->
-        <a href="module1.html" class="card mod">
-            <div class="icon">01</div>
-            <div class="title">Process Analysis</div>
-            <div class="desc">พื้นฐาน Flowchart & Bottleneck</div>
-        </a>
-        <a href="module2.html" class="card mod">
-            <div class="icon">02</div>
-            <div class="title">Inventory</div>
-            <div class="desc">การจัดการสต็อก & EOQ</div>
-        </a>
-        <a href="module3.html" class="card mod">
-            <div class="icon">03</div>
-            <div class="title">Supply Chain</div>
-            <div class="desc">โซ่อุปทาน & โลจิสติกส์</div>
-        </a>
-        <a href="module4.html" class="card mod">
-            <div class="icon">04</div>
-            <div class="title">Capacity</div>
-            <div class="desc">การวางแผนกำลังการผลิต</div>
-        </a>
-        <a href="module5.html" class="card mod">
-            <div class="icon">05</div>
-            <div class="title">Quality & Lean</div>
-            <div class="desc">ลีน & การควบคุมคุณภาพ</div>
-        </a>
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                Ready for Study Mode 2026
+            </div>
+        </nav>
 
-        <!-- Marketing Case Study ที่เพิ่มมาใหม่ -->
-        <a href="dhasmarketing1.html" class="card mkt">
-            <div class="icon">📢</div>
-            <div class="title">Marketing Case 1</div>
-            <div class="desc">บทวิเคราะห์การตลาด Part 1</div>
-        </a>
-        <a href="dhasmarketing2.html" class="card mkt">
-            <div class="icon">📈</div>
-            <div class="title">Marketing Case 2</div>
-            <div class="desc">กลยุทธ์และการเติบโต Part 2</div>
-        </a>
+        <section class="hero">
+            <div class="hero-copy">
+                <div class="eyebrow">📊 Operations • Process • Supply Chain • Quality</div>
 
-        <!-- Case Study & Final Module -->
-        <a href="casestudy.html" class="card case">
-            <div class="icon">📝</div>
-            <div class="title">General Case Study</div>
-            <div class="desc">วิเคราะห์กรณีศึกษาภาพรวม</div>
-        </a>
-        <a href="finalmodule.html" class="card final">
-            <div class="icon">🏆</div>
-            <div class="title">Final Module</div>
-            <div class="desc">สรุปเนื้อหาเตรียมสอบทั้งหมด</div>
-        </a>
-    </div>
+                <h1>
+                    Master
+                    <span>Operation Management</span>
+                </h1>
 
+                <p>
+                    ศูนย์รวมบทเรียน Operation Management สำหรับทบทวนเนื้อหา วิเคราะห์กระบวนการ
+                    จัดการสต็อก วางแผนกำลังการผลิต เข้าใจ Supply Chain และเตรียมพร้อมสำหรับ Final Module
+                    ในที่เดียว
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#modules" class="btn btn-primary">เริ่มทบทวนบทเรียน →</a>
+                    <a href="finalmodule.html" class="btn btn-secondary">ไปที่ Final Module</a>
+                </div>
+            </div>
+
+            <div class="hero-panel" aria-label="Operation management visual panel">
+                <div class="flow-line one"></div>
+                <div class="flow-line two"></div>
+                <div class="flow-line three"></div>
+
+                <div class="node n1">
+                    <div>
+                        Plan
+                        <small>Demand</small>
+                    </div>
+                </div>
+
+                <div class="node n2">
+                    <div>
+                        Flow
+                        <small>Process</small>
+                    </div>
+                </div>
+
+                <div class="node n3">
+                    <div>
+                        Lean
+                        <small>Quality</small>
+                    </div>
+                </div>
+
+                <div class="panel-caption">
+                    <strong>Designed for systematic learning</strong>
+                    <span>เรียนเป็นลำดับ เห็นภาพรวม และเชื่อมโยงทุกหัวข้อแบบ dashboard</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stat">
+                <strong>5</strong>
+                <span>Core OM Modules</span>
+            </div>
+            <div class="stat">
+                <strong>2</strong>
+                <span>Marketing Case Studies</span>
+            </div>
+            <div class="stat">
+                <strong>1</strong>
+                <span>General Case Study</span>
+            </div>
+            <div class="stat">
+                <strong>Final</strong>
+                <span>Exam Preparation Hub</span>
+            </div>
+        </section>
+
+        <section id="modules">
+            <div class="section-head">
+                <div>
+                    <h2>เลือกบทเรียนที่ต้องการเรียน</h2>
+                    <p>จัดกลุ่มเนื้อหาให้เข้าใจง่าย พร้อมเข้าแต่ละบทได้ทันที</p>
+                </div>
+            </div>
+
+            <div class="menu-grid">
+                <a href="module1.html" class="card mod">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">01</div>
+                            <div class="tag">Core Module</div>
+                        </div>
+                        <div class="title">Process Analysis</div>
+                        <div class="desc">เรียนรู้พื้นฐาน Flowchart, Process Flow, Bottleneck และการวิเคราะห์ประสิทธิภาพของระบบงาน</div>
+                        <div class="card-footer">
+                            <span>Open Module</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="module2.html" class="card mod">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">02</div>
+                            <div class="tag">Core Module</div>
+                        </div>
+                        <div class="title">Inventory</div>
+                        <div class="desc">เข้าใจการจัดการสต็อก ต้นทุนสินค้าคงคลัง EOQ และการตัดสินใจด้านปริมาณการสั่งซื้อ</div>
+                        <div class="card-footer">
+                            <span>Open Module</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="module3.html" class="card mod">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">03</div>
+                            <div class="tag">Core Module</div>
+                        </div>
+                        <div class="title">Supply Chain</div>
+                        <div class="desc">สำรวจโซ่อุปทาน โลจิสติกส์ การประสานงานระหว่างผู้ผลิต ผู้จัดส่ง และลูกค้า</div>
+                        <div class="card-footer">
+                            <span>Open Module</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="module4.html" class="card mod">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">04</div>
+                            <div class="tag">Core Module</div>
+                        </div>
+                        <div class="title">Capacity</div>
+                        <div class="desc">เรียนรู้การวางแผนกำลังการผลิต การใช้ทรัพยากร และการรองรับความต้องการของระบบ</div>
+                        <div class="card-footer">
+                            <span>Open Module</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="module5.html" class="card mod">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">05</div>
+                            <div class="tag">Core Module</div>
+                        </div>
+                        <div class="title">Quality & Lean</div>
+                        <div class="desc">เข้าใจแนวคิด Lean, Waste Reduction, Continuous Improvement และการควบคุมคุณภาพ</div>
+                        <div class="card-footer">
+                            <span>Open Module</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="dhasmarketing1.html" class="card mkt">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">📢</div>
+                            <div class="tag">Marketing</div>
+                        </div>
+                        <div class="title">Marketing Case 1</div>
+                        <div class="desc">บทวิเคราะห์การตลาด Part 1 เชื่อมโยงการตัดสินใจทางธุรกิจเข้ากับการจัดการเชิงปฏิบัติการ</div>
+                        <div class="card-footer">
+                            <span>View Case</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="dhasmarketing2.html" class="card mkt">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">📈</div>
+                            <div class="tag">Marketing</div>
+                        </div>
+                        <div class="title">Marketing Case 2</div>
+                        <div class="desc">กลยุทธ์ การเติบโต และมุมมองทางการตลาดที่ช่วยเสริมความเข้าใจภาพรวมของธุรกิจ</div>
+                        <div class="card-footer">
+                            <span>View Case</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="casestudy.html" class="card case">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">📝</div>
+                            <div class="tag">Case Study</div>
+                        </div>
+                        <div class="title">General Case Study</div>
+                        <div class="desc">ฝึกวิเคราะห์กรณีศึกษาภาพรวม เพื่อเชื่อมโยงแนวคิด OM กับสถานการณ์จริง</div>
+                        <div class="card-footer">
+                            <span>Analyze Case</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="finalmodule.html" class="card final">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">🏆</div>
+                            <div class="tag">Final Prep</div>
+                        </div>
+                        <div class="title">Final Module</div>
+                        <div class="desc">สรุปเนื้อหาสำคัญทั้งหมดสำหรับเตรียมสอบ พร้อมรวมประเด็นหลักที่ควรทบทวน</div>
+                        <div class="card-footer">
+                            <span>Start Final Prep</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <footer class="footer">
+            OM Learning Portal 2026 • Built for focused learning and smarter operations
+        </footer>
+
+    </main>
 </body>
 </html>
