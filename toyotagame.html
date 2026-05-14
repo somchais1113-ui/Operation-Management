@@ -24,15 +24,87 @@ button{font-family:'Sarabun',sans-serif;color:inherit}.gamefont{font-family:'Fre
 .map-wrap{position:relative;z-index:2;flex:1;overflow:auto;padding:22px}.world{max-width:980px;margin:0 auto;display:grid;gap:16px}.stage-node{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;background:var(--paper);border:5px solid var(--line);border-radius:30px;padding:15px;box-shadow:0 9px 0 var(--shadow);cursor:pointer;transition:.12s}.stage-node:hover{transform:translateY(-3px)}.stage-node.locked{opacity:.55;filter:grayscale(.45);cursor:not-allowed}.stage-node.current{background:#fff3b8;animation:floaty 1.7s ease-in-out infinite}.stage-node.done{background:#e7ffe8}@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -5px}}.stage-icon{width:72px;height:72px;border:4px solid var(--line);border-radius:23px;background:linear-gradient(#fff,#e9fbff);display:grid;place-items:center;font-size:38px;box-shadow:0 5px 0 var(--shadow)}.stage-info h2{font-size:23px;font-family:'Fredoka';font-weight:700}.stage-info p{font-size:14px;color:var(--muted);font-weight:700;line-height:1.5}.tag{display:inline-block;margin-top:8px;background:var(--yellow);border:3px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900}.status{font-size:30px}.connector{text-align:center;font-size:28px;color:var(--line);font-weight:900;height:12px;line-height:12px}
 .stage-layout{position:relative;z-index:2;flex:1;min-height:0;padding:14px;display:grid;grid-template-columns:1.32fr .68fr;gap:14px}.scene-card,.lesson-card{min-height:0;background:var(--paper);border:5px solid var(--line);border-radius:32px;overflow:hidden;box-shadow:0 9px 0 var(--shadow)}.scene-card{display:flex;flex-direction:column}.canvas-zone{position:relative;flex:1;min-height:420px;background:#8ee5ff}canvas{display:block;width:100%;height:100%;cursor:pointer}.mission-badge{position:absolute;left:14px;top:14px;max-width:58%;background:var(--paper);border:4px solid var(--line);border-radius:19px;padding:10px 12px;font-weight:900;line-height:1.45;box-shadow:0 5px 0 var(--shadow)}.selected-badge{position:absolute;right:14px;bottom:14px;background:var(--yellow);border:4px solid var(--line);border-radius:19px;padding:10px 12px;font-family:'Fredoka';font-weight:700;box-shadow:0 5px 0 var(--shadow)}.dialogue{border-top:5px solid var(--line);display:grid;grid-template-columns:60px 1fr;gap:12px;align-items:start;background:var(--cream);padding:13px}.sensei{width:60px;height:60px;border:4px solid var(--line);border-radius:20px;background:linear-gradient(#fff,#ffe08e);display:grid;place-items:center;font-size:32px;box-shadow:0 5px 0 var(--shadow)}.speech{font-weight:800;line-height:1.65}.speech b{color:var(--red2)}
 .lesson-card{display:flex;flex-direction:column}.brief{padding:17px;overflow:auto}.brief h2{font-family:'Fredoka';font-size:26px;color:var(--red2);margin-bottom:6px}.concept{font-size:15px;line-height:1.75;font-weight:700}.concept strong{color:var(--red2)}.concept em{font-style:normal;background:#e7ffe8;color:var(--green2);padding:1px 5px;border-radius:8px;font-weight:900}.playbook{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.play-card{background:#fff7d8;border:4px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 4px 0 var(--shadow);font-weight:800;line-height:1.55}.play-card b{display:block;color:var(--red2);font-family:'Fredoka';font-size:18px;margin-bottom:4px}.system-link{margin-top:14px;background:#e9fbff;border:4px solid var(--line);border-radius:22px;padding:13px;font-weight:800;line-height:1.65;box-shadow:0 5px 0 var(--shadow)}.system-link b{color:var(--blue2)}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}.step{border:3px solid var(--line);background:var(--paper);border-radius:16px;padding:7px;text-align:center;font-weight:900;font-size:12px}.step.active{background:var(--yellow)}.step.done{background:#e1ffe8;color:var(--green2)}
-.quest{border-top:5px solid var(--line);background:#fff0c9;padding:15px}.quest-title{font-family:'Fredoka';font-size:22px;color:var(--blue2);font-weight:700;margin-bottom:4px}.quest-help{font-weight:800;color:var(--muted);line-height:1.55;margin-bottom:10px}.selected-list{background:var(--paper);border:4px solid var(--line);border-radius:18px;padding:10px 12px;min-height:48px;font-weight:900;line-height:1.5;box-shadow:0 4px 0 var(--shadow);margin-bottom:10px}.selected-list span{display:inline-block;background:#e9fbff;border:3px solid var(--line);border-radius:999px;padding:3px 8px;margin:2px;font-size:12px}.option-list{display:grid;gap:8px;margin-top:8px}.option{background:var(--paper);border:4px solid var(--line);border-radius:18px;padding:10px 12px;font-weight:900;line-height:1.4;cursor:pointer;box-shadow:0 4px 0 var(--shadow)}.option.selected{background:#fff1a5;box-shadow:0 4px 0 var(--line),inset 0 0 0 4px rgba(255,216,92,.5)}.actions{display:flex;gap:9px;margin-top:11px;flex-wrap:wrap}.btn-action{border:4px solid var(--line);border-radius:17px;padding:11px 14px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 var(--line);background:var(--paper)}.btn-action.green{background:linear-gradient(#69eba2,#35c979);color:#073a21}.btn-action.gold{background:linear-gradient(#ffe57a,#ffc93d);color:#422800}.btn-action.blue{background:linear-gradient(#73d3ff,#3ab8ff);color:#07324d}.btn-action:disabled{opacity:.45;filter:grayscale(.5);cursor:not-allowed}.feedback{display:none;margin-top:11px;border:4px solid var(--line);border-radius:20px;padding:13px;font-weight:800;line-height:1.65}.feedback.show{display:block}.feedback.ok{background:#e2ffe8;color:#126b3e}.feedback.no{background:#ffe4e8;color:#9d2431}
+.quest{border-top:5px solid var(--line);background:#fff0c9;padding:15px}.quest-title{font-family:'Fredoka';font-size:22px;color:var(--blue2);font-weight:700;margin-bottom:4px}.quest-help{font-weight:800;color:var(--muted);line-height:1.55;margin-bottom:10px}.selected-list{background:var(--paper);border:4px solid var(--line);border-radius:18px;padding:10px 12px;min-height:48px;font-weight:900;line-height:1.5;box-shadow:0 4px 0 var(--shadow);margin-bottom:10px}.selected-list span{display:inline-block;background:#e9fbff;border:3px solid var(--line);border-radius:999px;padding:3px 8px;margin:2px;font-size:12px}.option-list{display:grid;gap:8px;margin-top:8px}.mission-cards{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}.mission-card{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;background:var(--paper);border:4px solid var(--line);border-radius:20px;padding:10px 12px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 var(--shadow);transition:.08s}.mission-card:hover{transform:translateY(-2px)}.mission-card.selected{background:#fff1a5;box-shadow:0 5px 0 var(--line),inset 0 0 0 4px rgba(255,216,92,.55)}.mission-icon{width:48px;height:48px;border:3px solid var(--line);border-radius:16px;background:#e9fbff;display:grid;place-items:center;font-size:26px}.mission-name{line-height:1.2}.mission-name small{display:block;color:var(--muted);font-weight:800;margin-top:2px}.mission-check{font-size:22px}.option{background:var(--paper);border:4px solid var(--line);border-radius:18px;padding:10px 12px;font-weight:900;line-height:1.4;cursor:pointer;box-shadow:0 4px 0 var(--shadow)}.option.selected{background:#fff1a5;box-shadow:0 4px 0 var(--line),inset 0 0 0 4px rgba(255,216,92,.5)}.actions{display:flex;gap:9px;margin-top:11px;flex-wrap:wrap}.btn-action{border:4px solid var(--line);border-radius:17px;padding:11px 14px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 var(--line);background:var(--paper)}.btn-action.green{background:linear-gradient(#69eba2,#35c979);color:#073a21}.btn-action.gold{background:linear-gradient(#ffe57a,#ffc93d);color:#422800}.btn-action.blue{background:linear-gradient(#73d3ff,#3ab8ff);color:#07324d}.btn-action:disabled{opacity:.45;filter:grayscale(.5);cursor:not-allowed}.feedback{display:none;margin-top:11px;border:4px solid var(--line);border-radius:20px;padding:13px;font-weight:800;line-height:1.65}.feedback.show{display:block}.feedback.ok{background:#e2ffe8;color:#126b3e}.feedback.no{background:#ffe4e8;color:#9d2431}
 #final{align-items:center;justify-content:center;text-align:center;padding:22px;overflow:auto}.final-card{position:relative;z-index:1;max-width:1040px;background:var(--paper);border:5px solid var(--line);border-radius:34px;padding:28px;box-shadow:0 10px 0 var(--shadow)}.final-card h1{font-family:'Fredoka';font-size:38px;color:var(--red2);margin:8px 0}.final-card p{font-size:16px;line-height:1.8;font-weight:800}.tps-map{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0}.node{border:4px solid var(--line);border-radius:20px;background:#e9fbff;padding:10px 12px;font-weight:900;box-shadow:0 4px 0 var(--shadow)}.arrow-node{font-weight:900;font-size:24px;align-self:center}.report{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-top:16px}.report-card{background:#fff7d8;border:4px solid var(--line);border-radius:22px;padding:14px;box-shadow:0 5px 0 var(--shadow);font-weight:800;line-height:1.65}.report-card h3{font-family:'Fredoka';color:var(--red2);font-size:22px;margin-bottom:6px}.mini-table{display:grid;gap:6px}.mini-row{display:flex;justify-content:space-between;border-bottom:2px dashed rgba(37,48,74,.25);padding-bottom:4px}.lesson-list{columns:2;column-gap:22px}.lesson-list li{break-inside:avoid;margin:0 0 6px 18px}
 @media(max-width:960px){html,body{height:auto;min-height:100%;overflow:auto;background:var(--grass2)}.screen{position:relative;min-height:100svh;overflow:visible;display:none}.screen.active{display:flex}.topbar{height:auto;min-height:62px;padding:8px 10px;gap:8px;position:sticky;top:0;z-index:30}.top-title h1{font-size:clamp(22px,7vw,34px);line-height:1.05;white-space:normal;overflow:visible;text-overflow:clip}.top-title small{font-size:14px;white-space:normal;line-height:1.25;overflow:visible;text-overflow:clip}.btn-small{padding:8px 10px;border-width:4px;border-radius:16px;min-width:70px}.metrics{display:flex;overflow-x:auto;gap:8px;padding:8px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}.metrics::-webkit-scrollbar{display:none}.metric{flex:0 0 142px;scroll-snap-align:start;border-width:3px;border-radius:18px;padding:8px;box-shadow:0 4px 0 var(--shadow)}.metric-value{font-size:24px;line-height:1.05}.stage-layout{display:block;flex:0 0 auto;min-height:auto;overflow:visible;padding:10px;background:linear-gradient(var(--sky2),var(--grass2))}.scene-card,.lesson-card{border-width:4px;border-radius:28px;box-shadow:0 6px 0 var(--shadow);margin-bottom:12px;overflow:hidden}.canvas-zone{height:clamp(360px,52svh,440px);min-height:360px;flex:0 0 auto}.mission-badge{left:10px;top:10px;right:auto;max-width:68%;width:auto;font-size:13px;line-height:1.35;padding:8px;border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--shadow)}.selected-badge{right:10px;bottom:10px;font-size:14px;padding:8px 10px;border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--shadow)}.dialogue{grid-template-columns:48px 1fr;padding:10px;gap:9px;border-top-width:4px}.sensei{width:48px;height:48px;border-radius:16px;font-size:26px;border-width:3px}.speech{font-size:14px;line-height:1.55}.brief{max-height:none;overflow:visible;padding:14px}.brief h2{font-size:24px;line-height:1.1;margin-bottom:8px}.concept{font-size:14px;line-height:1.65}.playbook{grid-template-columns:1fr;gap:8px;margin:12px 0}.play-card{border-width:3px;border-radius:18px;padding:10px;box-shadow:0 3px 0 var(--shadow);font-size:14px}.play-card b{font-size:17px}.system-link{border-width:3px;border-radius:18px;padding:11px;font-size:14px;box-shadow:0 3px 0 var(--shadow)}.quest{padding:12px;border-top-width:4px}.quest-title{font-size:24px}.steps{grid-template-columns:1fr;gap:7px}.step{padding:9px;font-size:14px;border-width:3px}.selected-list{font-size:14px;border-width:3px;border-radius:16px;box-shadow:0 3px 0 var(--shadow)}.option{border-width:3px;border-radius:16px;box-shadow:0 3px 0 var(--shadow);font-size:14px}.actions{position:sticky;bottom:0;background:#fff0c9;padding-top:8px;margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px;padding-bottom:max(10px,env(safe-area-inset-bottom));z-index:10}.btn-action{flex:1 1 130px;border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--line);padding:11px 10px}.preview{grid-template-columns:repeat(2,1fr)}.title-main{font-size:44px}.report{grid-template-columns:1fr}.lesson-list{columns:1}}
+
+
+/* --- Fresh Pastel Cozy Factory Skin: integrated, mobile-safe --- */
+:root{
+  --sky:#BFEFFF;
+  --sky2:#F7FCFF;
+  --grass:#B8E986;
+  --grass2:#8FD06A;
+  --paper:#FFFDF2;
+  --cream:#FFF1C8;
+  --ink:#334155;
+  --muted:#718096;
+  --line:#3E4A5A;
+  --shadow:rgba(62,74,90,.14);
+  --red:#FF7A8A;
+  --red2:#E85F70;
+  --blue:#67C7F7;
+  --blue2:#3798D4;
+  --green:#8BE7A6;
+  --green2:#4FAA71;
+  --yellow:#FFE16A;
+  --orange:#FFB86B;
+  --purple:#C7A8FF;
+  --puffy-shadow:5px 6px 12px rgba(62,74,90,.10),-3px -3px 10px rgba(255,255,255,.82);
+  --chunk-shadow:0 6px 0 var(--line),0 11px 18px var(--shadow);
+}
+.screen{background:linear-gradient(var(--sky) 0%,var(--sky2) 46%,var(--grass) 56%,var(--grass2) 100%)}
+.screen:before{opacity:.58}
+.logo{border-width:5px;border-radius:38px;background:linear-gradient(145deg,#FFA3AD,var(--red));box-shadow:0 8px 0 var(--line),0 14px 22px var(--shadow)}
+.title-main{color:#FFFFFF;text-shadow:3px 0 var(--line),-3px 0 var(--line),0 3px var(--line),0 -3px var(--line)}
+.title-sub{background:#FFE16A;color:var(--ink)}
+.title-card{background:rgba(255,253,242,.96);color:var(--ink)}
+.btn-primary{border-width:5px;border-radius:26px;background:linear-gradient(to bottom,#FFE985,#FFE16A);color:var(--ink);text-transform:uppercase;box-shadow:0 7px 0 var(--line),0 12px 20px var(--shadow)}
+.btn-small,.btn-action{border-radius:21px;box-shadow:0 5px 0 var(--line),0 10px 16px var(--shadow)}
+.btn-action.green{background:linear-gradient(#A4F0B7,#78D994);color:#173B28}
+.btn-action.gold{background:linear-gradient(#FFE985,#FFD85A);color:#3B2D12}
+.btn-action.blue{background:linear-gradient(#93DAFF,#67C7F7);color:#16354A}
+.btn-primary:active,.btn-small:active,.btn-action:active{transform:translateY(5px);box-shadow:0 2px 0 var(--line)}
+.topbar{background:var(--paper);border-bottom:5px solid var(--line);border-radius:0 0 28px 28px;margin:0 10px}
+.top-title h1{color:var(--red2)}
+.metric,.preview div,.stage-node,.scene-card,.lesson-card,.play-card,.mission-card,.option,.selected-list,.system-link,.report-card,.node{background-color:var(--paper);border-color:var(--line);box-shadow:var(--puffy-shadow)}
+.metric,.play-card,.option,.selected-list,.system-link,.report-card,.node{border-radius:22px}
+.stage-node{border-radius:34px;border-width:5px;box-shadow:0 8px 0 var(--line),0 14px 22px var(--shadow);background:#FFFFFF}
+.stage-node.current{background:#FFF6B8;transform:scale(1.008)}
+.stage-node.done{background:#E9FFE9}
+.stage-icon{background:linear-gradient(#FFFFFF,#EAF8FF)}
+.scene-card,.lesson-card{border-radius:36px;border-width:5px;box-shadow:0 9px 0 var(--shadow)}
+.dialogue{background:var(--cream);border-top:5px solid var(--line)}
+.sensei{background:linear-gradient(#FFFFFF,#FFE9A8)}
+.mission-badge,.selected-badge{border-radius:22px;border-color:var(--line);box-shadow:4px 4px 0 var(--line);background:#FFFFFF}
+.selected-badge{background:#FFE16A}
+.mission-card{border-radius:24px;border-width:4px;background:#FFFFFF}
+.mission-card.selected{background:#FFF6B8;box-shadow:0 5px 0 var(--line),inset 0 0 0 4px rgba(255,225,106,.42)}
+.mission-icon{border-color:var(--line);border-radius:17px;background:#EAF8FF}
+.option.selected{background:#FFF6B8}
+.canvas-zone{background:#BFEFFF}
+.bar{background:#DCEAF2}
+.system-link{background:#EAF8FF}
+.play-card{background:#FFF8DC}
+.quest{background:#FFF1C8}
+.feedback.ok{background:#E9FFE9;color:#2F6E45}
+.feedback.no{background:#FFE5EA;color:#A13C4B}
+
+@media(max-width:960px){
+  .topbar{margin:0;border-radius:0 0 20px 20px;border-bottom-width:4px}
+  .scene-card,.lesson-card,.stage-node{border-width:4px;border-radius:25px;box-shadow:0 4px 0 var(--shadow)}
+  .metric,.mission-card,.play-card,.option,.selected-list,.system-link{border-width:3px;border-radius:17px;box-shadow:0 3px 0 var(--shadow)}
+  .btn-primary,.btn-small,.btn-action{border-width:3px;border-radius:17px;box-shadow:0 4px 0 var(--line)}
+  .mission-badge,.selected-badge{border-width:3px;border-radius:15px;box-shadow:3px 3px 0 var(--line)}
+  .mission-card{grid-template-columns:44px 1fr auto;padding:9px 10px}
+  .mission-icon{width:44px;height:44px;font-size:24px}
+}
 </style>
 </head>
 <body>
 <section class="screen active" id="title"><div class="hero"><div class="logo">🏝️</div><div class="title-main">Toyota<br>OM Quest</div><div class="title-sub gamefont">Clear Edition</div><p class="title-card">เวอร์ชันนี้แก้ใหม่แบบสะอาด: ลดความรกของฉาก, ทำ abnormal object ให้เด่นและคลิกง่าย, เพิ่ม Hint และยังคงระบบ Observe → Decide → Improve</p><button class="btn-primary gamefont" onclick="startGame()">Start Quest ▶</button><div class="preview"><div><span>🧹</span>5S</div><div><span>🔴</span>Jidoka</div><div><span>📋</span>Kanban</div><div><span>⚡</span>JIT</div><div><span>🔄</span>Kaizen</div><div><span>🕵️</span>Lean</div><div><span>🏠</span>TPS</div></div></div></section>
 <section class="screen" id="map"><div class="topbar"><button class="btn-small" onclick="show('title')">◀ Title</button><div class="top-title"><h1>Factory Island Map</h1><small>แต่ละด่านมี object ที่ต้องคลิกชัดเจนขึ้น</small></div><button class="btn-small" onclick="resetGame()">Reset</button></div><div id="mapMetrics" class="metrics"></div><div class="map-wrap"><div id="world" class="world"></div></div></section>
-<section class="screen" id="stage"><div class="topbar"><button class="btn-small" onclick="goMap()">◀ Map</button><div class="top-title"><h1 id="stageTitle">Stage</h1><small id="stageDesc">Mission</small></div></div><div id="stageMetrics" class="metrics"></div><div class="stage-layout"><div class="scene-card"><div class="canvas-zone"><canvas id="gameCanvas"></canvas><div id="missionBadge" class="mission-badge"></div><div id="selectedBadge" class="selected-badge gamefont">Observe</div></div><div class="dialogue"><div class="sensei">👨‍🏭</div><div class="speech" id="speech"></div></div></div><div class="lesson-card"><div class="brief" id="brief"></div><div class="quest"><div class="quest-title">Mission Steps</div><div class="steps"><div id="step1" class="step active">1 Observe</div><div id="step2" class="step">2 Decide</div><div id="step3" class="step">3 Improve</div></div><div class="quest-help" id="questHelp"></div><div id="selectedList" class="selected-list">คลิก object ในฉาก</div><div id="optionList" class="option-list hidden"></div><div class="actions"><button id="hintBtn" class="btn-action blue" onclick="showHint()">Hint 💡</button><button id="submitBtn" class="btn-action green" onclick="submitQuest()">ตรวจคำตอบ</button><button id="applyBtn" class="btn-action blue hidden" onclick="applyImprovement()">Apply ✨</button><button id="nextBtn" class="btn-action gold hidden" onclick="completeStage()">ผ่านด่าน ▶</button></div><div id="feedback" class="feedback"></div></div></div></div></section>
+<section class="screen" id="stage"><div class="topbar"><button class="btn-small" onclick="goMap()">◀ Map</button><div class="top-title"><h1 id="stageTitle">Stage</h1><small id="stageDesc">Mission</small></div></div><div id="stageMetrics" class="metrics"></div><div class="stage-layout"><div class="scene-card"><div class="canvas-zone"><canvas id="gameCanvas"></canvas><div id="missionBadge" class="mission-badge"></div><div id="selectedBadge" class="selected-badge gamefont">Observe</div></div><div class="dialogue"><div class="sensei">👨‍🏭</div><div class="speech" id="speech"></div></div></div><div class="lesson-card"><div class="brief" id="brief"></div><div class="quest"><div class="quest-title">Mission Steps</div><div class="steps"><div id="step1" class="step active">1 Observe</div><div id="step2" class="step">2 Decide</div><div id="step3" class="step">3 Improve</div></div><div class="quest-help" id="questHelp"></div><div id="selectedList" class="selected-list">เลือก Mission Cards ด้านล่าง</div><div id="missionCards" class="mission-cards"></div><div id="optionList" class="option-list hidden"></div><div class="actions"><button id="hintBtn" class="btn-action blue" onclick="showHint()">Hint 💡</button><button id="submitBtn" class="btn-action green" onclick="submitQuest()">ตรวจคำตอบ</button><button id="applyBtn" class="btn-action blue hidden" onclick="applyImprovement()">Apply ✨</button><button id="nextBtn" class="btn-action gold hidden" onclick="completeStage()">ผ่านด่าน ▶</button></div><div id="feedback" class="feedback"></div></div></div></div></section>
 <section class="screen" id="final"><div class="final-card"><div style="font-size:66px">🏆</div><h1>TPS Factory Complete!</h1><p>คุณสร้างระบบ Toyota ที่เชื่อมกันครบแล้ว จากการสังเกตปัญหา ตัดสินใจเลือกวิธีแก้ และปรับปรุงฉากโรงงานให้ดีขึ้นทีละด่าน</p><div id="finalMap" class="tps-map"></div><div id="summaryReport" class="report"></div><button class="btn-primary gamefont" onclick="resetGame()">Play Again</button></div></section>
 <script>
 const INITIAL={inventory:72,waste:76,defect:64,lead:70,flow:28};
@@ -57,7 +129,41 @@ function renderMap(){renderMetrics(document.getElementById('mapMetrics'));const 
 function playbookHTML(s){return `<div class="playbook">${s.playbook.map(x=>`<div class="play-card"><b>${x[0]}</b>${x[1]}</div>`).join('')}</div>`;}
 function openStage(i){active=i;state.selected=[];state.decision=null;state.step=1;save();const s=STAGES[i];show('stage');document.getElementById('stageTitle').textContent=`Stage ${s.id}: ${s.title}`;document.getElementById('stageDesc').textContent=s.desc;document.getElementById('missionBadge').textContent=s.quest;document.getElementById('speech').innerHTML=`<b>${s.title}</b><br>${s.mentor}`;document.getElementById('brief').innerHTML=s.concept+playbookHTML(s)+`<div class="system-link"><b>System Link:</b> ${s.link}</div>`;document.getElementById('feedback').className='feedback';document.getElementById('feedback').innerHTML='';document.getElementById('applyBtn').classList.add('hidden');document.getElementById('nextBtn').classList.add('hidden');document.getElementById('submitBtn').disabled=false;renderQuestPanel();renderMetrics(document.getElementById('stageMetrics'));resize();if(raf)cancelAnimationFrame(raf);loop();}
 function renderSteps(){[1,2,3].forEach(n=>{const el=document.getElementById('step'+n);el.className='step '+(state.step===n?'active':state.step>n?'done':'');});}
-function renderQuestPanel(){const s=STAGES[active];renderSteps();document.getElementById('selectedBadge').textContent=state.step===1?`${state.selected.length}/${s.targets.length} Selected`:state.step===2?'Decide':'Improve';const list=document.getElementById('selectedList');const opt=document.getElementById('optionList');const hintBtn=document.getElementById('hintBtn');opt.classList.toggle('hidden',state.step!==2);hintBtn.classList.toggle('hidden',state.step!==1);if(state.step===1){document.getElementById('questHelp').textContent='Step 1: คลิก object ที่มีป้าย/สีเด่น หรือกด Hint';list.innerHTML=state.selected.length?state.selected.map(id=>`<span>${hotspotName(id)}</span>`).join(''):'ยังไม่ได้เลือก object';document.getElementById('submitBtn').textContent='ตรวจสิ่งที่เลือก';document.getElementById('submitBtn').classList.remove('hidden');}else if(state.step===2){document.getElementById('questHelp').textContent='Step 2: '+s.decision;list.textContent='เลือกแนวทางการตัดสินใจที่เหมาะกับสถานการณ์';opt.innerHTML=s.options.map((o,i)=>`<button class="option ${state.decision===i?'selected':''}" onclick="chooseDecision(${i})">${o}</button>`).join('');document.getElementById('submitBtn').textContent='ตรวจการตัดสินใจ';document.getElementById('submitBtn').classList.remove('hidden');}else{document.getElementById('questHelp').textContent='Step 3: Apply Improvement แล้วดูฉากเปลี่ยนเป็น After state';list.textContent='พร้อมปรับปรุงฉากแล้ว';document.getElementById('submitBtn').classList.add('hidden');document.getElementById('applyBtn').classList.remove('hidden');}}
+function renderQuestPanel(){
+  const s=STAGES[active];
+  renderSteps();
+  const list=document.getElementById('selectedList');
+  const opt=document.getElementById('optionList');
+  const cards=document.getElementById('missionCards');
+  const hintBtn=document.getElementById('hintBtn');
+  document.getElementById('selectedBadge').textContent=state.step===1?`${state.selected.length}/${s.targets.length} Selected`:state.step===2?'Decide':'Improve';
+  opt.classList.toggle('hidden',state.step!==2);
+  cards.classList.toggle('hidden',state.step!==1);
+  hintBtn.classList.toggle('hidden',state.step!==1);
+  document.getElementById('applyBtn').classList.add('hidden');
+  if(state.step===1){
+    document.getElementById('questHelp').textContent='Step 1: เลือก Mission Cards ที่เป็นสิ่งผิดปกติ / จุดที่ต้องสังเกต';
+    list.innerHTML=state.selected.length?state.selected.map(id=>`<span>${targetLabel(id)}</span>`).join(''):'เลือกการ์ดด้านล่างให้ครบ';
+    cards.innerHTML=s.targets.map(id=>missionCardHTML(id,state.selected.includes(id))).join('');
+    document.getElementById('submitBtn').textContent='ตรวจสิ่งที่เลือก';
+    document.getElementById('submitBtn').classList.remove('hidden');
+  }else if(state.step===2){
+    document.getElementById('questHelp').textContent='Step 2: '+s.decision;
+    list.textContent='เลือกแนวทางการตัดสินใจที่เหมาะกับสถานการณ์';
+    opt.innerHTML=s.options.map((o,i)=>`<button class="option ${state.decision===i?'selected':''}" onclick="chooseDecision(${i})">${o}</button>`).join('');
+    document.getElementById('submitBtn').textContent='ตรวจการตัดสินใจ';
+    document.getElementById('submitBtn').classList.remove('hidden');
+  }else{
+    document.getElementById('questHelp').textContent='Step 3: Apply Improvement แล้วดูฉากเปลี่ยนเป็น After state';
+    list.textContent='พร้อมปรับปรุงฉากแล้ว';
+    document.getElementById('submitBtn').classList.add('hidden');
+    document.getElementById('applyBtn').classList.remove('hidden');
+  }
+}
+function missionCardHTML(id,selected){return `<button class="mission-card ${selected?'selected':''}" onclick="toggleMissionCard('${id}')"><div class="mission-icon">${targetIcon(id)}</div><div class="mission-name">${targetLabel(id)}<small>${targetHint(id)}</small></div><div class="mission-check">${selected?'✅':'○'}</div></button>`;}
+function toggleMissionCard(id){state.selected=state.selected.includes(id)?state.selected.filter(v=>v!==id):[...state.selected,id];renderQuestPanel();save();}
+function targetIcon(id){const icons={nolabel:'🏷️',oil:'🛢️',scrap:'🧩',defect:'❌',andon:'🚨',kanban:'📋',lowstock:'📦',truck:'🚚',window:'🕒',tray:'🔩',motion:'👣',stack200:'📚',demand80:'🎯',base:'🧱',jitpillar:'⚡',jidokapillar:'🔴',roof:'🏠'};return icons[id]||'🔎';}
+function targetHint(id){const hints={nolabel:'ไม่มีป้ายกำกับ ทำให้หยิบผิดได้',oil:'คราบรั่วที่ทำให้พื้นที่ไม่ปลอดภัย',scrap:'เศษวัสดุปะปนกับของดี',defect:'ชิ้นงานเสียต้องหยุดที่ต้นทาง',andon:'สัญญาณหยุดไลน์เพื่อแก้ปัญหา',kanban:'การ์ดส่งสัญญาณ Pull',lowstock:'ถังของเหลือน้อย ต้องเติมตาม Card',truck:'รถ Supplier ต้องมาตรงจังหวะ',window:'ช่วงเวลาส่งมอบที่กำหนด',tray:'ถาด Bolt ที่ควรอยู่ใกล้มือ',motion:'การเคลื่อนไหวเกินจำเป็น',stack200:'ผลิตมากกว่า Demand',demand80:'ความต้องการจริงของลูกค้า',base:'ฐานมาตรฐานและ Kaizen',jitpillar:'เสา Just-in-Time',jidokapillar:'เสา Quality at Source',roof:'เป้าหมาย Customer First'};return hints[id]||'จุดที่ต้องสังเกต';}
 function chooseDecision(i){state.decision=i;renderQuestPanel();save();}
 function showHint(){const s=STAGES[active];document.getElementById('speech').innerHTML=`<b>Hint 💡</b><br>${s.npc}<br><br><b>ให้มองหา:</b> ${s.targets.map(id=>targetLabel(id)).join(' · ')}`;const fb=document.getElementById('feedback');fb.className='feedback show ok';fb.innerHTML=`💡 Hint: เลือก ${s.targets.length} จุด — ${s.targets.map(id=>targetLabel(id)).join(', ')}`;}
 function targetLabel(id){const labels={nolabel:'ABNORMAL box',oil:'LEAK',scrap:'SCRAP',defect:'DEFECT',andon:'ANDON',kanban:'KANBAN',lowstock:'LOW stock',truck:'TRUCK',window:'TIME WINDOW',tray:'BOLT TRAY',motion:'MOTION',stack200:'OUTPUT',demand80:'DEMAND',base:'BASE',jitpillar:'JIT',jidokapillar:'JIDOKA',roof:'CUSTOMER'};return labels[id]||id;}
@@ -66,7 +172,14 @@ function same(a,b){return a.length===b.length&&a.every(x=>b.includes(x));}
 function submitQuest(){const s=STAGES[active];const fb=document.getElementById('feedback');if(state.step===1){const ok=same([...state.selected].sort(),[...s.targets].sort());if(ok){fb.className='feedback show ok';fb.innerHTML='✅ Observe ผ่าน — '+s.ok+'<br><br>ต่อไปเลือกวิธีแก้ใน Step 2';state.step=2;}else{const missing=s.targets.filter(id=>!state.selected.includes(id)).map(targetLabel);const extra=state.selected.filter(id=>!s.targets.includes(id)).map(hotspotName);fb.className='feedback show no';fb.innerHTML='❌ '+s.no+(missing.length?`<br><b>ยังขาด:</b> ${missing.join(', ')}`:'')+(extra.length?`<br><b>เลือกเกิน:</b> ${extra.join(', ')}`:'')+'<br>กด Hint ได้ถ้าไม่แน่ใจ';shake();}renderQuestPanel();save();return;}if(state.step===2){if(state.decision===s.answer){fb.className='feedback show ok';fb.innerHTML='✅ Decide ผ่าน — เลือกวิธีแก้ที่ตรงกับหลัก OM แล้ว';state.step=3;}else{fb.className='feedback show no';fb.innerHTML='❌ แนวทางนี้ยังไม่แก้ระบบที่ต้นเหตุ ลองเลือกใหม่';shake();}renderQuestPanel();save();}}
 function applyImprovement(){const s=STAGES[active];state.fixed[s.id]=true;for(const k in s.impact){state.metrics[k]=Math.max(0,Math.min(99,state.metrics[k]+s.impact[k]));}document.getElementById('feedback').className='feedback show ok';document.getElementById('feedback').innerHTML='✨ Improve สำเร็จ — ฉากเปลี่ยนเป็น After state และ Metrics ดีขึ้นแล้ว';document.getElementById('applyBtn').classList.add('hidden');document.getElementById('nextBtn').classList.remove('hidden');renderMetrics(document.getElementById('stageMetrics'));save();}
 function completeStage(){const s=STAGES[active];if(!state.done.includes(s.id))state.done.push(s.id);if(active+1<STAGES.length){state.current=Math.max(state.current,active+1);save();goMap();}else{save();show('final');}}
-canvas.addEventListener('click',e=>{if(state.step!==1)return;const r=canvas.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;for(let i=hotspots.length-1;i>=0;i--){const h=hotspots[i];const hit=x>=h.x-h.w/2&&x<=h.x+h.w/2&&y>=h.y-h.h/2&&y<=h.y+h.h/2;if(hit){if(h.id==='npc'){showHint();return;}state.selected=state.selected.includes(h.id)?state.selected.filter(v=>v!==h.id):[...state.selected,h.id];renderQuestPanel();save();return;}}});
+canvas.addEventListener('click',e=>{
+  // Canvas is now mainly an illustration area. Only NPC remains clickable for hint.
+  if(state.step!==1)return;
+  const r=canvas.getBoundingClientRect();
+  const x=e.clientX-r.left,y=e.clientY-r.top;
+  const npcHit=hotspots.find(h=>h.id==='npc'&&x>=h.x-h.w/2&&x<=h.x+h.w/2&&y>=h.y-h.h/2&&y<=h.y+h.h/2);
+  if(npcHit)showHint();
+});
 function resize(){const r=canvas.parentElement.getBoundingClientRect();canvas.width=Math.max(420,Math.floor(r.width*devicePixelRatio));canvas.height=Math.max(300,Math.floor(r.height*devicePixelRatio));ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}window.addEventListener('resize',resize);
 function loop(){anim++;resize();draw(STAGES[active]);raf=requestAnimationFrame(loop);}
 function fixed(s){return !!state.fixed[s.id];}
@@ -74,10 +187,102 @@ function draw(s){const w=canvas.clientWidth,h=canvas.clientHeight;hotspots=[];sk
 function sky(w,h){const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#7bdcff');g.addColorStop(.56,'#e9fbff');g.addColorStop(.57,'#86d878');g.addColorStop(1,'#55bf63');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);}function cloud(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.fillStyle='white';ctx.strokeStyle='#25304a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(-28,8,20,Math.PI*.5,Math.PI*1.5);ctx.arc(-8,-7,24,Math.PI,Math.PI*1.9);ctx.arc(24,2,22,Math.PI*1.1,Math.PI*2);ctx.arc(42,13,15,Math.PI*1.5,Math.PI*.5);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();}
 function island(w,h){ctx.fillStyle='#66c96a';ctx.fillRect(0,h*.70,w,h*.30);ctx.strokeStyle='rgba(37,48,74,.18)';ctx.lineWidth=2;for(let x=-60+(anim%80);x<w+60;x+=90){ctx.beginPath();ctx.moveTo(x,h*.70);ctx.lineTo(x-95,h);ctx.stroke();ctx.beginPath();ctx.moveTo(x,h*.70);ctx.lineTo(x+95,h);ctx.stroke();}}
 function decor(w,h){tree(w*.055,h*.61,.58);tree(w*.94,h*.60,.56);flowers(w*.045,h*.73,.75);flowers(w*.88,h*.72,.75);}
-function drawScene(w,h,s){const y=h*.72;if(s.scene==='5s'){cleanWorkshop(w,h,s);sign(w*.37,y-112,'5S AREA');if(!fixed(s)){addObj('nolabel','No Label Box',w*.52,y-58,92,58,()=>labelBox(w*.52,y-58,'NO LABEL',s.color,'ABNORMAL'));addObj('oil','Oil Leak',w*.64,y+18,94,54,()=>oil(w*.64,y+18));addObj('scrap','Scrap Mixed',w*.76,y+6,98,54,()=>scrap(w*.76,y+6));}else{labelBox(w*.52,y-58,'LABELED',s.color,'FIXED');sparkle(w*.64,y+18);labelBox(w*.76,y+6,'SCRAP BIN','#ffd85c','FIXED');}supportBoard(w*.87,y-76);}else if(s.scene==='jidoka'){cleanWorkshop(w,h,s);sign(w*.39,y-116,'ANDON');if(!fixed(s)){addObj('defect','Defect Product',w*.54,y-48,88,58,()=>product(w*.54,y-48,true));addObj('andon','Andon Tower',w*.78,y-82,72,102,()=>andon(w*.78,y-82,Math.floor(anim/18)%2?'#ff5b68':'#ffd85c'));}else{product(w*.54,y-48,false);andon(w*.78,y-82,'#4edc8b');sparkle(w*.64,y-54);}product(w*.66,y+16,false);}else if(s.scene==='kanban'){cleanWorkshop(w,h,s);sign(w*.35,y-120,'PULL');addObj('kanban','Kanban Card',w*.42,y-92,104,64,()=>card(w*.42,y-92,'KANBAN'));if(!fixed(s)){addObj('lowstock','Low Stock Bin',w*.60,y-42,96,62,()=>stack(w*.60,y-42,2,'LOW'));stack(w*.79,y-40,6,'HIGH');}else{stack(w*.60,y-42,4,'OK');stack(w*.79,y-40,3,'OK');sparkle(w*.67,y-62);}arrow(w*.48,y-62,w*.64,y-62,s.color);}else if(s.scene==='jit'){cleanWorkshop(w,h,s);sign(w*.35,y-120,'JIT GATE');addObj('truck','Supplier Truck',w*.48,y-34,118,64,()=>truck(w*.48,y-34,s.color));addObj('window','Time Window',w*.74,y-96,130,60,()=>timebox(w*.74,y-96,'08:00-08:30'));if(!fixed(s)){warehouse(w*.82,y+16);}else{sparkle(w*.61,y-50);labelBox(w*.82,y+16,'NO BUFFER','#4edc8b','FIXED');}}else if(s.scene==='kaizen'){cleanWorkshop(w,h,s);sign(w*.36,y-118,'PDCA');pdca(w*.40,y-104);addObj('tray','Bolt Tray',fixed(s)?w*.58:w*.72,y-36,108,50,()=>tray(fixed(s)?w*.58:w*.72,y-36,'Bolt Tray'));if(!fixed(s))addObj('motion','Motion Waste',w*.52,y-22,108,78,()=>motion(w*.52,y-22));else sparkle(w*.52,y-22);arrow(fixed(s)?w*.58:w*.69,y-58,w*.57,y-58,s.color);}else if(s.scene==='lean'){cleanWorkshop(w,h,s);sign(w*.35,y-122,'WASTE HUNT');if(!fixed(s)){addObj('stack200','Output 200',w*.55,y-70,132,100,()=>bigstack(w*.55,y-70,'200'));addObj('demand80','Demand 80',w*.76,y-82,126,64,()=>demand(w*.76,y-82,'Demand 80'));}else{bigstack(w*.55,y-70,'80');demand(w*.76,y-82,'Demand 80');sparkle(w*.63,y-78);}softScrap(w*.41,y+12);}else{sign(w*.35,h*.47,'TPS HOUSE');house(w*.60,y-170,fixed(s));addObj('roof','Customer Roof',w*.60,y-160,210,70,()=>clickBadge(w*.60,y-210,'CUSTOMER'));addObj('jitpillar','JIT Pillar',w*.51,y-85,90,85,()=>clickBadge(w*.51,y-132,'JIT'));addObj('jidokapillar','Jidoka Pillar',w*.69,y-85,100,85,()=>clickBadge(w*.69,y-132,'JIDOKA'));addObj('base','TPS Base',w*.60,y-20,230,58,()=>clickBadge(w*.60,y+28,'BASE'));}}
+function drawScene(w,h,s){
+  const y=h*.72;
+  cleanStageBase(w,h,s);
+  if(s.scene==='5s'){
+    sign(w*.40,y-112,'5S OBSERVE');
+    if(!fixed(s)){
+      visualObject(w*.52,y-48,'🏷️','NO LABEL','#fff1a5');
+      visualObject(w*.64,y-48,'🛢️','LEAK','#ffe4e8');
+      visualObject(w*.76,y-48,'🧩','SCRAP','#e9fbff');
+    }else{
+      visualObject(w*.52,y-48,'✅','LABELED','#e1ffe8');
+      visualObject(w*.64,y-48,'✨','CLEAN','#e1ffe8');
+      visualObject(w*.76,y-48,'🧺','SORTED','#e1ffe8');
+    }
+  }
+  else if(s.scene==='jidoka'){
+    sign(w*.40,y-112,'JIDOKA');
+    if(!fixed(s)){
+      visualObject(w*.56,y-48,'❌','DEFECT','#ffe4e8');
+      visualObject(w*.74,y-48,'🚨','ANDON','#fff1a5');
+    }else{
+      visualObject(w*.56,y-48,'✅','QUALITY OK','#e1ffe8');
+      visualObject(w*.74,y-48,'🟢','LINE READY','#e1ffe8');
+    }
+  }
+  else if(s.scene==='kanban'){
+    sign(w*.40,y-112,'PULL FLOW');
+    arrow(w*.49,y-48,w*.63,y-48,s.color);
+    if(!fixed(s)){
+      visualObject(w*.46,y-48,'📋','KANBAN','#f1e8ff');
+      visualObject(w*.68,y-48,'📦','LOW','#fff1a5');
+    }else{
+      visualObject(w*.46,y-48,'📋','SIGNAL SENT','#e1ffe8');
+      visualObject(w*.68,y-48,'📦','REFILLED','#e1ffe8');
+    }
+  }
+  else if(s.scene==='jit'){
+    sign(w*.40,y-112,'JIT GATE');
+    if(!fixed(s)){
+      visualObject(w*.52,y-48,'🚚','TRUCK','#fff1a5');
+      visualObject(w*.72,y-48,'🕒','TIME','#e9fbff');
+    }else{
+      visualObject(w*.52,y-48,'🚚','ON TIME','#e1ffe8');
+      visualObject(w*.72,y-48,'✅','NO BUFFER','#e1ffe8');
+    }
+  }
+  else if(s.scene==='kaizen'){
+    sign(w*.40,y-112,'KAIZEN');
+    if(!fixed(s)){
+      visualObject(w*.52,y-48,'🔩','BOLT TRAY','#e9fbff');
+      visualObject(w*.72,y-48,'👣','MOTION','#fff1a5');
+    }else{
+      visualObject(w*.52,y-48,'🔩','NEAR HAND','#e1ffe8');
+      visualObject(w*.72,y-48,'✨','LESS MOTION','#e1ffe8');
+    }
+  }
+  else if(s.scene==='lean'){
+    sign(w*.40,y-112,'LEAN CHECK');
+    if(!fixed(s)){
+      visualObject(w*.52,y-48,'📚','OUTPUT 200','#ffe4e8');
+      visualObject(w*.74,y-48,'🎯','DEMAND 80','#e1ffe8');
+    }else{
+      visualObject(w*.52,y-48,'📚','OUTPUT 80','#e1ffe8');
+      visualObject(w*.74,y-48,'🎯','MATCHED','#e1ffe8');
+    }
+  }
+  else{
+    sign(w*.40,y-112,'TPS HOUSE');
+    if(!fixed(s)){
+      visualObject(w*.43,y-50,'🏠','CUSTOMER','#fff1a5');
+      visualObject(w*.58,y-50,'⚡','JIT','#e9fbff');
+      visualObject(w*.73,y-50,'🔴','JIDOKA','#ffe4e8');
+      visualObject(w*.58,y+38,'🧱','BASE','#e1ffe8');
+    }else{
+      house(w*.62,y-170,true);
+      sparkle(w*.62,y-70);
+    }
+  }
+}
 function addObj(id,label,x,y,w,h,drawFn){drawFn();hotspots.push({id,label,x,y,w,h});}
 function drawHotspots(){hotspots.forEach(h=>{if(state.selected.includes(h.id)){ctx.save();ctx.strokeStyle='#ffd85c';ctx.lineWidth=6;ctx.setLineDash([10,6]);ctx.strokeRect(h.x-h.w/2,h.y-h.h/2,h.w,h.h);ctx.setLineDash([]);ctx.fillStyle='#ffd85c';ctx.strokeStyle='#25304a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(h.x+h.w/2-8,h.y-h.h/2+8,15,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#25304a';ctx.font='900 16px Sarabun';ctx.textAlign='center';ctx.fillText('✓',h.x+h.w/2-8,h.y-h.h/2+13);ctx.restore();}});}
-function cleanWorkshop(w,h,s){const y=h*.70;rr(w*.35,y-94,w*.43,104,24,'#fff4cf','#25304a');ctx.fillStyle='#ffd85c';ctx.fillRect(w*.37,y-84,w*.39,13);rr(w*.40,y-13,w*.31,32,14,'#7d8daa','#25304a');for(let x=w*.40+(anim*1.5%62)-62;x<w*.70;x+=62)rr(x,y-7,32,24,7,s.color+'99','#25304a');machine(w*.55,y-78,s.color);}
+function cleanStageBase(w,h,s){
+  const y=h*.70;
+  rr(w*.34,y-92,w*.48,104,26,'#fff4cf','#25304a');
+  ctx.fillStyle='#ffd85c';ctx.fillRect(w*.36,y-82,w*.44,12);
+  rr(w*.40,y-12,w*.34,32,14,'#7d8daa','#25304a');
+  machine(w*.58,y-78,s.color);
+}
+function cleanWorkshop(w,h,s){cleanStageBase(w,h,s);}
+function visualObject(x,y,icon,label,bg){
+  rr(x-48,y-42,96,84,18,bg,'#25304a');
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y-8,25,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#25304a';ctx.lineWidth=3;ctx.stroke();
+  ctx.font='28px Sarabun';ctx.textAlign='center';ctx.fillStyle='#25304a';ctx.fillText(icon,x,y+2);
+  rr(x-42,y+22,84,26,9,'#fffaf0','#25304a');
+  ctx.fillStyle='#25304a';ctx.font='900 11px Sarabun';ctx.textAlign='center';ctx.fillText(label,x,y+39);
+}
 function machine(x,y,c){rr(x-34,y,68,64,16,'#e9fbff','#25304a');ctx.fillStyle=c+'88';ctx.fillRect(x-20,y+11,40,17);ctx.fillStyle='#25304a';ctx.fillRect(x-11,y+38,5,5);ctx.fillRect(x+7,y+38,5,5);ctx.beginPath();ctx.arc(x,y+48,8,0,Math.PI);ctx.stroke();}
 function npc(x,y){addObj('npc','NPC Clue',x,y,112,122,()=>{ctx.save();ctx.translate(x,y);ctx.fillStyle='rgba(37,48,74,.18)';ctx.beginPath();ctx.ellipse(0,36,24,7,0,0,Math.PI*2);ctx.fill();rr(-18,-5,36,34,12,'#87d37c','#25304a');rr(-20,-36,40,34,13,'#ffd0a6','#25304a');ctx.fillStyle='#25304a';ctx.fillRect(-9,-22,5,5);ctx.fillRect(6,-22,5,5);ctx.beginPath();ctx.arc(0,-13,7,0,Math.PI);ctx.stroke();ctx.fillStyle='#fff';ctx.strokeStyle='#25304a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(22,-44,15,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#25304a';ctx.font='900 18px Sarabun';ctx.textAlign='center';ctx.fillText('?',22,-38);ctx.restore();});}
 function kaito(x,y,c){const walk=Math.sin(anim*.16);ctx.save();ctx.translate(x,y);ctx.fillStyle='rgba(38,50,76,.22)';ctx.beginPath();ctx.ellipse(0,39,28,8,0,0,Math.PI*2);ctx.fill();rr(-16,23+walk*5,11,23,4,'#25304a');rr(5,23-walk*5,11,23,4,'#25304a');rr(-20,42+walk*5,18,8,4,'#171e32');rr(2,42-walk*5,18,8,4,'#171e32');rr(-22,-2,44,34,10,'#3a8ee8','#25304a');ctx.fillStyle='#fff4cf';ctx.fillRect(-9,2,18,25);rr(-34,3+walk*4,13,27,6,'#3a8ee8','#25304a');rr(21,3-walk*4,13,27,6,'#3a8ee8','#25304a');rr(-21,-35,42,35,14,'#ffd0a6','#25304a');ctx.fillStyle=c;ctx.strokeStyle='#25304a';ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,-36,25,Math.PI,0);ctx.lineTo(25,-32);ctx.lineTo(-25,-32);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillRect(-28,-34,56,9);ctx.strokeRect(-28,-34,56,9);ctx.fillStyle='#25304a';ctx.fillRect(-11,-21,5,5);ctx.fillRect(7,-21,5,5);ctx.beginPath();ctx.arc(0,-12,8,0,Math.PI);ctx.stroke();ctx.restore();}
