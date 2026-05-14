@@ -62,7 +62,7 @@ button{font-family:'Sarabun',sans-serif;color:inherit}.gamefont{font-family:'Fre
 .title-main{color:#FFFFFF;text-shadow:3px 0 var(--line),-3px 0 var(--line),0 3px var(--line),0 -3px var(--line)}
 .title-sub{background:#FFE16A;color:var(--ink)}
 .title-card{background:rgba(255,253,242,.96);color:var(--ink)}
-.btn-primary{border-width:5px;border-radius:26px;background:linear-gradient(to bottom,#FFE985,#FFE16A);color:var(--ink);text-transform:uppercase;box-shadow:0 7px 0 var(--line),0 12px 20px var(--shadow)}
+.btn-primary{border-width:5px;border-radius:26px;background:linear-gradient(to bottom,#FFE985,#FFE16A);color:var(--ink);text-transform:uppercase;box-shadow:0 7px 0 var(--line),0 12px 20px var(--shadow)}.start-btn{font-size:15px;padding:10px 22px;border-width:4px;box-shadow:0 5px 0 var(--line),0 9px 14px var(--shadow)}
 .btn-small,.btn-action{border-radius:21px;box-shadow:0 5px 0 var(--line),0 10px 16px var(--shadow)}
 .btn-action.green{background:linear-gradient(#A4F0B7,#78D994);color:#173B28}
 .btn-action.gold{background:linear-gradient(#FFE985,#FFD85A);color:#3B2D12}
@@ -105,7 +105,7 @@ button{font-family:'Sarabun',sans-serif;color:inherit}.gamefont{font-family:'Fre
 </style>
 </head>
 <body>
-<section class="screen active" id="title"><div class="hero"><div class="logo">🏝️</div><div class="title-main">Toyota<br>OM Quest</div><div class="title-sub gamefont">Clear Edition</div><p class="title-card">เวอร์ชันนี้แก้ใหม่แบบสะอาด: ลดความรกของฉาก, ทำ abnormal object ให้เด่นและคลิกง่าย, เพิ่ม Hint และยังคงระบบ Observe → Decide → Improve</p><button class="btn-primary gamefont" onclick="startGame()">Start Quest ▶</button><div class="preview"><div><span>🧹</span>5S</div><div><span>🔴</span>Jidoka</div><div><span>📋</span>Kanban</div><div><span>⚡</span>JIT</div><div><span>🔄</span>Kaizen</div><div><span>🕵️</span>Lean</div><div><span>🏠</span>TPS</div></div></div></section>
+<section class="screen active" id="title"><div class="hero"><div class="logo">🏝️</div><div class="title-main">Toyota<br>OM Quest</div><div class="title-sub gamefont">Clear Edition</div><p class="title-card">เวอร์ชันนี้แก้ใหม่แบบสะอาด: ลดความรกของฉาก, ทำ abnormal object ให้เด่นและคลิกง่าย, เพิ่ม Hint และยังคงระบบ Observe → Decide → Improve</p><button class="btn-primary start-btn gamefont" onclick="startGame()">Start Quest ▶</button><div class="preview"><div><span>🧹</span>5S</div><div><span>🔴</span>Jidoka</div><div><span>📋</span>Kanban</div><div><span>⚡</span>JIT</div><div><span>🔄</span>Kaizen</div><div><span>🕵️</span>Lean</div><div><span>🏠</span>TPS</div></div></div></section>
 <section class="screen map-screen" id="map"><div class="topbar"><button class="btn-small" onclick="show('title')">◀ Title</button><div class="top-title"><h1>Factory Island Map</h1><small>แต่ละด่านมี object ที่ต้องคลิกชัดเจนขึ้น</small></div><button class="btn-small" onclick="resetGame()">Reset</button></div><div id="mapMetrics" class="metrics"></div><div class="map-wrap"><div id="world" class="world"></div></div></section>
 <section class="screen" id="stage"><div class="topbar"><button class="btn-small" onclick="goMap()">◀ Map</button><div class="top-title"><h1 id="stageTitle">Stage</h1><small id="stageDesc">Mission</small></div></div><div id="stageMetrics" class="metrics"></div><div class="stage-layout"><div class="scene-card"><div class="canvas-zone"><canvas id="gameCanvas"></canvas><div id="missionBadge" class="mission-badge"></div><div id="selectedBadge" class="selected-badge gamefont">Observe</div></div><div class="dialogue"><div class="sensei">👨‍🏭</div><div class="speech" id="speech"></div></div></div><div class="lesson-card"><div class="brief" id="brief"></div><div class="quest"><div class="quest-title">Mission Steps</div><div class="steps"><div id="step1" class="step active">1 Observe</div><div id="step2" class="step">2 Decide</div><div id="step3" class="step">3 Improve</div></div><div class="quest-help" id="questHelp"></div><div id="selectedList" class="selected-list">เลือก Mission Cards ด้านล่าง</div><div id="missionCards" class="mission-cards"></div><div id="optionList" class="option-list hidden"></div><div class="actions"><button id="hintBtn" class="btn-action blue" onclick="showHint()">Hint 💡</button><button id="submitBtn" class="btn-action green" onclick="submitQuest()">ตรวจคำตอบ</button><button id="applyBtn" class="btn-action blue hidden" onclick="applyImprovement()">Apply ✨</button><button id="nextBtn" class="btn-action gold hidden" onclick="completeStage()">ผ่านด่าน ▶</button></div><div id="feedback" class="feedback"></div></div></div></div></section>
 <section class="screen" id="final"><div class="final-card"><div style="font-size:66px">🏆</div><h1>TPS Factory Complete!</h1><p>คุณสร้างระบบ Toyota ที่เชื่อมกันครบแล้ว จากการสังเกตปัญหา ตัดสินใจเลือกวิธีแก้ และปรับปรุงฉากโรงงานให้ดีขึ้นทีละด่าน</p><div id="finalMap" class="tps-map"></div><div id="summaryReport" class="report"></div><button class="btn-primary gamefont" onclick="resetGame()">Play Again</button></div></section>
@@ -122,6 +122,21 @@ const STAGES=[
 ];
 let state=JSON.parse(localStorage.getItem('toyota_clear_edition')||'null')||{current:0,done:[],selected:[],step:1,decision:null,fixed:{},metrics:{...INITIAL}};
 let active=0,anim=0,raf=null,hotspots=[];const canvas=document.getElementById('gameCanvas');const ctx=canvas.getContext('2d');
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    r=Math.min(r,w/2,h/2);
+    this.moveTo(x+r,y);
+    this.lineTo(x+w-r,y);
+    this.quadraticCurveTo(x+w,y,x+w,y+r);
+    this.lineTo(x+w,y+h-r);
+    this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    this.lineTo(x+r,y+h);
+    this.quadraticCurveTo(x,y+h,x,y+h-r);
+    this.lineTo(x,y+r);
+    this.quadraticCurveTo(x,y,x+r,y);
+    return this;
+  };
+}
 function save(){localStorage.setItem('toyota_clear_edition',JSON.stringify(state));}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='final')renderFinal();if(id!=='stage'&&raf){cancelAnimationFrame(raf);raf=null;}}
 function startGame(){show('map');renderMap();}function goMap(){show('map');renderMap();}
@@ -205,81 +220,53 @@ function sky(w,h){const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#7
 function island(w,h){ctx.fillStyle='#66c96a';ctx.fillRect(0,h*.70,w,h*.30);ctx.strokeStyle='rgba(37,48,74,.18)';ctx.lineWidth=2;for(let x=-60+(anim%80);x<w+60;x+=90){ctx.beginPath();ctx.moveTo(x,h*.70);ctx.lineTo(x-95,h);ctx.stroke();ctx.beginPath();ctx.moveTo(x,h*.70);ctx.lineTo(x+95,h);ctx.stroke();}}
 function decor(w,h){tree(w*.055,h*.61,.58);tree(w*.94,h*.60,.56);flowers(w*.045,h*.73,.75);flowers(w*.88,h*.72,.75);}
 function drawScene(w,h,s){
-  const y=h*.72;
+  const baseY=h*.74;
+  const cardY=h*.34;
   cleanStageBase(w,h,s);
+
   if(s.scene==='5s'){
-    sign(w*.40,y-112,'5S OBSERVE');
-    if(!fixed(s)){
-      visualObject(w*.52,y-48,'🏷️','NO LABEL','#fff1a5');
-      visualObject(w*.64,y-48,'🛢️','LEAK','#ffe4e8');
-      visualObject(w*.76,y-48,'🧩','SCRAP','#e9fbff');
-    }else{
-      visualObject(w*.52,y-48,'✅','LABELED','#e1ffe8');
-      visualObject(w*.64,y-48,'✨','CLEAN','#e1ffe8');
-      visualObject(w*.76,y-48,'🧺','SORTED','#e1ffe8');
-    }
+    sign(w*.36,baseY-92,'5S OBSERVE');
+    drawObjectRow(w,cardY,!fixed(s)?[
+      ['🏷️','NO LABEL','#fff1a5'],['🛢️','LEAK','#ffe4e8'],['🧩','SCRAP','#e9fbff']
+    ]:[['✅','LABELED','#e1ffe8'],['✨','CLEAN','#e1ffe8'],['🧺','SORTED','#e1ffe8']]);
   }
   else if(s.scene==='jidoka'){
-    sign(w*.40,y-112,'JIDOKA');
-    if(!fixed(s)){
-      visualObject(w*.56,y-48,'❌','DEFECT','#ffe4e8');
-      visualObject(w*.74,y-48,'🚨','ANDON','#fff1a5');
-    }else{
-      visualObject(w*.56,y-48,'✅','QUALITY OK','#e1ffe8');
-      visualObject(w*.74,y-48,'🟢','LINE READY','#e1ffe8');
-    }
+    sign(w*.36,baseY-92,'JIDOKA');
+    drawObjectRow(w,cardY,!fixed(s)?[
+      ['❌','DEFECT','#ffe4e8'],['🚨','ANDON','#fff1a5']
+    ]:[['✅','QUALITY OK','#e1ffe8'],['🟢','LINE READY','#e1ffe8']]);
   }
   else if(s.scene==='kanban'){
-    sign(w*.40,y-112,'PULL FLOW');
-    arrow(w*.49,y-48,w*.63,y-48,s.color);
-    if(!fixed(s)){
-      visualObject(w*.46,y-48,'📋','KANBAN','#f1e8ff');
-      visualObject(w*.68,y-48,'📦','LOW','#fff1a5');
-    }else{
-      visualObject(w*.46,y-48,'📋','SIGNAL SENT','#e1ffe8');
-      visualObject(w*.68,y-48,'📦','REFILLED','#e1ffe8');
-    }
+    sign(w*.36,baseY-92,'PULL FLOW');
+    drawObjectRow(w,cardY,!fixed(s)?[
+      ['📋','KANBAN','#f1e8ff'],['📦','LOW','#fff1a5']
+    ]:[['📋','SIGNAL SENT','#e1ffe8'],['📦','REFILLED','#e1ffe8']]);
   }
   else if(s.scene==='jit'){
-    sign(w*.40,y-112,'JIT GATE');
-    if(!fixed(s)){
-      visualObject(w*.52,y-48,'🚚','TRUCK','#fff1a5');
-      visualObject(w*.72,y-48,'🕒','TIME','#e9fbff');
-    }else{
-      visualObject(w*.52,y-48,'🚚','ON TIME','#e1ffe8');
-      visualObject(w*.72,y-48,'✅','NO BUFFER','#e1ffe8');
-    }
+    sign(w*.36,baseY-92,'JIT GATE');
+    drawObjectRow(w,cardY,!fixed(s)?[
+      ['🚚','TRUCK','#fff1a5'],['🕒','TIME','#e9fbff']
+    ]:[['🚚','ON TIME','#e1ffe8'],['✅','NO BUFFER','#e1ffe8']]);
   }
   else if(s.scene==='kaizen'){
-    sign(w*.40,y-112,'KAIZEN');
-    if(!fixed(s)){
-      visualObject(w*.52,y-48,'🔩','BOLT TRAY','#e9fbff');
-      visualObject(w*.72,y-48,'👣','MOTION','#fff1a5');
-    }else{
-      visualObject(w*.52,y-48,'🔩','NEAR HAND','#e1ffe8');
-      visualObject(w*.72,y-48,'✨','LESS MOTION','#e1ffe8');
-    }
+    sign(w*.36,baseY-92,'KAIZEN');
+    drawObjectRow(w,cardY,!fixed(s)?[
+      ['🔩','BOLT TRAY','#e9fbff'],['👣','MOTION','#fff1a5']
+    ]:[['🔩','NEAR HAND','#e1ffe8'],['✨','LESS MOTION','#e1ffe8']]);
   }
   else if(s.scene==='lean'){
-    sign(w*.40,y-112,'LEAN CHECK');
-    if(!fixed(s)){
-      visualObject(w*.52,y-48,'📚','OUTPUT 200','#ffe4e8');
-      visualObject(w*.74,y-48,'🎯','DEMAND 80','#e1ffe8');
-    }else{
-      visualObject(w*.52,y-48,'📚','OUTPUT 80','#e1ffe8');
-      visualObject(w*.74,y-48,'🎯','MATCHED','#e1ffe8');
-    }
+    sign(w*.36,baseY-92,'LEAN CHECK');
+    drawObjectRow(w,cardY,!fixed(s)?[
+      ['📚','OUTPUT 200','#ffe4e8'],['🎯','DEMAND 80','#e1ffe8']
+    ]:[['📚','OUTPUT 80','#e1ffe8'],['🎯','MATCHED','#e1ffe8']]);
   }
   else{
-    sign(w*.40,y-112,'TPS HOUSE');
+    sign(w*.36,baseY-92,'TPS HOUSE');
     if(!fixed(s)){
-      visualObject(w*.43,y-50,'🏠','CUSTOMER','#fff1a5');
-      visualObject(w*.58,y-50,'⚡','JIT','#e9fbff');
-      visualObject(w*.73,y-50,'🔴','JIDOKA','#ffe4e8');
-      visualObject(w*.58,y+38,'🧱','BASE','#e1ffe8');
+      drawObjectRow(w,cardY,[['🏠','CUSTOMER','#fff1a5'],['⚡','JIT','#e9fbff'],['🔴','JIDOKA','#ffe4e8'],['🧱','BASE','#e1ffe8']]);
     }else{
-      house(w*.62,y-170,true);
-      sparkle(w*.62,y-70);
+      house(w*.62,h*.50,true);
+      sparkle(w*.62,h*.58);
     }
   }
 }
@@ -293,6 +280,29 @@ function cleanStageBase(w,h,s){
   machine(w*.58,y-78,s.color);
 }
 function cleanWorkshop(w,h,s){cleanStageBase(w,h,s);}
+function drawObjectRow(w,y,items){
+  const labelToId={
+    'NO LABEL':'nolabel','LEAK':'oil','SCRAP':'scrap',
+    'DEFECT':'defect','ANDON':'andon',
+    'KANBAN':'kanban','LOW':'lowstock',
+    'TRUCK':'truck','TIME':'window',
+    'BOLT TRAY':'tray','MOTION':'motion',
+    'OUTPUT 200':'stack200','DEMAND 80':'demand80',
+    'CUSTOMER':'roof','JIT':'jitpillar','JIDOKA':'jidokapillar','BASE':'base'
+  };
+  const count=items.length;
+  const spacing=Math.min(150,w/(count+1));
+  const start=w*.62-((count-1)*spacing)/2;
+  items.forEach((item,i)=>{
+    const [icon,label,bg]=item;
+    const x=start+i*spacing;
+    const id=labelToId[label]||null;
+    const drawFn=()=>visualObject(x,y,icon,label,bg);
+    if(id){addObj(id,targetLabel(id),x,y,108,96,drawFn);}
+    else{drawFn();}
+  });
+}
+
 function visualObject(x,y,icon,label,bg){
   rr(x-48,y-42,96,84,18,bg,'#25304a');
   ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y-8,25,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#25304a';ctx.lineWidth=3;ctx.stroke();
