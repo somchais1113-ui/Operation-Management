@@ -27,6 +27,7 @@
             --amber: #fbbf24;
             --pink: #f472b6;
             --purple: #a78bfa;
+            --red: #f87171;
         }
 
         * {
@@ -515,6 +516,7 @@
         .card:nth-child(7) { animation-delay: 0.35s; }
         .card:nth-child(8) { animation-delay: 0.40s; }
         .card:nth-child(9) { animation-delay: 0.45s; }
+        .card:nth-child(10) { animation-delay: 0.50s; }
 
         @keyframes revealCard {
             to {
@@ -652,10 +654,15 @@
             --accent-soft: rgba(244,114,182,0.28);
         }
 
+        .game {
+            --accent-soft: rgba(248,113,113,0.25);
+        }
+
         .mod .icon { color: #bfdbfe; }
         .mkt .icon { color: #bbf7d0; }
         .case .icon { color: #fde68a; }
         .final .icon { color: #fbcfe8; }
+        .game .icon { color: #fecaca; }
 
         .footer {
             margin-top: 34px;
@@ -770,7 +777,7 @@
 
         <section class="hero">
             <div class="hero-copy">
-                <div class="eyebrow">📊 Operations • Process • Supply Chain • Quality</div>
+                <div class="eyebrow">📊 Operations • Process • Supply Chain • Quality • Toyota Game</div>
 
                 <h1>
                     Master
@@ -779,12 +786,13 @@
 
                 <p>
                     ศูนย์รวมบทเรียน Operation Management สำหรับทบทวนเนื้อหา วิเคราะห์กระบวนการ
-                    จัดการสต็อก วางแผนกำลังการผลิต เข้าใจ Supply Chain และเตรียมพร้อมสำหรับ Final Module
-                    ในที่เดียว
+                    จัดการสต็อก วางแผนกำลังการผลิต เข้าใจ Supply Chain ฝึกคิดผ่าน Case Study
+                    และทดลองแนวคิด Lean ผ่าน Toyota Production Game
                 </p>
 
                 <div class="hero-actions">
                     <a href="#modules" class="btn btn-primary">เริ่มทบทวนบทเรียน →</a>
+                    <a href="toyotagame.html" class="btn btn-secondary">เล่น Toyota Game</a>
                     <a href="finalmodule.html" class="btn btn-secondary">ไปที่ Final Module</a>
                 </div>
             </div>
@@ -792,7 +800,7 @@
             <div class="operation-map" aria-label="Operation management flow map">
                 <div class="map-header">
                     <span>OM System Map</span>
-                    <small>จาก Demand → Process → Inventory → Quality</small>
+                    <small>จาก Demand → Process → Inventory → Quality → Improvement</small>
                 </div>
 
                 <div class="om-flow">
@@ -816,8 +824,8 @@
                     <div class="flow-arrow"></div>
 
                     <div class="flow-step step-quality">
-                        <strong>Quality & Lean</strong>
-                        <span>ลด Waste ปรับปรุงคุณภาพ และเพิ่มประสิทธิภาพ</span>
+                        <strong>Lean System</strong>
+                        <span>ลด Waste ปรับปรุงคุณภาพ และทดลองแนวคิดผ่าน Toyota Game</span>
                     </div>
                 </div>
 
@@ -825,7 +833,7 @@
                     <strong>Core idea</strong>
                     <span>
                         ทุกบทเชื่อมกันเป็นระบบเดียว: วางแผนความต้องการ → ออกแบบกระบวนการ →
-                        คุมทรัพยากร → ส่งมอบคุณภาพ → วิเคราะห์เพื่อการตัดสินใจ
+                        คุมทรัพยากร → ส่งมอบคุณภาพ → ใช้ Lean เพื่อปรับปรุงอย่างต่อเนื่อง
                     </span>
                 </div>
             </div>
@@ -859,8 +867,8 @@
             <div class="path-card final-path">
                 <div class="path-number">04</div>
                 <div>
-                    <strong>Improve & Prepare Final</strong>
-                    <span>ใช้ Lean, Quality และ Case Study เพื่อสรุปภาพรวมก่อนสอบ</span>
+                    <strong>Practice Lean Thinking</strong>
+                    <span>ใช้ Case Study และ Toyota Game เพื่อเข้าใจ Lean, Waste และการปรับปรุงระบบ</span>
                 </div>
             </div>
         </section>
@@ -869,7 +877,7 @@
             <div class="section-head">
                 <div>
                     <h2>เลือกบทเรียนที่ต้องการเรียน</h2>
-                    <p>จัดกลุ่มเนื้อหาให้เข้าใจง่าย พร้อมเข้าแต่ละบทได้ทันที</p>
+                    <p>จัดกลุ่มเนื้อหาให้เข้าใจง่าย พร้อมเข้าแต่ละบทและกิจกรรมได้ทันที</p>
                 </div>
             </div>
 
@@ -1008,11 +1016,26 @@
                         </div>
                     </div>
                 </a>
+
+                <a href="toyotagame.html" class="card game">
+                    <div class="card-content">
+                        <div class="card-top">
+                            <div class="icon">🚗</div>
+                            <div class="tag">OM Game</div>
+                        </div>
+                        <div class="title">Toyota Production Game</div>
+                        <div class="desc">เกมจำลองแนวคิด Toyota Production System เพื่อเข้าใจ Lean, Flow, Waste และการปรับปรุงกระบวนการ</div>
+                        <div class="card-footer">
+                            <span>Play Game</span>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </a>
             </div>
         </section>
 
         <footer class="footer">
-            OM Learning Portal 2026 • Built for focused learning and smarter operations
+            OM Learning Portal 2026 • Built for focused learning, lean thinking, and smarter operations
         </footer>
 
     </main>
